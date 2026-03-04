@@ -1,5 +1,4 @@
 export default function ProfilePage() {
-    return (
-        <div>ProfilePage</div>
-    )
+  const a = 5
+  return <div>ProfilePage</div>
 }
