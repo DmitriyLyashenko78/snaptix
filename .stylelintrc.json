@@ -5,12 +5,6 @@
   ],
   "rules": {
     "selector-class-pattern": null,
-    "declaration-no-important": true,
-    "selector-max-type": [
-      0,
-      {
-        "ignoreTypes": ["body"]
-      }
-    ]
+    "declaration-no-important": true
   }
 }

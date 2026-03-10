@@ -1,20 +1,55 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
-import prettier from "eslint-config-prettier";
+// eslint.config.mjs
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { FlatCompat } from '@eslint/eslintrc'
+import storybook from 'eslint-plugin-storybook'
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  prettier, // Просто добавляем как отдельный конфиг
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+// Импортируем парсер и плагин TypeScript (они уже установлены)
+import tsParser from '@typescript-eslint/parser'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 
-export default eslintConfig;
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+})
+
+export default [
+  // 1. Явная конфигурация для TypeScript/TSX файлов
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: './tsconfig.json', // Убедитесь, что файл существует
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      // Базовые правила TypeScript
+      ...tsPlugin.configs.recommended.rules,
+    },
+  },
+
+  // 2. Загружаем Next.js конфиги через compat (для остальных правил)
+  ...compat.extends('next/core-web-vitals'),
+
+  // 3. Storybook
+  ...storybook.configs['flat/recommended'],
+
+  // 4. Prettier (должен быть последним, чтобы отключать правила форматирования)
+  ...compat.extends('prettier'),
+
+  // 5. Глобальные игнорируемые паттерны
+  {
+    ignores: ['.next/**', 'out/**', 'build/**', 'node_modules/**', 'next-env.d.ts', '*.config.js', '*.config.mjs'],
+  },
+]
