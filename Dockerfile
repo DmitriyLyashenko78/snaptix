@@ -1,13 +1,11 @@
-#Устанавливаем зависимости
+# Устанавливаем зависимости
 FROM node:20.11-alpine as dependencies
 WORKDIR /app
 COPY package*.json ./
 RUN corepack enable && corepack prepare pnpm@latest-10 --activate
 RUN pnpm install
 
-#Билдим приложение
-#Кэширование зависимостей — если файлы в проекте изменились,
-#но package.json остался неизменным, то стейдж с установкой зависимостей повторно не выполняется, что экономит время.
+# Билдим приложение
 FROM node:20.11-alpine as builder
 WORKDIR /app
 COPY . .
@@ -15,12 +13,15 @@ COPY --from=dependencies /app/node_modules ./node_modules
 RUN corepack enable && corepack prepare pnpm@latest-10 --activate
 RUN pnpm run build:production
 
-#Стейдж запуска
+# Стейдж запуска
 FROM node:20.11-alpine as runner
-USER node
+# Сначала выполняем corepack от root
 WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@latest-10 --activate
+# Теперь переключаемся на пользователя node
+USER node
+
 ENV NODE_ENV production
 COPY --from=builder /app/ ./
 EXPOSE 3000
-RUN corepack enable && corepack prepare pnpm@latest-10 --activate
 CMD ["pnpm", "start"]
