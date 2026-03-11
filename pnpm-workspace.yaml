@@ -1,3 +1,6 @@
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+
+packages:
+  - '.' # Указывает pnpm, что основной проект находится в этой же папке
