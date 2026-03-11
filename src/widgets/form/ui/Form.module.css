@@ -1,0 +1,11 @@
+.container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-dark-500);
+    gap: 20px;
+    width: 348px;
+    height: 648px;
+    padding: 24px;
+}
