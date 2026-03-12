@@ -1,5 +1,5 @@
 # Устанавливаем зависимости
-FROM node:20.11-alpine as dependencies
+FROM node:20.11 as dependencies
 WORKDIR /app
 COPY package*.json ./
 RUN corepack enable && corepack prepare pnpm@latest-10 --activate
