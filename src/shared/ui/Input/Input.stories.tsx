@@ -2,7 +2,7 @@ import React from 'react'
 import { Input } from './Input'
 import type { InputProps } from './Input.types'
 
-const meta: any = {
+const meta = {
   title: 'UI/Input',
   component: Input,
   argTypes: {

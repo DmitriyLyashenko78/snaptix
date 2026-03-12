@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from './Button'
 import type { ButtonProps } from './Button.types'
 
-const meta: any = {
+const meta = {
   title: 'UI/Button',
   component: Button,
   argTypes: {
