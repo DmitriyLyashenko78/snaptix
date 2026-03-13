@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react'
 import { TextArea } from './TextArea'
-import type { InputProps } from '@/src/shared/ui/Input/Input.types'
+import type { TextAreaProps } from './TextArea.types'
 
 const meta: Meta<typeof TextArea> = {
   title: 'UI/TextArea',
@@ -21,7 +21,7 @@ Default.args = {
   placeholder: 'Text-area',
 }
 
-export const TextAreaWithBigTextLength = (args: InputProps) => <TextArea {...args} />
+export const TextAreaWithBigTextLength = (args: TextAreaProps) => <TextArea {...args} />
 TextAreaWithBigTextLength.args = {
   placeholder:
     'Замыкание — это способность функции запоминать и иметь доступ к переменным из своей внешней (лексической) области видимости, даже после того как внешняя функция завершила выполнение',

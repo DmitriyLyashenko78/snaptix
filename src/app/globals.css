@@ -153,8 +153,9 @@
     --medium-large-indent: 45px;
     --medium-indent: 40px;
     --small-indent: 24px;
-    --smaller-indent: 18px;
+    --smaller-indent: 20px;
     --semithin-indent: 12px;
+    --prethin-indent: 10px;
     --thin-indent: 6px;
 
 }

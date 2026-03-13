@@ -1,6 +1,9 @@
+'use client'
+
 import { type ChangeEvent, useEffect, useRef, useState } from 'react'
 
 import s from './TextArea.module.css'
+import type { TextAreaProps } from './TextArea.types'
 
 export const TextArea = ({ className, placeholder, error, disabled }: TextAreaProps) => {
   const [text, setText] = useState('')
