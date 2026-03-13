@@ -132,6 +132,31 @@
         text-decoration: underline;
         cursor: pointer;
     }
+
+    --large-text-size: 26px;
+    --h1-text-size: 20px;
+    --h2-text-size: 18px;
+    --h3-text-size: 16px;
+    --page-text-size: 20px;
+    --small-text-size: 14px;
+
+    /* --------------------------Width and Height of blocks/elements */
+
+    --text-area-height: 85px;
+    --text-area-width: 285px;
+
+
+    /* --------------------------Idents */
+    --extralarge-indent: 100px;
+    --large-indent: 80px;
+    --semilarge-indent: 56px;
+    --medium-large-indent: 45px;
+    --medium-indent: 40px;
+    --small-indent: 24px;
+    --smaller-indent: 18px;
+    --semithin-indent: 12px;
+    --thin-indent: 6px;
+
 }
 
 body {
