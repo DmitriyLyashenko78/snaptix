@@ -34,7 +34,7 @@ export default function UserProfilePage({ params, searchParams }: Props) {
   }
 
   const isMyProfile = '123'
-  const { postId, action } = resolvedSearchParams
+  // const { postId, action } = resolvedSearchParams
 
   // Функция для открытия модалки с постом
   const openPostModal = (postNumber: number) => {
