@@ -1,3 +1,11 @@
+import s from './page.module.css'
+
 export default function Home() {
-  return <div>Hello</div>
+  return (
+    <div className={s.container}>
+      <h1>Main page</h1>
+      <div>Counter</div>
+      <div>4 posts</div>
+    </div>
+  )
 }

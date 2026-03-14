@@ -138,4 +138,6 @@ body {
     font-family: var(--font-main), sans-serif;
     line-height: 1.2;
     font-weight: var(--weight-regular);
+    background-color: var(--color-dark-700);
+    color: var(--color-light-300);
 }
