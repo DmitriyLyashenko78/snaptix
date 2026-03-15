@@ -54,7 +54,7 @@ export const Check = (props: React.SVGProps<SVGSVGElement>) => (
     width={props.width || 24}
     height={props.height || 24}
     viewBox="0 0 24 24"
-    fill="none"
+    fill={props.fill || 'currentColor'}
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >

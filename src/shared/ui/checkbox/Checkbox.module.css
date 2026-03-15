@@ -41,6 +41,10 @@
     border-color: var(--color-light-300);
 }
 
+ .input:checked + .boxWrapper .box .icon {
+     color: var(--color-dark-700);
+ }
+
 /* HOVER */
 
 .wrapper:hover .boxWrapper {
@@ -74,4 +78,9 @@
 
 .label > a {
     color: var(--color-accent-500);
+}
+
+.errorText {
+    font-size: 12px;
+    color: var(--color-danger-500);
 }
