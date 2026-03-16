@@ -1,20 +1,30 @@
-import type { Meta, StoryObj } from '@storybook/nextjs'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { fn } from '@storybook/test'
 import { LanguageSwitcher } from '@/src/feauters/languageSwitcher/LanguageSwitcher'
 
-const meta = {
+const meta: Meta<typeof LanguageSwitcher> = {
   title: 'Components/LanguageSwitcher',
   component: LanguageSwitcher,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  args: {},
-} satisfies Meta<typeof LanguageSwitcher>
+  args: {
+    language: 'ru',
+    onLanguageChange: fn(),
+  },
+}
 
 export default meta
+type Story = StoryObj<typeof LanguageSwitcher>
 
-type Story = StoryObj<typeof meta>
-
+export const EnSwitcher: Story = {
+  args: {
+    language: 'en',
+  },
+}
 export const RuSwitcher: Story = {
-  args: {},
+  args: {
+    language: 'ru',
+  },
 }
