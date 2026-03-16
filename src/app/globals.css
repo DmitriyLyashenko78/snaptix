@@ -144,14 +144,17 @@
 
     --text-area-height: 85px;
     --text-area-width: 285px;
+    --sidebar-content-width: 220px;
 
 
-    /* --------------------------Idents */
+    /* --------------------------Indents */
     --extralarge-indent: 100px;
     --large-indent: 80px;
-    --semilarge-indent: 56px;
+    --prelarge-indent: 72px;
+    --semilarge-indent: 60px;
     --medium-large-indent: 45px;
     --medium-indent: 40px;
+    --presmall-indent: 36px;
     --small-indent: 24px;
     --smaller-indent: 20px;
     --semithin-indent: 12px;
