@@ -3,6 +3,7 @@ import { Input } from '@/src/shared/ui/Input/Input'
 import { EyeIcon } from '@/src/shared/ui/SVG/Icon'
 import { Button } from '@/src/shared/ui/Button/Button'
 import s from './Form.module.css'
+import Link from 'next/link'
 
 export const Form = () => {
   return (
@@ -20,7 +21,9 @@ export const Form = () => {
       />
       <Button variant={'primary'}>Sign Up</Button>
       <p>Do you have an account?</p>
-      <Button variant={'ghost'}>Sign In</Button>
+      <Link href="/login">
+        <Button variant={'ghost'}>Sign In</Button>
+      </Link>
     </div>
   )
 }
