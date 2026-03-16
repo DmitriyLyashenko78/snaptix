@@ -13,9 +13,11 @@ export const Button = ({
   className = '',
   disabled,
   onClick,
+  width = 'full',
   ...props
 }: Props) => {
-  const classes = [s.button, s[variant], disabled ? s.disabled : '', className].filter(Boolean).join(' ')
+  const widthClass = width === 'auto' ? s.autoWidth : ''
+  const classes = [s.button, s[variant], widthClass, disabled ? s.disabled : '', className].filter(Boolean).join(' ')
 
   return (
     <button className={classes} disabled={disabled} onClick={onClick} {...props}>
