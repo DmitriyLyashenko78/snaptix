@@ -13,14 +13,15 @@ const meta = {
 
 export default meta
 
-const defaultTabs = [
-  { id: '1', label: 'Tabs' },
-  { id: '2', label: 'Tabs' },
-  { id: '3', label: 'Tabs' },
-]
+const defaultTabs = [{ id: '1', label: 'Tabs' }]
 
 export const Default = (args: TabsProps) => <Tabs {...args} />
 Default.args = {
+  tabs: defaultTabs,
+}
+
+export const DefaultActive = (args: TabsProps) => <Tabs {...args} />
+DefaultActive.args = {
   tabs: defaultTabs,
   activeTab: '1',
 }
@@ -28,7 +29,9 @@ Default.args = {
 export const Active = (args: TabsProps) => <Tabs {...args} />
 Active.args = {
   tabs: defaultTabs,
-  activeTab: '2',
+}
+Active.parameters = {
+  pseudo: { active: true },
 }
 
 export const Hover = (args: TabsProps) => <Tabs {...args} />
@@ -36,19 +39,20 @@ Hover.args = {
   tabs: defaultTabs,
   activeTab: '1',
 }
+Hover.parameters = {
+  pseudo: { hover: true },
+}
 
 export const Focus = (args: TabsProps) => <Tabs {...args} />
 Focus.args = {
   tabs: defaultTabs,
   activeTab: '1',
 }
+Focus.parameters = {
+  pseudo: { focus: true },
+}
 
 export const Disabled = (args: TabsProps) => <Tabs {...args} />
 Disabled.args = {
-  tabs: [
-    { id: '1', label: 'Tabs' },
-    { id: '2', label: 'Tabs', disabled: true },
-    { id: '3', label: 'Tabs' },
-  ],
-  activeTab: '1',
+  tabs: [{ id: '1', label: 'Tabs', disabled: true }],
 }
