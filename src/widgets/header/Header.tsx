@@ -2,7 +2,7 @@
 import { ChangeEvent, useState } from 'react'
 import Link from 'next/link'
 import s from './Header.module.css'
-import { Button } from '@/src/shared/ui/Button/Button'
+import { Button } from '@/shared/ui/Button/Button'
 
 interface Props {
   isAuth?: boolean

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import s from './Input.module.css'
-import { InputProps } from '@/src/shared/ui/Input/Input.types'
+import { InputProps } from '@/shared/ui/Input/Input.types'
 
 export const Input = ({
   label,

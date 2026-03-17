@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs } from './Tabs'
-import { TabsProps } from '@/src/shared/ui/tabs/Tabs.types'
+import { TabsProps } from '@/shared/ui/tabs/Tabs.types'
 
 const meta = {
   title: 'UI/Tabs',
