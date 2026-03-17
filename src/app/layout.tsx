@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { QueryProvider } from './providers/query-provider'
 import { ReactNode } from 'react'
-import { Header } from '@/src/widgets/header/Header'
+import { Header } from '@/widgets/header/Header'
 
 const interSans = Inter({
   variable: '--font-inter',

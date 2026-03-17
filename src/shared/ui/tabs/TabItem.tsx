@@ -1,4 +1,5 @@
-import { TabItemProps } from '@/src/shared/ui/tabs/Tabs.types'
+import { TabItemProps } from '@/shared/ui/tabs/Tabs.types'
+
 import s from './Tabs.module.css'
 export const TabsItem = ({ tab, isActive, onClick }: TabItemProps) => {
   const handleClick = () => {

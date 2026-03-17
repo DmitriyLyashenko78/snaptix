@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { PostModal } from '@/src/shared/ui/modals/PostModal'
+import { PostModal } from '@/shared/ui/modals/PostModal'
 
 interface Props {
   params: Promise<{
