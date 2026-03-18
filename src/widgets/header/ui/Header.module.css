@@ -1,0 +1,107 @@
+/* .header {
+    width: 100%;
+    border-bottom: 1px solid var(--color-dark-300);
+    padding: 12px 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.container {
+  width: 100%;
+  max-width: 1280px; /* Пока оставляем фиксированным, можно добавить переменную в :root */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: var(--color-light-300);
+  font-size: 26px; /* Совпадает с .large-text, но оставляем как есть */
+  font-weight: var(--weight-semibold); /* Как .large-text */
+  text-decoration: none;
+  font-family: var(--font-main), sans-serif;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 62px;
+}
+
+.langSelect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-dark-100);
+  padding: 4px 12px;
+  border-radius: 2px;
+  color: var(--color-light-300);
+  font-size: 14px; /* = .regular-text-14 */
+  font-weight: var(--weight-regular);
+  cursor: pointer;
+  background-color: transparent;
+  transition: border-color 0.2s;
+}
+
+.langSelect:hover {
+  border-color: var(--color-light-900);
+}
+
+.authActions {
+  display: flex;
+  align-items: center;
+}
+
+.notificationWrapper {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--color-danger-500);
+  color: var(--color-light-100);
+  font-size: 10px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-dark-700);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+}
+
+.guestActions {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.loginBtn {
+  color: var(--color-accent-500);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  font-size: 16px; /* = .bold-text-16 */
+  transition: color 0.2s;
+}
+
+.loginBtn:hover {
+  color: var(--color-accent-300); /* Светлее при наведении */
+}
+
+.signupBtn {
+  background-color: var(--color-accent-500);
+  color: var(--color-light-100);
+}
+
+.signupBtn:hover {
+  background-color: var(--color-accent-700); /* Темнее при наведении */
+  opacity: 1; /* Убираем opacity, используем изменение цвета */
+}

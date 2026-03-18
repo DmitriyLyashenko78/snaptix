@@ -1,6 +1,6 @@
 import React from 'react'
 import { Checkbox } from './Checkbox'
-import type { CheckBoxProps } from './CheckBoxProps'
+import type { CheckBoxProps } from './CheckBox.types'
 
 const meta = {
   title: 'UI/Checkbox',

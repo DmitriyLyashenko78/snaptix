@@ -1,9 +1,5 @@
-import s from './signUp.module.css'
+import { SignUp } from '@/fsd-pages/sign-up'
 
 export default function SignUpPage() {
-  return (
-    <div className={s.container}>
-      <h1>SignUp Page</h1>
-    </div>
-  )
+  return <SignUp />
 }

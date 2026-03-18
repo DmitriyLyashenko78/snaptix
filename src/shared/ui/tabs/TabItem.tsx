@@ -1,6 +1,6 @@
 import { TabItemProps } from '@/shared/ui/tabs/Tabs.types'
-
 import s from './Tabs.module.css'
+
 export const TabsItem = ({ tab, isActive, onClick }: TabItemProps) => {
   const handleClick = () => {
     if (!tab.disabled) {
