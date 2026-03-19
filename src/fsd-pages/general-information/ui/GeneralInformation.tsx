@@ -1,6 +1,5 @@
 'use client'
 
-import s from './GeneralInformation.module.css'
 import { redirect } from 'next/navigation'
 import SettingsTabs from './settings-tabs/SettingsTabs'
 import { VALID_PARTS } from '../constants/validParts'
