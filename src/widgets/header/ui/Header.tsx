@@ -2,7 +2,7 @@
 import { ChangeEvent, useState } from 'react'
 import Link from 'next/link'
 import s from './Header.module.css'
-import { Button } from '@/shared/ui/Button/Button'
+import { Button } from '@/shared/ui/button/Button'
 
 interface Props {
   isAuth?: boolean
@@ -16,7 +16,8 @@ export const Header = ({ isAuth }: Props) => {
   }
 
   return (
-    <header className={s.header}>
+    // <header className={s.header}>
+    <header>
       <div className={s.container}>
         <Link href="/" className={s.logo}>
           Snaptix

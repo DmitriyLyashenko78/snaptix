@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import s from './Button.module.css'
-import { ButtonProps } from '@/shared/ui/Button/Button.types'
+import { ButtonProps } from '@/shared/ui/button/Button.types'
 
 type Props = ButtonProps & {
   children?: ReactNode
