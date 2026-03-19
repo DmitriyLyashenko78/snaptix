@@ -1,15 +1,5 @@
-import { redirect } from 'next/navigation'
+import { Profile } from '@/fsd-pages/profile'
 
 export default function ProfilePage() {
-  // Проверяем авторизацию
-  const isAuthenticated = true
-
-  if (!isAuthenticated) {
-    redirect('/')
-  }
-
-  // ID текущего пользователя (нужно получать из сессии/токена)
-  const currentUserId = 123 // Заменить на реальное получение ID
-
-  redirect(`/profile/${currentUserId}`)
+  return <Profile />
 }

@@ -5,7 +5,7 @@ export type SidebarContextType = {
   toggleGroup: (id: string) => void
 }
 
-export const ContextSidebar = createContext<SidebarContextType | undefined>(undefined)
+export const ContextSidebar = createContext<SidebarContextType | null>(null)
 
 export const SidebarProvider: FC<PropsWithChildren> = ({ children }) => {
   const [openedId, setOpenedId] = useState<string | null>(null)

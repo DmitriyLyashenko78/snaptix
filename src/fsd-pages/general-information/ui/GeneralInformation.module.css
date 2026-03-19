@@ -1,0 +1,68 @@
+.wrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 24px;
+}
+
+.sideBar {
+    border-right: 1px solid #333;
+    width: 220px;
+    flex-shrink: 0; /* Чтобы сайдбар не сжимался */
+}
+
+.informationBlockWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    flex: 1;
+
+    /* Обязательно добавляем relative, чтобы линия позиционировалась внутри блока */
+    position: relative;
+}
+
+.informationBlockWrapper::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 45px; /* Поднимаем линию на 50px от нижнего края */
+    height: 1px;  /* Толщина линии */
+    background-color: #333; /* Цвет линии */
+}
+
+.tabs {
+    width: 100%;
+}
+
+.tabs > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
+}
+
+.informationBlock {
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    justify-content: start;
+    gap: 40px;
+}
+
+.userInformation {
+    width: 100%;
+}
+
+.userPhotoWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 24px;
+}
+
+.userPhoto {
+    border-radius: 50%;
+    border: 1px solid white;
+}
