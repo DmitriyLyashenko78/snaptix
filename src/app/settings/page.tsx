@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { GeneralInformation } from '@/fsd-pages/general-information'
 
 interface SettingsPageProps {
