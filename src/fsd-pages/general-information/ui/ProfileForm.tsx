@@ -2,8 +2,8 @@
 'use client'
 
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Button } from '@/shared/ui/button-fix/Button'
-import { Input } from '@/shared/ui/input-fix/Input'
+import { Button } from '@/shared/ui/button/Button'
+import { Input } from '@/shared/ui/input/Input'
 import styles from './ProfileForm.module.css'
 
 // Типы для формы

@@ -1,12 +1,12 @@
 'use client'
-import { Input } from '@/shared/ui/input-fix/Input'
+import { Input } from '@/shared/ui/input/Input'
 import s from './SignUpForm.module.css'
 import { Checkbox } from '@/shared/ui/checkbox/Checkbox'
 import { useForm } from 'react-hook-form'
 import { SignUpFormValues, signUpSchema } from '@/widgets/sign-up-form/model/signUpSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@/shared/ui/button-fix/Button'
-import { EyeIcon } from '@/shared/ui/svg-fix/Icon'
+import { Button } from '@/shared/ui/button/Button'
+import { EyeIcon } from '@/shared/ui/svg/Icon'
 
 export const SignUpForm = () => {
   const {

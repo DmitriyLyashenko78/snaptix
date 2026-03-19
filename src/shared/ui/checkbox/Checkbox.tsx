@@ -1,7 +1,7 @@
 import { CheckBoxProps } from '@/shared/ui/checkbox/CheckBox.types'
 import { useId } from 'react'
 import s from './Checkbox.module.css'
-import { Check } from '@/shared/ui/svg-fix/Icon'
+import { Check } from '@/shared/ui/svg/Icon'
 
 export const Checkbox = ({ label, disabled, checked = false, error, ...props }: CheckBoxProps) => {
   const id = useId()
