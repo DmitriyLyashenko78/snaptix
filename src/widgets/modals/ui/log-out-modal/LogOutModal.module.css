@@ -1,0 +1,42 @@
+.overlay {
+    background-color: var(--color-dark-900);
+    position: fixed;
+    z-index: 11;
+    inset: 0;
+}
+
+.modal {
+    background-color: var(--color-dark-300);
+    border: 1px solid var(--color-dark-100);
+    box-shadow:
+            hsl(206deg 22% 7% / 35%) 0 10px 38px -10px,
+            hsl(206deg 22% 7% / 20%) 0 10px 20px -15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    p {
+        padding: 24px;
+    }
+}
+
+.buttons {
+    padding: 24px;
+}
+
+.header {
+    border-bottom: 1px solid var(--color-dark-100);
+    padding: 12px 24px;
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.buttons button {
+    width: auto;
+}

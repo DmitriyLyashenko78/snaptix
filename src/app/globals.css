@@ -46,7 +46,7 @@
   --color-dark-300: #333;
   --color-dark-500: #171717;
   --color-dark-700: #0d0d0d;
-  --color-dark-900: #000;
+  --color-dark-900: rgb(0 0 0 / 50%);
 
   /* Light */
   --color-light-100: #fff;
@@ -133,6 +133,8 @@
     text-decoration: underline;
     cursor: pointer;
   }
+
+    --premedium-indent: 36px;
 }
 
 body {
