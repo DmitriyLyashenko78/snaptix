@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react'
+import type { Meta } from '@storybook/nextjs-vite'
 import { TextArea } from './TextArea'
 import type { TextAreaProps } from './TextArea.types'
 

@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react'
+import type { StoryObj } from '@storybook/nextjs-vite'
 import { Sidebar } from './Sidebar'
 import {
   CreateActiveIcon,
