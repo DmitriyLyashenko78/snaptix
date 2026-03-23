@@ -3,8 +3,8 @@ import Image from 'next/image'
 
 import styles from './LanguageSwitcher.module.scss'
 
-import { ChevronDown } from '@/src/shared/ui/svg/chevronDown'
-import { Language, LanguageCode, LanguageSwitcherProps } from '@/src/features/languageSwitcher/LanguageSwitcher.types'
+import { ChevronDown } from '@/shared/ui/svg/chevronDown'
+import { Language, LanguageCode, LanguageSwitcherProps } from '@/features/languageSwitcher/LanguageSwitcher.types'
 
 const flagRu = '/icons/flag-russia.png'
 const flagUk = '/icons/flag-united-kingdom.png'

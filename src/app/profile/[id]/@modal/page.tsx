@@ -1,4 +1,4 @@
-import { PostModal } from '@/widgets/modals'
+import { PostModal, LogOutModal } from '@/widgets/modals'
 import { redirect } from 'next/navigation'
 
 interface Props {
@@ -32,6 +32,10 @@ export default async function ProfileModal({ params, searchParams }: Props) {
   // Открываем модалку создания поста
   if (action === 'create') {
     return <PostModal userId={id} />
+  }
+
+  if (action === 'logout') {
+    return <LogOutModal userId={id} />
   }
 
   // Если нет параметров, ничего не отображаем

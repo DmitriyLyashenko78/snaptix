@@ -63,61 +63,6 @@
 
   /* ---------------------------Typography */
 
-  .h1 {
-    font-size: 20px;
-    font-weight: var(--weight-bold);
-  }
-
-  .h2 {
-    font-size: 18px;
-    font-weight: var(--weight-bold);
-  }
-
-  .h3 {
-    font-size: 16px;
-    font-weight: var(--weight-semibold);
-  }
-
-  .large-text {
-    font-size: 26px;
-    font-weight: var(--weight-semibold);
-  }
-
-  .bold-text-16 {
-    font-size: 16px;
-    font-weight: var(--weight-bold);
-  }
-
-  .regular-text-16 {
-    font-size: 16px;
-    font-weight: var(--weight-regular);
-  }
-
-  .bold-text-14 {
-    font-size: 14px;
-    font-weight: var(--weight-bold);
-  }
-
-  .medium-text-14 {
-    font-size: 14px;
-    font-weight: var(--weight-medium);
-  }
-
-  .regular-text-14 {
-    font-size: 14px;
-    font-weight: var(--weight-regular);
-  }
-
-  .small-text {
-    font-size: 12px;
-    font-weight: var(--weight-regular);
-  }
-
-  .semibold-small-text {
-    font-size: 12px;
-    font-weight: var(--weight-semibold);
-  }
-
   .regular-link {
     font-size: 14px;
     font-weight: var(--weight-regular);

@@ -1,5 +1,3 @@
-import { StaticImageData } from 'next/image'
-
 export type LanguageCode = 'ru' | 'en'
 
 export type Language = {
