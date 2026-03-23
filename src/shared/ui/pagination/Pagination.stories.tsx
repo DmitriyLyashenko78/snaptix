@@ -1,6 +1,6 @@
 import { useArgs } from 'storybook/preview-api'
 import { Pagination } from './Pagination'
-import type { StoryObj } from '@storybook/react'
+import type { StoryObj } from '@storybook/nextjs-vite'
 
 const meta = {
   title: 'UI/Pagination',

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
-import styles from './LanguageSwitcher.module.scss'
+import styles from './LanguageSwitcher.module.css'
 
 import { ChevronDown } from '@/shared/ui/svg/chevronDown'
 import { Language, LanguageCode, LanguageSwitcherProps } from '@/features/languageSwitcher/LanguageSwitcher.types'
