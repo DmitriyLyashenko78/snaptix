@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { fn } from '@storybook/test'
-import { LanguageSwitcher } from '@/src/feauters/languageSwitcher/LanguageSwitcher'
+import { LanguageSwitcher } from '@/src/features/languageSwitcher/LanguageSwitcher'
 
 const meta: Meta<typeof LanguageSwitcher> = {
   title: 'Components/LanguageSwitcher',
