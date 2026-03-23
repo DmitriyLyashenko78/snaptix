@@ -4,13 +4,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 interface Props {
-  params: Promise<{
-    id: string
-  }>
-  searchParams: Promise<{
-    postId?: string
-    action?: string
-  }>
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ postId?: string; action?: string }>
 }
 
 export default function UserProfilePage({ params, searchParams }: Props) {
