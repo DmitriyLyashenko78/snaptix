@@ -1,0 +1,39 @@
+.languageSwitcher {
+  width: 84px;
+  height: 36px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border: #454545 solid 1px;
+}
+
+.flag {
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+}
+
+.arrow{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-evenly;
+  background-color: #0D0D0D;
+  border: none;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+}
+
+
+.dropdown, button  :hover {
+  border: #8446d6 solid 1px;
+}
+
+.rotating {
+  transform: rotate(180deg);
+}
