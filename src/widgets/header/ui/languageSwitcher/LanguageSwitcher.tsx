@@ -4,7 +4,11 @@ import Image from 'next/image'
 import styles from './LanguageSwitcher.module.css'
 
 import { ChevronDown } from '@/shared/ui/svg/chevronDown'
-import { Language, LanguageCode, LanguageSwitcherProps } from '@/features/languageSwitcher/LanguageSwitcher.types'
+import {
+  Language,
+  LanguageCode,
+  LanguageSwitcherProps,
+} from '@/widgets/header/ui/languageSwitcher/LanguageSwitcher.types'
 
 const flagRu = '/icons/flag-russia.png'
 const flagUk = '/icons/flag-united-kingdom.png'
