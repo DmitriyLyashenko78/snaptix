@@ -13,7 +13,7 @@ export const signUpSchema = z
       .min(6, 'Minimum number of characters 6')
       .max(20, 'Maximum number of characters 20')
       .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]+$/,
+        /^[A-Za-z0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]+$/,
         'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~',
       ),
     confirmPassword: z.string(),
