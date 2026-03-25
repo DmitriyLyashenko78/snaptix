@@ -11,6 +11,7 @@ interface Props {
 
 export const Header = ({ isAuth }: Props) => {
   const handleLanguageChange = (value: string) => {
+    console.log(value)
     // Здесь будет логика смены языка
   }
 
