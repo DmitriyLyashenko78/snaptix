@@ -1,22 +1,21 @@
 'use client'
-import { ChangeEvent, useState } from 'react'
 import Link from 'next/link'
 import s from './Header.module.css'
 import { Button } from '@/shared/ui/button/Button'
+import { LanguageSelect } from './language-switcher/LanguageSwitcher'
+import { NotificationBell } from '@/widgets/header/ui/notification-bell/NotificationBell'
 
 interface Props {
   isAuth?: boolean
 }
 
 export const Header = ({ isAuth }: Props) => {
-  const [lang, setLang] = useState('en')
-
-  const handleLangChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLang(e.target.value)
+  const handleLanguageChange = (value: string) => {
+    console.log(value)
+    // Здесь будет логика смены языка
   }
 
   return (
-    // <header className={s.header}>
     <header>
       <div className={s.container}>
         <Link href="/" className={s.logo}>
@@ -24,23 +23,16 @@ export const Header = ({ isAuth }: Props) => {
         </Link>
 
         <div className={s.nav}>
-          {/* Селект выбора языка */}
-          <div className={s.langWrapper}>
-            <select value={lang} onChange={handleLangChange} className={s.select}>
-              <option value="en">🇬🇧 English</option>
-              <option value="ru">🇷🇺 Russian</option>
-            </select>
-          </div>
-
           {isAuth ? (
             <div className={s.authActions}>
               <div className={s.notificationWrapper}>
-                <span style={{ fontSize: '20px', color: 'white' }}>🔔</span>
-                <span className={s.badge}>1</span>
+                <NotificationBell />
               </div>
+              <LanguageSelect onLanguageChange={handleLanguageChange} />
             </div>
           ) : (
             <div className={s.guestActions}>
+              <LanguageSelect onLanguageChange={handleLanguageChange} />
               <Link href="/login" className={s.loginBtn}>
                 Log in
               </Link>
