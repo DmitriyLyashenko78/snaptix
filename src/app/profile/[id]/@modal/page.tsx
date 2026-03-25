@@ -1,5 +1,9 @@
-import { PostModal, LogOutModal } from '@/widgets/modals'
-import { redirect } from 'next/navigation'
+'use client'
+
+import { useRouter } from 'next/navigation'
+import React, { use } from 'react'
+import { Modal } from '@/shared/ui/modalsPost/Modal'
+import { LogOutModal } from '@/widgets/modals'
 
 interface Props {
   params: Promise<{
@@ -11,27 +15,45 @@ interface Props {
   }>
 }
 
-export default async function ProfileModal({ params, searchParams }: Props) {
-  // Ждем разрешения промисов
-  const resolvedParams = await params
-  const resolvedSearchParams = await searchParams
+export default function ProfileModal({ params, searchParams }: Props) {
+  const router = useRouter()
+
+  const resolvedParams = use(params)
+  const resolvedSearchParams = use(searchParams)
 
   const { postId, action } = resolvedSearchParams
   const { id } = resolvedParams
 
-  // Если оба параметра присутствуют, редиректим без action
+  // Функция закрытия - вызывается когда модалка меняет состояние
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      // Если модалка закрылась, редиректим обратно
+      router.back()
+    }
+  }
+
+  // Если оба параметра присутствуют
   if (postId && action) {
-    redirect(`/profile/${id}?postId=${postId}`)
+    router.push(`/profile/${id}?postId=${postId}`)
+    return null
   }
 
-  // Открываем модалку с постом
+  // Модалка просмотра поста
   if (postId) {
-    return <PostModal postId={postId} userId={id} />
+    return (
+      <Modal open={true} onOpenChangeAction={handleOpenChange} title="Просмотр поста">
+        <div>Содержимое поста с ID: {postId}</div>
+      </Modal>
+    )
   }
 
-  // Открываем модалку создания поста
+  // Модалка создания поста
   if (action === 'create') {
-    return <PostModal userId={id} />
+    return (
+      <Modal open={true} onOpenChangeAction={handleOpenChange} title="Создать пост">
+        <div>Форма создания поста</div>
+      </Modal>
+    )
   }
 
   if (action === 'logout') {
