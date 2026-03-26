@@ -131,6 +131,7 @@ header {
 main {
   flex-grow: 1;
   margin: 0 auto;
+  width: 1260px;
 
   /* padding: 12px 62px; */
 }
