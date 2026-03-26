@@ -1,24 +1,51 @@
 'use client'
-
-import { redirect } from 'next/navigation'
-import SettingsTabs from './settings-tabs/SettingsTabs'
+import { useState } from 'react'
+import s from './GeneralInformation.module.css'
+import { Tabs } from '@/shared/ui/tabs/Tabs'
 import { VALID_PARTS } from '../constants/validParts'
+import { Devices } from './settings-tabs/devices/Devices'
+import { Payments } from './settings-tabs/payments/Payments'
+import { Subscriptions } from './settings-tabs/subscriptions/Subscriptions'
+import { MainInformation } from './settings-tabs/main-information/MainInformation'
 
-interface GeneralInformationProps {
+type GeneralInformationProps = {
   part?: string
 }
 
 export const GeneralInformation = ({ part }: GeneralInformationProps) => {
-  // Если part отсутствует или невалидный, редиректим на info
-  if (!part || !VALID_PARTS.includes(part)) {
-    redirect('/settings?part=info')
+  console.log(part)
+  const [activeTab, setActiveTab] = useState('general')
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'devices':
+        return <Devices />
+
+      case 'account':
+        return <Subscriptions />
+
+      case 'payments':
+        return <Payments />
+
+      case 'general':
+      default:
+        return <MainInformation />
+    }
+  }
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId)
   }
 
   return (
-    <div className="settings-container">
-      <h1>Profile settings</h1>
-
-      <SettingsTabs currentPart={part} />
+    <div className={s.wrapper}>
+      <div className={s.sideBar}>SideBar</div>
+      <div className={s.informationBlockWrapper}>
+        <div className={s.tabs}>
+          <Tabs tabs={VALID_PARTS} activeTab={activeTab} onChange={handleTabChange} />
+        </div>
+        {renderContent()}
+      </div>
     </div>
   )
 }

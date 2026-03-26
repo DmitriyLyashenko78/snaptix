@@ -1,0 +1,35 @@
+
+.informationBlock {
+    width: 100%;
+    margin-top: var(--small-indent);
+    display: flex;
+    justify-content: start;
+    gap: var(--medium-indent);
+    position: relative;
+}
+
+.informationBlock::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 45px;
+    height: 1px;
+    background-color: var(--color-dark-300);
+}
+
+.userPhotoWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: var(--small-indent);
+}
+
+.userPhoto {
+    border-radius: 50%;
+}
+
+.userInformation {
+    width: 100%;
+}
