@@ -6,7 +6,7 @@
     min-height: 50vh;
     display: flex;
     flex-direction: column;
-    gap: var(--premedium-indent);
+    gap: var(--presmall-indent);
 }
 
 .header {
