@@ -9,5 +9,5 @@ export type SignUpResponseDto = {
 }
 
 export type SignUpErrorDto = {
-  message: 'EMAIL_EXISTS' | 'USERNAME_EXISTS'
+  message: 'EMAIL_EXISTS' | 'USERNAME_EXISTS' | (string & {})
 }

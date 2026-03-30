@@ -13,5 +13,10 @@ export const mapServerErrors = <T extends FieldValues>(error: SignUpErrorDto, se
         message: 'User with this username is already registered',
       })
       break
+    default:
+      setError('root' as Path<T>, {
+        message: 'Something went wrong. Please try again later.',
+      })
+      break
   }
 }

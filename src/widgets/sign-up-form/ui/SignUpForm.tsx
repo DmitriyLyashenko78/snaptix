@@ -25,8 +25,15 @@ export const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
     mode: 'onBlur',
     reValidateMode: 'onChange',
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      agree: false,
+    },
   })
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   const [registeredEmail, setRegisteredEmail] = useState('')
 
   const router = useRouter()
@@ -96,11 +103,11 @@ export const SignUpForm = () => {
           label={
             <>
               I agree to the{' '}
-              <a href="#" onClick={(e) => e.stopPropagation()}>
+              <a href="/terms-of-service" onClick={(e) => e.stopPropagation()}>
                 Terms of Service
               </a>{' '}
               and{' '}
-              <a href="#" onClick={(e) => e.stopPropagation()}>
+              <a href="/privacy-policy" onClick={(e) => e.stopPropagation()}>
                 Privacy Policy
               </a>
             </>
@@ -116,22 +123,18 @@ export const SignUpForm = () => {
         </Button>
       </form>
       {showModal && (
-        <>
-          {
-            <Modal
-              open={showModal}
-              title={'Email sent'}
-              onOpenChangeAction={setShowModal}
-              footer={
-                <Button width={'auto'} variant={'primary'} onClick={() => setShowModal(false)}>
-                  OK
-                </Button>
-              }
-            >
-              <p>We have sent a link to confirm your email to {registeredEmail}</p>
-            </Modal>
+        <Modal
+          open={showModal}
+          title={'Email sent'}
+          onOpenChangeAction={setShowModal}
+          footer={
+            <Button width={'auto'} variant={'primary'} onClick={() => setShowModal(false)}>
+              OK
+            </Button>
           }
-        </>
+        >
+          <p>We have sent a link to confirm your email to {registeredEmail}</p>
+        </Modal>
       )}
     </>
   )
