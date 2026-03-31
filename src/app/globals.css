@@ -63,22 +63,6 @@
 
   /* ---------------------------Typography */
 
-  .regular-link {
-    font-size: 14px;
-    font-weight: var(--weight-regular);
-    color: var(--color-accent-500);
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-    .small-link {
-        font-size: 12px;
-        font-weight: var(--weight-regular);
-        color: var(--color-accent-500);
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
     --large-text-size: 26px;
     --h1-text-size: 20px;
     --h2-text-size: 18px;
@@ -91,6 +75,8 @@
     --text-area-height: 85px;
     --text-area-width: 285px;
     --sidebar-content-width: 220px;
+    --post-width: 240px;
+    --post-height: 400px;
 
 
     /* --------------------------Indents */

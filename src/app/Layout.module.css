@@ -1,0 +1,5 @@
+.content {
+    padding: 0 var(--semilarge-indent);
+    display: flex;
+    gap: var(--small-indent);
+}

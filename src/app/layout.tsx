@@ -4,6 +4,8 @@ import './globals.css'
 import { QueryProvider } from './providers/query-provider'
 import { ReactNode } from 'react'
 import { Header } from '@/widgets/header'
+import { SidebarList } from '@/shared/ui/sidebar/SidbarList'
+import s from './Layout.module.css'
 
 const interSans = Inter({
   variable: '--font-inter',
@@ -17,12 +19,17 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const isAuth = true
+
   return (
     <html lang="en">
       <body className={`${interSans.variable} antialiased`}>
         <QueryProvider>
           <Header isAuth={false} />
-          <main>{children}</main>
+          <div className={s.content}>
+            {isAuth && <SidebarList />}
+            <main>{children}</main>
+          </div>
         </QueryProvider>
       </body>
     </html>
