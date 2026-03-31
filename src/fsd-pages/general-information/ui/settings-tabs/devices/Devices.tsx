@@ -1,7 +1,7 @@
 'use client'
 import s from './Devices.module.css'
 import { Button } from '@/shared/ui/button/Button'
-import { LogoutIcon } from '@/shared/ui/svg/Icon'
+import { LogoutButton } from '@/shared/ui/logout-button/LogoutButton'
 
 const DEVICE_LIST = [
   {
@@ -71,10 +71,7 @@ export const Devices = () => {
                   <span className={s.ipDevice}>{d.ip}</span>
                   <span className={s.dateDevice}>{d.date}</span>
                 </div>
-                <button className={s.logoutBtn} onClick={() => {}}>
-                  <LogoutIcon />
-                  <span>Log Out</span>
-                </button>
+                <LogoutButton />
               </div>
             )
           })

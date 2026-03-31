@@ -7,6 +7,17 @@ import { Devices } from './settings-tabs/devices/Devices'
 import { Payments } from './settings-tabs/payments/Payments'
 import { Subscriptions } from './settings-tabs/subscriptions/Subscriptions'
 import { MainInformation } from './settings-tabs/main-information/MainInformation'
+import { Sidebar } from '@/shared/ui/sidebar/Sidebar'
+import {
+  ProfileIcon,
+  CreateIcon,
+  HomeIcon,
+  MessengerIcon,
+  StatsIcon,
+  FavoriteIcon,
+  SearchIcon,
+} from '@/shared/ui/svg/Icon'
+import { LogoutButton } from '@/shared/ui/logout-button/LogoutButton'
 
 type GeneralInformationProps = {
   part?: string
@@ -39,7 +50,6 @@ export const GeneralInformation = ({ part }: GeneralInformationProps) => {
 
   return (
     <div className={s.wrapper}>
-      <div className={s.sideBar}>SideBar</div>
       <div className={s.informationBlockWrapper}>
         <div className={s.tabs}>
           <Tabs tabs={VALID_PARTS} activeTab={activeTab} onChange={handleTabChange} />
