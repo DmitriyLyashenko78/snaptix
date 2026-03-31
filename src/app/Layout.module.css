@@ -1,4 +1,6 @@
 .content {
+    margin: 0 auto;
+    width: 1260px;
     padding: 0 var(--semilarge-indent);
     display: flex;
     gap: var(--small-indent);

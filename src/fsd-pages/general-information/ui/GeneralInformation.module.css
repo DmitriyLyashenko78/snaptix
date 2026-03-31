@@ -6,9 +6,24 @@
 }
 
 .sideBar {
-    border-right: 1px solid var(--color-dark-300);
-    width: var(--sidebar-content-width);
-    flex-shrink: 0; /* Чтобы сайдбар не сжимался */
+    padding: 38px 0 60px;
+    min-height: calc(100vh - 140px);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.sideBarOne {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sideBarTwo {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 60px;
 }
 
 .informationBlockWrapper {
@@ -24,4 +39,9 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.sidebarButton {
+    margin-top: auto;
+    padding-left: 8px;
 }
