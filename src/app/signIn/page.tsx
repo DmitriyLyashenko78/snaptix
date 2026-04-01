@@ -1,5 +1,5 @@
 import { SignIn } from '@/fsd-pages/sign-in'
 
-export default function Login() {
+export default function SignInPage() {
   return <SignIn />
 }

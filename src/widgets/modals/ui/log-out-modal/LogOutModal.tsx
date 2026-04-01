@@ -1,23 +1,21 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/button/Button'
 
 import s from './LogOutModal.module.css'
+import { useLogout } from '@/shared/api/logout/hooks/use-logout-mutation'
 
 type Props = {
   userId: string
+  onClose?: () => void
 }
 
-export const LogOutModal = ({ userId }: Props) => {
-  const router = useRouter()
+export const LogOutModal = ({ userId, onClose }: Props) => {
+  const { mutate, isPending } = useLogout()
 
-  const handleLogout = async () => {
-    // экшен на выход
-    router.push('/login')
-  }
+  const handleLogout = () => mutate()
 
-  const handleClose = () => router.back()
+  const handleClose = () => onClose?.()
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -31,7 +29,7 @@ export const LogOutModal = ({ userId }: Props) => {
         <h3 className={s.header}>Log out</h3>
         <p>{`Are you really want to log out of your account ${userId}?`}</p>
         <section className={s.buttons}>
-          <Button variant="outline" onClick={handleLogout}>
+          <Button variant="outline" onClick={handleLogout} disabled={isPending}>
             Yes
           </Button>
           <Button variant="primary" onClick={handleClose}>

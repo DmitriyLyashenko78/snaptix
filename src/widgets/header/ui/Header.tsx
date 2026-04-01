@@ -33,7 +33,7 @@ export const Header = ({ isAuth }: Props) => {
           ) : (
             <div className={s.guestActions}>
               <LanguageSelect onLanguageChange={handleLanguageChange} />
-              <Link href="/login" className={s.loginBtn}>
+              <Link href="/signIn" className={s.loginBtn}>
                 Log in
               </Link>
               <Link href="/signup">

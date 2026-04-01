@@ -56,6 +56,7 @@ export default function ProfileModal({ params, searchParams }: Props) {
     )
   }
 
+  // Модалка выхода
   if (action === 'logout') {
     return <LogOutModal userId={id} />
   }
