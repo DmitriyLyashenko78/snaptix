@@ -24,7 +24,7 @@ export const SignInForm = () => {
 
   const onSubmit = async (data: SignInFormValues) => {
     try {
-      // Имитация запроса - соответвующий экшен - login
+      // Имитация запроса - соответвующий экшен - signIn
       console.log(data)
       router.push('/profile')
     } catch (error) {
@@ -62,7 +62,7 @@ export const SignInForm = () => {
         <Button variant={'primary'} type="submit" disabled={!isValid}>
           Sign In
         </Button>
-        <p>Do you have an account?</p>
+        <p>Don’t have an account?</p>
         <Link href="/signup">
           <Button variant={'ghost'}>Sign Up</Button>
         </Link>

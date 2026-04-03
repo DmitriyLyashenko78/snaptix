@@ -19,7 +19,59 @@
     object-fit: cover;
 }
 
-.author {
+.controls {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.arrow {
+    position: absolute;
+    border: none;
+    padding: var(--prethin-indent);
+    background-color: inherit;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    cursor: pointer;
+    color: var(--color-light-100);
+}
+
+.prevArrow {
+    left: var(--thin-indent);
+}
+
+.nextArrow {
+    right: var(--thin-indent);
+}
+
+.pagination {
+    position: absolute;
+    bottom: var(--prethin-indent);
+    background-color: var(--color-dark-300);
+    border-radius: 2px;
+    padding: var(--thin-indent);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--thin-indent);
+    pointer-events: none;
+}
+
+.dot {
+    width: var(--thin-indent);
+    height: var(--thin-indent);
+    border-radius: 50%;
+    background-color: var(--color-light-100);
+    transition: background 0.3s ease;
+}
+
+.activeDot {
+    background: var(--color-accent-500);
+}
+
+
+    .author {
     display: flex;
     align-items: center;
     gap: var(--semithin-indent);

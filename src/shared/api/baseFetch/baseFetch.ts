@@ -10,7 +10,10 @@ export const baseFetch = async <T>(url: string, options?: RequestInit): Promise<
     },
     ...options,
   })
-  const data = await res.json()
+
+  const isNoContent = res.status === 204
+  const data = isNoContent ? {} : await res.json()
+
   if (!res.ok) {
     throw data as ApiError
   }
