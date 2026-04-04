@@ -1,5 +1,6 @@
 import '../src/app/globals.css'
 import 'storybook-addon-pseudo-states'
+import 'react-day-picker/dist/style.css'
 
 import type { Preview } from '@storybook/nextjs-vite'
 
