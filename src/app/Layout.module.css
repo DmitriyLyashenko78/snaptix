@@ -1,7 +1,13 @@
 .content {
     margin: 0 auto;
-    width: 1260px;
-    padding: 0 var(--semilarge-indent);
+    width: 1160px;
     display: flex;
     gap: var(--small-indent);
+    overflow: hidden;
+}
+
+.main {
+    margin: 0 auto;
+    width: 972px;
+    overflow-y: auto;
 }

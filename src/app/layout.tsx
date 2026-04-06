@@ -25,10 +25,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en">
       <body className={`${interSans.variable} antialiased`}>
         <QueryProvider>
-          <Header isAuth={false} />
+          <Header isAuth={isAuth} />
           <div className={s.content}>
             {isAuth && <SidebarList />}
-            <main>{children}</main>
+            <main className={s.main}>{children}</main>
           </div>
         </QueryProvider>
       </body>

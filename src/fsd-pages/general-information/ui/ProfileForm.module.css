@@ -1,5 +1,3 @@
-/* app/components/ProfileForm.module.css */
-
 .form {
     width: 100%;
     background-color: var(--color-dark-700);
@@ -7,6 +5,13 @@
 
 .formGroup {
     margin-bottom: 1.5rem;
+}
+
+.date {
+    margin-bottom: 5px;
+    font-size: var(--small-text-size);
+    font-weight: var(--weight-regular);
+    color: var(--color-light-900)
 }
 
 .row {
@@ -23,9 +28,9 @@
 .label {
     display: block;
     margin-bottom: 0.5rem;
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--color-dark-100);
+    font-size: var(--small-text-size);
+    font-weight: var(--weight-regular);
+    color: var(--color-light-900)
 }
 
 .select {
@@ -83,7 +88,6 @@
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     resize: none;
     font-family: inherit;
-
 }
 
 .textarea:hover {

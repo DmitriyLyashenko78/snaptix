@@ -1,17 +1,17 @@
-// app/components/ProfileForm.tsx
 'use client'
 
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form' // 👈 Добавить Controller
 import { Button } from '@/shared/ui/button/Button'
 import { Input } from '@/shared/ui/input/Input'
-import styles from './ProfileForm.module.css'
+import { DatePicker } from '@/shared/ui/date-picker/DatePicker'
+import s from './ProfileForm.module.css'
 
 // Типы для формы
 interface IProfileForm {
   userTest: string
   firstName: string
   lastName: string
-  dateOfBirth: string
+  dateOfBirth: Date | undefined
   country: string
   city: string
   aboutMe: string
@@ -21,6 +21,7 @@ export default function ProfileForm() {
   const {
     register,
     handleSubmit,
+    control, //  control для работы с DatePicker
     formState: { errors, isSubmitting },
     reset,
   } = useForm<IProfileForm>({
@@ -28,7 +29,7 @@ export default function ProfileForm() {
       userTest: '',
       firstName: '',
       lastName: '',
-      dateOfBirth: '',
+      dateOfBirth: undefined,
       country: '',
       city: '',
       aboutMe: '',
@@ -36,8 +37,8 @@ export default function ProfileForm() {
   })
 
   const onSubmit: SubmitHandler<IProfileForm> = async (data) => {
+    console.log(data)
     try {
-      console.log('Form data:', data)
       await new Promise((resolve) => setTimeout(resolve, 1000))
       alert('Profile updated successfully!')
       reset()
@@ -47,12 +48,20 @@ export default function ProfileForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <div className={styles.formGroup}>
-        <Input id="userTest" {...register('userTest')} />
+    <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+      <div className={s.formGroup}>
+        <Input
+          id="userTest"
+          label={
+            <>
+              Username<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+            </>
+          }
+          {...register('userTest')}
+        />
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={s.formGroup}>
         <Input
           id="firstName"
           label={
@@ -67,7 +76,7 @@ export default function ProfileForm() {
         />
       </div>
 
-      <div className={styles.formGroup}>
+      <div className={s.formGroup}>
         <Input
           id="lastName"
           label={
@@ -82,28 +91,32 @@ export default function ProfileForm() {
         />
       </div>
 
-      <div className={styles.formGroup}>
-        <Input
-          id="dateOfBirth"
-          label="Date of birth"
-          {...register('dateOfBirth', {
-            pattern: {
-              value: /^\d{2}\.\d{2}\.\d{4}$/,
-              message: 'Please use format: DD.MM.YYYY',
-            },
-          })}
-          placeholder="00.00.0000"
-          error={errors.dateOfBirth?.message}
+      <div className={s.formGroup}>
+        <p className={s.date}>Date of birth</p>
+        <Controller
+          name="dateOfBirth"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <DatePicker
+              mode="single"
+              value={field.value}
+              onChange={field.onChange}
+              error={!!error}
+              errorText={error?.message}
+              locale="en"
+              disabled={false}
+            />
+          )}
         />
       </div>
 
-      <div className={styles.row}>
-        <div className={styles.rowItem}>
-          <label className={styles.label}>Select your country</label>
+      <div className={s.row}>
+        <div className={s.rowItem}>
+          <label className={s.label}>Select your country</label>
           <select
             id="country"
             {...register('country', { required: 'Please select a country' })}
-            className={`${styles.select} ${errors.country ? styles.selectError : ''}`}
+            className={`${s.select} ${errors.country ? s.selectError : ''}`}
           >
             <option value="">Country</option>
             <option value="usa">United States</option>
@@ -114,15 +127,15 @@ export default function ProfileForm() {
             <option value="japan">Japan</option>
             <option value="australia">Australia</option>
           </select>
-          {errors.country && <span className={styles.errorMessage}>{errors.country.message}</span>}
+          {errors.country && <span className={s.errorMessage}>{errors.country.message}</span>}
         </div>
 
-        <div className={styles.rowItem}>
-          <label className={styles.label}>Select your city</label>
+        <div className={s.rowItem}>
+          <label className={s.label}>Select your city</label>
           <select
             id="city"
             {...register('city', { required: 'Please select a city' })}
-            className={`${styles.select} ${errors.city ? styles.selectError : ''}`}
+            className={`${s.select} ${errors.city ? s.selectError : ''}`}
           >
             <option value="">City</option>
             <option value="new-york">New York</option>
@@ -131,12 +144,12 @@ export default function ProfileForm() {
             <option value="houston">Houston</option>
             <option value="phoenix">Phoenix</option>
           </select>
-          {errors.city && <span className={styles.errorMessage}>{errors.city.message}</span>}
+          {errors.city && <span className={s.errorMessage}>{errors.city.message}</span>}
         </div>
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="aboutMe" className={styles.label}>
+      <div className={s.formGroup}>
+        <label htmlFor="aboutMe" className={s.label}>
           About Me
         </label>
         <textarea
@@ -149,12 +162,12 @@ export default function ProfileForm() {
           })}
           rows={4}
           placeholder="Text-area"
-          className={`${styles.textarea} ${errors.aboutMe ? styles.textareaError : ''}`}
+          className={`${s.textarea} ${errors.aboutMe ? s.textareaError : ''}`}
         />
-        {errors.aboutMe && <span className={styles.errorMessage}>{errors.aboutMe.message}</span>}
+        {errors.aboutMe && <span className={s.errorMessage}>{errors.aboutMe.message}</span>}
       </div>
 
-      <div className={styles.buttonWrapper}>
+      <div className={s.buttonWrapper}>
         <Button type="submit" variant="primary" disabled={isSubmitting} width="auto">
           {isSubmitting ? 'Saving...' : 'Save Changes'}
         </Button>
