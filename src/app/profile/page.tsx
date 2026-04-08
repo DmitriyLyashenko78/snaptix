@@ -1,5 +1,12 @@
-import { Profile } from '@/fsd-pages/profile'
+import { redirect } from 'next/navigation'
 
 export default function ProfilePage() {
-  return <Profile />
+  const isAuth = true
+  const currentUserId = 123
+
+  if (isAuth) {
+    redirect(`/profile/${currentUserId}`)
+  }
+
+  redirect(`/`)
 }

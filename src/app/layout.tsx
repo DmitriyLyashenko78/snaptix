@@ -9,7 +9,7 @@ import s from './Layout.module.css'
 
 const interSans = Inter({
   variable: '--font-inter',
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   weight: ['400', '500', '600', '700'],
 })
 
@@ -19,16 +19,16 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  const isAuth = true
+  const isAuth = false
 
   return (
     <html lang="en">
-      <body className={`${interSans.variable} antialiased`}>
+      <body className={`${interSans.variable}`}>
         <QueryProvider>
           <Header isAuth={isAuth} />
           <div className={s.content}>
             {isAuth && <SidebarList />}
-            <main className={s.main}>{children}</main>
+            <main className={`${s.main} ${!isAuth ? s.mainCentered : ''}`}>{children}</main>
           </div>
         </QueryProvider>
       </body>

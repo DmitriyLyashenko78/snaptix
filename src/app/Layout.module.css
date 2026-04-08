@@ -1,13 +1,16 @@
 .content {
     margin: 0 auto;
-    width: 1160px;
+    width: 1280px;
     display: flex;
     gap: var(--small-indent);
     overflow: hidden;
 }
 
 .main {
-    margin: 0 auto;
     width: 972px;
     overflow-y: auto;
+}
+
+.mainCentered {
+    margin: 0 auto;
 }

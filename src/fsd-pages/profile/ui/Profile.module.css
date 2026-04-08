@@ -1,0 +1,54 @@
+.wrapper {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.userInfoWrapper {
+    display: flex;
+    gap: 38px;
+}
+
+.userPhoto {
+    width: 204px;
+    height: 204px;
+    border-radius: 50%;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.userNameWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subscriptionsWrapper {
+    display: flex;
+    gap: 100px;
+}
+
+.subscriptions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.quantity {
+    font-weight: 700;
+}
+
+.followers {
+    font-weight: 400;
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
