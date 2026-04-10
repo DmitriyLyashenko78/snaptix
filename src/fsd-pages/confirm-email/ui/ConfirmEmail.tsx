@@ -45,7 +45,6 @@ export const ConfirmEmail = () => {
       setStatus('error')
       return
     }
-
     confirm({ confirmationCode: code })
   }, [code])
 
