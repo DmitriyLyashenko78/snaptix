@@ -1,19 +1,19 @@
 'use client'
-
+import { useRouter } from 'next/navigation'
 import s from './Profile.module.css'
 import Image from 'next/image'
 import defaultPhoto from '@/public/img/defaultPhoto.jpg'
 import { Button } from '@/shared/ui/button/Button'
-import { redirect } from 'next/navigation'
 import { useAuth } from '@/shared/hooks/useAuth'
 
 export const Profile = () => {
+  const router = useRouter()
   //const currentUserId = 123 // Заменить на реальное получение ID текущего пользователя
 
   const { isAuth } = useAuth()
 
   const onClickHandel = () => {
-    redirect(`/settings`)
+    router.push('/settings')
   }
 
   return (
