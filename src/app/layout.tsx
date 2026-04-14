@@ -27,7 +27,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body className={interSans.variable}>
         <QueryProvider>
-          {/* Передаем isAuth в Header */}
           <Header isAuth={isAuth} />
           <div className={s.content}>
             {isAuth && <SidebarList />}

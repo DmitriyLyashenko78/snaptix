@@ -1,33 +1,83 @@
 'use client'
 
 import s from './MainInformation.module.css'
-import { Button } from '@/shared/ui/button/Button'
 import ProfileForm from '@/fsd-pages/general-information/ui/ProfileForm'
-import Image from 'next/image'
-import defaultPhoto from '@/public/img/defaultPhoto.jpg'
+import { ChangeEvent, MouseEvent, useRef, useState } from 'react'
+import { useFileUpload } from '@/shared/hooks/useFileUpload'
+import { AvatarUploader } from '../main-information/components/AvatarUploader/AvatarUploader'
+import { PhotoUploadCard } from '../main-information/components/PhotoUploadCard/PhotoUploadCard'
+import { DeleteConfirmationCard } from '../main-information/components/DeleteConfirmationCard/DeleteConfirmationCard'
 
 export const MainInformation = () => {
-  const handleDeleteAvatar = () => {
-    // deleteAvatarAPI()
+  const [isCardOpen, setIsCardOpen] = useState(false)
+  const [isDeleteCardOpen, setIsDeleteCardOpen] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const { profilePhoto, previewPhoto, error, setProfilePhoto, createPreview, savePhoto, cancelPreview, clearError } =
+    useFileUpload()
+
+  const handleSelectClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      createPreview(file)
+    }
+    event.target.value = ''
+  }
+
+  const openDeleteCard = (e: MouseEvent) => {
+    e.stopPropagation()
+    setIsDeleteCardOpen(true)
+  }
+
+  const confirmDelete = () => {
+    setProfilePhoto(null)
+    setIsDeleteCardOpen(false)
+    clearError()
+  }
+
+  const cancelDelete = () => {
+    setIsDeleteCardOpen(false)
+  }
+
+  const handleDeleteAvatar = (e: MouseEvent) => {
+    e.stopPropagation()
+    openDeleteCard(e)
+  }
+
+  const handleCloseCard = () => {
+    setIsCardOpen(false)
+    cancelPreview()
+  }
+
+  const handleSavePhoto = () => {
+    savePhoto()
+    setIsCardOpen(false)
   }
 
   return (
     <div className={s.informationBlock}>
-      <div className={s.userPhotoWrapper}>
-        <div className={s.avatarContainer}>
-          <Image src={defaultPhoto} alt="User avatar" width={205} height={205} className={s.userPhoto} />
-          <button onClick={handleDeleteAvatar} className={s.deleteButton} aria-label="Delete photo">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M4 4L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-        <Button variant="outline">Select Profile Photo</Button>
-      </div>
+      <AvatarUploader
+        profilePhoto={profilePhoto}
+        onOpenCard={() => setIsCardOpen(true)}
+        onDelete={handleDeleteAvatar}
+      />
       <div className={s.userInformation}>
         <ProfileForm />
       </div>
+      <PhotoUploadCard
+        isOpen={isCardOpen}
+        onClose={handleCloseCard}
+        error={error}
+        previewPhoto={previewPhoto}
+        onFileSelect={handleFileSelect}
+        onSelectClick={handleSelectClick}
+        onSave={handleSavePhoto}
+      />
+      <DeleteConfirmationCard isOpen={isDeleteCardOpen} onClose={cancelDelete} onConfirm={confirmDelete} />
     </div>
   )
 }
