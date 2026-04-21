@@ -9,12 +9,16 @@ import { type SignInFormValues, signInSchema } from '@/widgets/sign-in-form/mode
 import s from './SignInForm.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useSignInMutation } from '@/fsd-pages/sign-in/api/hooks/use-sign-in-mutations'
+import { mapLoginServerErrors } from '@/fsd-pages/sign-in/model/lib/map-login-server-errors'
 
 export const SignInForm = () => {
   const router = useRouter()
   const {
     register,
     handleSubmit,
+    reset,
+    setError,
     formState: { errors, isValid },
   } = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -22,15 +26,15 @@ export const SignInForm = () => {
     reValidateMode: 'onChange',
   })
 
-  const onSubmit = async (data: SignInFormValues) => {
-    try {
-      // Имитация запроса - соответвующий экшен - signIn
-      console.log(data)
+  const { mutate, isPending } = useSignInMutation({
+    onSuccess: () => {
+      reset()
       router.push('/profile')
-    } catch (error) {
-      console.error('Login failed', error)
-    }
-  }
+    },
+    onError: (error) => mapLoginServerErrors(error, setError),
+  })
+
+  const onSubmit = (data: SignInFormValues) => mutate(data)
 
   return (
     <form className={s.container} onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +63,7 @@ export const SignInForm = () => {
         <Link className={s.forgot} href="">
           Forgot Password
         </Link>
-        <Button variant={'primary'} type="submit" disabled={!isValid}>
+        <Button variant={'primary'} type="submit" disabled={!isValid || isPending}>
           Sign In
         </Button>
         <p>Don’t have an account?</p>
