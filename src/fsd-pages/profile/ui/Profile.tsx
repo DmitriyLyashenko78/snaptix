@@ -107,7 +107,7 @@ export const Profile = () => {
         <Image src={defaultPhoto} alt="User avatar" width={204} height={204} className={s.userPhoto} />
         <div className={s.userInfo}>
           <div className={s.userNameWrapper}>
-            <div className={sgit.paidAccountWrapper}>
+            <div className={s.paidAccountWrapper}>
               <h2>UserName</h2>
               {paidAccount && isAuth && <PaidAccountIcon />}
             </div>
