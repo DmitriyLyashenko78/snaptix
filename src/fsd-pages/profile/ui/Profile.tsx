@@ -87,6 +87,7 @@ export const Profile = () => {
 
   const { isAuth } = useAuth() //авторизован или нет
   const paidAccount = true // платный акк или нет
+  // eslint-disable-next-line
   const [followers, setFollowers] = useState(createMockFollowers(users))
   const [isCardOpen, setIsCardOpen] = useState(false)
 
