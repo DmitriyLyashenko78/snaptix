@@ -27,6 +27,11 @@
     justify-content: space-between;
 }
 
+.paidAccountWrapper {
+    display: flex;
+    gap: 12px;
+}
+
 .subscriptionsWrapper {
     display: flex;
     gap: 100px;
@@ -41,14 +46,67 @@
 
 .quantity {
     font-weight: 700;
+    cursor: pointer;
 }
 
 .followers {
     font-weight: 400;
+    cursor: pointer;
 }
 
 .posts {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+}
+
+
+
+.container {
+    width: 644px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.search {
+    width: 100%;
+    padding: 6px 12px;
+    background-color: #333;
+    color: #8D9094;
+    border: 1px solid #4C4C4C;
+    flex-shrink: 0;
+}
+
+.followersListWrapper {
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.followersList {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.imgNameFollowerWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.imgFollower {
+    border-radius: 50%;
+}
+
+.buttonFollowerWrapper {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 53px;
 }

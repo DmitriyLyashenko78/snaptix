@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+ul, ol, li {
+  list-style: none;
+}
+
 :root {
   /* --------------------------Font */
   --font-inter: 'Inter';
