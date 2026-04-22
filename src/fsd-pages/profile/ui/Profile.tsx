@@ -109,7 +109,7 @@ export const Profile = () => {
         <div className={s.userInfo}>
           <div className={s.userNameWrapper}>
             <div className={s.paidAccountWrapper}>
-              <h2>UserName</h2>
+              <span>UserName</span>
               {paidAccount && isAuth && <PaidAccountIcon />}
             </div>
             {isAuth && (
