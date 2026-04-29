@@ -73,7 +73,7 @@ export const Post = ({ post }: PostProps) => {
             <Image className={s.stackedImage} src={avatar2} alt="avatar 3" width={24} height={24} />
           </div>
           <div>
-            {post.likesCount.toLocaleString()} <span className={s.likesCount}>"Like"</span>
+            {post.likesCount.toLocaleString()} <span className={s.likesCount}>&quot;Like&quot;</span>
           </div>
         </div>
         <div className={s.allComments}>View All Comments ({post.commentsCount})</div>
