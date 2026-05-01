@@ -81,6 +81,8 @@ ul, ol, li {
     --sidebar-content-width: 220px;
     --post-width: 240px;
     --post-height: 400px;
+    --post-modal-width: 972px;
+    --post-modal-height: 564px;
 
 
     /* --------------------------Indents */
