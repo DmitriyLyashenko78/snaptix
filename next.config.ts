@@ -1,8 +1,15 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  devIndicators: false, // отключает черный кружок с буквой N
-  /* config options here */
+  devIndicators: false,
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: 'https://snaptix.ru/api/v1/:path*',
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {

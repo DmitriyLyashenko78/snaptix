@@ -1,14 +1,22 @@
 'use server'
 import { cookies } from 'next/headers'
 
-export async function toggleAuthAction() {
-  const cookieStore = await cookies()
-  const isAuth = cookieStore.get('isAuth')?.value === 'true'
+const COOKIE_OPTIONS = {
+  httpOnly: false,
+  secure: process.env.NODE_ENV === 'production',
+  path: '/',
+  maxAge: 86400,
+  sameSite: 'strict' as const,
+}
 
-  cookieStore.set('isAuth', String(!isAuth), {
-    secure: process.env.NODE_ENV === 'production',
-    path: '/',
-    httpOnly: false,
-    maxAge: 86400,
-  })
+export async function setAuthAction(accessToken: string) {
+  const cookieStore = await cookies()
+  cookieStore.set('accessToken', accessToken, COOKIE_OPTIONS)
+  cookieStore.set('isAuth', 'true', COOKIE_OPTIONS)
+}
+
+export async function clearAuthAction() {
+  const cookieStore = await cookies()
+  cookieStore.delete('accessToken')
+  cookieStore.set('isAuth', 'false', { path: '/', maxAge: 0 })
 }
