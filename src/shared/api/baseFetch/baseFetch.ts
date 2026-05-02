@@ -1,6 +1,12 @@
-export type ApiError = {
+export type ApiErrorItem = {
+  status: number
+  code: string
+  field: string | null
   message: string
-  statusCode?: number
+}
+
+export type ApiError = {
+  errors: ApiErrorItem[]
 }
 
 export const baseFetch = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -11,8 +17,8 @@ export const baseFetch = async <T>(url: string, options?: RequestInit): Promise<
     ...options,
   })
 
-  const isNoContent = res.status === 204
-  const data = isNoContent ? {} : await res.json()
+  const isNoContent = res.status === 204 || res.status === 201
+  const data = isNoContent ? ({} as T) : await res.json()
 
   if (!res.ok) {
     throw data as ApiError

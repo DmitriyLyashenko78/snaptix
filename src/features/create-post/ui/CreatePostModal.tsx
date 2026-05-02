@@ -1,0 +1,159 @@
+'use client'
+
+import { useState } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
+import { ArrowBackIcon, CloseIcon } from '@/shared/ui/svg/Icon'
+import { useCreatePostWizard } from '../model/useCreatePostWizard'
+import { getCroppedImg } from '../model/cropUtils'
+import { UploadStep } from './steps/UploadStep'
+import { CropStep } from './steps/CropStep'
+import { FilterStep } from './steps/FilterStep'
+import { DescriptionStep } from './steps/DescriptionStep'
+import { CloseConfirmModal } from './CloseConfirmModal'
+import s from './CreatePostModal.module.css'
+
+const STEP_TITLES: Record<string, string> = {
+  upload: 'Add Photo',
+  crop: 'Cropping',
+  filters: 'Filters',
+  description: 'Publication',
+}
+
+type Props = {
+  open: boolean
+  onClose: () => void
+}
+
+export const CreatePostModal = ({ open, onClose }: Props) => {
+  const wizard = useCreatePostWizard(onClose)
+  const { step, photos, currentPhotoIndex, description, isCloseConfirmOpen, isPublishing } = wizard
+
+  const [isCropping, setIsCropping] = useState(false)
+  const isWide = step !== 'upload'
+  const hasPhotos = photos.length > 0
+
+  const handleCropNext = async () => {
+    setIsCropping(true)
+    try {
+      for (const photo of photos) {
+        if (photo.croppedAreaPixels) {
+          const croppedSrc = await getCroppedImg(photo.originalSrc, photo.croppedAreaPixels)
+          wizard.setCroppedSrc(photo.id, croppedSrc)
+        }
+      }
+      wizard.goNext()
+    } finally {
+      setIsCropping(false)
+    }
+  }
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) wizard.requestClose(hasPhotos)
+  }
+
+  return (
+    <>
+      <Dialog.Root open={open} onOpenChange={handleOpenChange}>
+        <Dialog.Portal>
+          <Dialog.Overlay className={s.overlay} />
+          <Dialog.Content
+            className={`${s.content} ${isWide ? s.contentWide : ''}`}
+            aria-describedby={undefined}
+            onInteractOutside={(e) => {
+              e.preventDefault()
+              wizard.requestClose(hasPhotos)
+            }}
+            onEscapeKeyDown={(e) => {
+              e.preventDefault()
+              wizard.requestClose(hasPhotos)
+            }}
+          >
+            <header className={s.header}>
+              <div className={s.headerLeft}>
+                {step !== 'upload' && (
+                  <button className={s.backBtn} onClick={() => wizard.goBack(hasPhotos)} aria-label="Back">
+                    <ArrowBackIcon width={20} height={20} />
+                  </button>
+                )}
+              </div>
+
+              <Dialog.Title className={s.title}>{STEP_TITLES[step]}</Dialog.Title>
+
+              <div className={s.headerRight}>
+                {step === 'crop' && (
+                  <button className={s.nextBtn} onClick={handleCropNext} disabled={isCropping}>
+                    {isCropping ? 'Processing…' : 'Next'}
+                  </button>
+                )}
+                {step === 'filters' && (
+                  <button className={s.nextBtn} onClick={wizard.goNext}>
+                    Next
+                  </button>
+                )}
+                {step === 'description' && (
+                  <button className={s.nextBtn} onClick={wizard.publish} disabled={isPublishing}>
+                    {isPublishing ? 'Publishing…' : 'Publish'}
+                  </button>
+                )}
+                {step === 'upload' && (
+                  <button className={s.closeBtn} onClick={() => wizard.requestClose(hasPhotos)} aria-label="Close">
+                    <CloseIcon />
+                  </button>
+                )}
+              </div>
+            </header>
+
+            <div className={s.body}>
+              {step === 'upload' && (
+                <UploadStep
+                  onFileSelected={(file) => {
+                    const ok = wizard.addPhoto(file)
+                    if (ok) wizard.goNext()
+                  }}
+                  error={wizard.uploadError}
+                  onClearError={wizard.clearUploadError}
+                />
+              )}
+
+              {step === 'crop' && (
+                <CropStep
+                  photos={photos}
+                  currentIndex={currentPhotoIndex}
+                  onSetCurrentPhoto={wizard.setCurrentPhoto}
+                  onUpdateCrop={wizard.updateCrop}
+                  onUpdateZoom={wizard.updateZoom}
+                  onUpdateCroppedAreaPixels={wizard.updateCroppedAreaPixels}
+                  onRemovePhoto={wizard.removePhoto}
+                  onAddPhoto={wizard.addPhoto}
+                />
+              )}
+
+              {step === 'filters' && (
+                <FilterStep
+                  photos={photos}
+                  currentIndex={currentPhotoIndex}
+                  onSetCurrentPhoto={wizard.setCurrentPhoto}
+                  onSetFilter={wizard.setPhotoFilter}
+                />
+              )}
+
+              {step === 'description' && (
+                <DescriptionStep
+                  photos={photos}
+                  description={description}
+                  onDescriptionChange={wizard.setDescription}
+                />
+              )}
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      <CloseConfirmModal
+        open={isCloseConfirmOpen}
+        onSaveDraft={wizard.confirmClose}
+        onDiscard={wizard.closeCloseConfirm}
+      />
+    </>
+  )
+}

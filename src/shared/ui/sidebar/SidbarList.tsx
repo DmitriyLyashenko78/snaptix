@@ -25,11 +25,13 @@ import {
 import { LogOutModal } from '@/widgets/modals'
 import { PostModal } from '@/widgets/modals/ui/post/PostModal'
 import { DeletePost } from '@/widgets/modals/ui/delete-post/DeletePost'
+import { CreatePostModal } from '@/features/create-post'
 
 export const SidebarList = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
 
   const mockPostData = {
     id: 1,
@@ -56,7 +58,12 @@ export const SidebarList = () => {
         <Sidebar.Item href="/feed" icon={<HomeIcon />} activeIcon={<HomeActiveIcon />}>
           Feed
         </Sidebar.Item>
-        <Sidebar.Item href="/create" icon={<CreateIcon />} activeIcon={<CreateActiveIcon />}>
+        <Sidebar.Item
+          href="/create"
+          icon={<CreateIcon />}
+          activeIcon={<CreateActiveIcon />}
+          onClick={() => setIsCreatePostOpen(true)}
+        >
           Create
         </Sidebar.Item>
         <Sidebar.Item
@@ -109,6 +116,7 @@ export const SidebarList = () => {
         />
       )}
       {isDeleteModalOpen && <DeletePost userPostId={'123'} onClose={() => setIsDeleteModalOpen(false)} />}
+      <CreatePostModal open={isCreatePostOpen} onClose={() => setIsCreatePostOpen(false)} />
     </>
   )
 }

@@ -1,13 +1,11 @@
+import type { ApiError } from '@/shared/api/baseFetch/baseFetch'
+
 export type SignUpRequestDto = {
   username: string
   email: string
   password: string
 }
 
-export type SignUpResponseDto = {
-  success: boolean
-}
+export type SignUpResponseDto = Record<string, never>
 
-export type SignUpErrorDto = {
-  message: 'EMAIL_EXISTS' | 'USERNAME_EXISTS' | (string & {})
-}
+export type SignUpErrorDto = ApiError
