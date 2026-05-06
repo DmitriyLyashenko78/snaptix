@@ -11,6 +11,7 @@ type Props = {
 }
 
 export const DeletePost = ({ userPostId, onClose }: Props) => {
+  console.log(userPostId)
   const handleClose = () => onClose?.()
 
   const handleDeletePost = () => {
