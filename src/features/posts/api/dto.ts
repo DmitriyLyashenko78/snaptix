@@ -1,4 +1,4 @@
-import { PostProps } from '@/entities/post/Post.types'
+import type { PostProps } from '@/entities/post/ui/Post.types'
 
 export type PostsRequestDto = {
   endCursorPostId?: number

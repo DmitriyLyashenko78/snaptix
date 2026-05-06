@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 export type PostProps = {
   id: number
   userName: string
@@ -10,7 +12,7 @@ export type PostProps = {
   avatarWhoLikes: Array<string>
 }
 
-type Image = {
+export type Image = {
   url: string
   width: number
   height: number
@@ -22,4 +24,10 @@ type Image = {
 type OwnerInfo = {
   firstName: string
   lastName: string
+}
+
+export type PostLayoutProps = {
+  images: Image[]
+  children: ReactNode
+  variant: 'small' | 'large' // 'small' для ленты, 'large' для модалки
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import s from './page.module.css'
-import { Post } from '@/entities/post/Post'
+import { Post } from '@/entities/post/ui/small-post/Post'
 import { usePostsQuery } from '@/features/posts/hooks/use-get-posts-query'
 
 export default function MainPage() {

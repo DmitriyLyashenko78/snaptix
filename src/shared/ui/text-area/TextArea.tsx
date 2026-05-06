@@ -1,12 +1,19 @@
 'use client'
 
-import { type ChangeEvent, useEffect, useRef, useState } from 'react'
+import { type ChangeEvent, useEffect, useRef } from 'react'
 
 import s from './TextArea.module.css'
 import type { TextAreaProps } from './TextArea.types'
 
-export const TextArea = ({ className, placeholder, error, disabled }: TextAreaProps) => {
-  const [text, setText] = useState('')
+export const TextArea = ({
+  className,
+  placeholder,
+  error,
+  disabled,
+  value,
+  onValueChange,
+  maxLength,
+}: TextAreaProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const adjustHeight = () => {
@@ -19,9 +26,14 @@ export const TextArea = ({ className, placeholder, error, disabled }: TextAreaPr
 
   useEffect(() => {
     adjustHeight()
-  }, [text])
+  }, [value])
 
-  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)
+  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const text = e.target.value
+    if (maxLength && text.length <= maxLength) {
+      onValueChange(text)
+    }
+  }
 
   const textAreaClassName = `${s.textArea} ${error ? s.error : ''} ${className || ''}`
 
@@ -31,9 +43,10 @@ export const TextArea = ({ className, placeholder, error, disabled }: TextAreaPr
         disabled={disabled}
         className={textAreaClassName}
         ref={textareaRef}
-        value={text}
+        value={value}
         onChange={onChangeHandler}
         placeholder={placeholder}
+        maxLength={maxLength}
       />
       {error && <span className={s.errorMessage}>{error}</span>}
     </div>
