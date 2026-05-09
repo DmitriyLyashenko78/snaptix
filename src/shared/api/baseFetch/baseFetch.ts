@@ -71,7 +71,7 @@ export const baseFetch = async <T>(url: string, options?: RequestInit): Promise<
     }
   }
 
-  const isNoContent = res.status === 204 || res.status === 201
+  const isNoContent = res.status === 204
   const data = isNoContent ? ({} as T) : await res.json()
 
   if (!res.ok) {

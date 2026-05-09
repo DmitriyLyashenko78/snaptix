@@ -151,7 +151,7 @@ export const useCreatePostWizard = (onClose: () => void) => {
       )
       await createPost({
         description,
-        childrenMetadata: uploadResults.map((r) => ({ uploadId: r.uploadId })),
+        media: uploadResults.map((r) => ({ fileId: r.fileId })),
       })
       doReset()
       onClose()

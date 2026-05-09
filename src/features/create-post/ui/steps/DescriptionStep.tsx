@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { POST_FILTERS } from '../../model/filters'
 import type { PhotoItem } from '../../model/useCreatePostWizard'
+import { useMeQuery } from '@/shared/api/auth'
 import s from './DescriptionStep.module.css'
 
 const MAX_CHARS = 500
@@ -15,12 +16,16 @@ type Props = {
 
 export const DescriptionStep = ({ photos, description, onDescriptionChange }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const { data: me } = useMeQuery()
   const current = photos[currentIndex]
   const src = current?.croppedSrc ?? current?.originalSrc
   const filter = POST_FILTERS.find((f) => f.id === current?.filterId) ?? POST_FILTERS[0]
   const isOver = description.length > MAX_CHARS
 
   if (!current) return null
+
+  const avatarLetter = me?.username?.[0]?.toUpperCase() ?? 'U'
+  const displayName = me?.username ?? 'My Profile'
 
   return (
     <div>
@@ -33,9 +38,9 @@ export const DescriptionStep = ({ photos, description, onDescriptionChange }: Pr
         <div className={s.form}>
           <div className={s.userRow}>
             <div className={s.avatar}>
-              <div className={s.avatarPlaceholder}>U</div>
+              <div className={s.avatarPlaceholder}>{avatarLetter}</div>
             </div>
-            <span className={s.username}>My Profile</span>
+            <span className={s.username}>{displayName}</span>
           </div>
 
           <div className={s.fieldBlock}>

@@ -1,16 +1,17 @@
 export type UploadPostImageResponseDto = {
-  uploadId: string
+  fileId: string
   url: string
 }
 
 export type CreatePostRequestDto = {
   description: string
-  childrenMetadata: Array<{ uploadId: string }>
+  media: Array<{ fileId: string }>
 }
 
 export type CreatePostResponseDto = {
-  id: number
-  description: string
-  images: Array<{ url: string }>
+  id: string
+  description: string | null
+  media: Array<{ fileId: string; url: string }>
+  updatedAt: string
   createdAt: string
 }
