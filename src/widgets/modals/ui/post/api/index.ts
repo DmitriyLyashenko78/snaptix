@@ -1,0 +1,1 @@
+export { updatePostDescription } from './api'
