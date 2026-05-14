@@ -32,11 +32,6 @@
     padding: var(--semithin-indent) var(--small-indent);
 }
 
-.content {
-    padding: var(--small-indent);
-    white-space: pre-line;
-}
-
 .close {
     background: none;
     border: none;
