@@ -13,7 +13,6 @@ export const useLogout = () => {
     onSuccess: () => {
       queryClient.clear()
       router.push('/signIn')
-      router.refresh()
     },
     onError: (error) => {
       console.error('Ошибка при выходе:', error)
