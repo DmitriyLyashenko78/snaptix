@@ -1,14 +1,48 @@
 import { baseFetch } from '@/shared/api/baseFetch/baseFetch'
-import type { CreatePostRequestDto, CreatePostResponseDto, UploadPostImageResponseDto } from './dto'
+import type {
+  CreatePostRequestDto,
+  CreatePostResponseDto,
+  GetUploadUrlRequestDto,
+  GetUploadUrlResponseDto,
+} from './dto'
 
-// TODO: replace with real upload endpoint when backend is ready
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const uploadPostImage = async (_file: File): Promise<UploadPostImageResponseDto> => {
-  await new Promise((r) => setTimeout(r, 800))
-  return { fileId: `stub-${crypto.randomUUID()}`, url: '' }
+export const getPhotoUploadUrl = (data: GetUploadUrlRequestDto) => {
+  return baseFetch<GetUploadUrlResponseDto>('/api/v1/posts/photo/get-upload-url', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
 }
 
-export const createPost = async (data: CreatePostRequestDto): Promise<CreatePostResponseDto> => {
+export const confirmPhotoUpload = (fileId: string) => {
+  return baseFetch<Record<string, never>>(`/api/v1/posts/photo/${fileId}/confirm`, {
+    method: 'POST',
+  })
+}
+
+const putFileToPresignedUrl = async (url: string, file: File): Promise<void> => {
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': file.type },
+    body: file,
+  })
+  if (!res.ok) {
+    throw new Error(`S3 upload failed: ${res.status} ${res.statusText}`)
+  }
+}
+
+export const uploadPostPhoto = async (file: File): Promise<{ fileId: string }> => {
+  const mimeType = file.type as GetUploadUrlRequestDto['mimeType']
+  const { fileId, url } = await getPhotoUploadUrl({
+    fileName: file.name,
+    mimeType,
+    contentLengthBytes: file.size,
+  })
+  await putFileToPresignedUrl(url, file)
+  await confirmPhotoUpload(fileId)
+  return { fileId }
+}
+
+export const createPost = (data: CreatePostRequestDto) => {
   return baseFetch<CreatePostResponseDto>('/api/v1/posts', {
     method: 'POST',
     body: JSON.stringify(data),

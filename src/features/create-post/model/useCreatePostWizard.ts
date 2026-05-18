@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import type { Point, Area } from 'react-easy-crop'
-import { uploadPostImage, createPost } from '../api'
+import { uploadPostPhoto, createPost } from '../api'
 
 export type WizardStep = 'upload' | 'crop' | 'filters' | 'description'
 
@@ -18,7 +18,7 @@ export type PhotoItem = {
 
 const MAX_PHOTOS = 10
 const MAX_SIZE_MB = 20
-const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png']
+const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 
 const STEPS: WizardStep[] = ['upload', 'crop', 'filters', 'description']
 
@@ -146,7 +146,7 @@ export const useCreatePostWizard = (onClose: () => void) => {
           const src = p.croppedSrc ?? p.originalSrc
           return fetch(src)
             .then((r) => r.blob())
-            .then((blob) => uploadPostImage(new File([blob], 'photo.jpg', { type: 'image/jpeg' })))
+            .then((blob) => uploadPostPhoto(new File([blob], 'photo.jpg', { type: 'image/jpeg' })))
         }),
       )
       await createPost({

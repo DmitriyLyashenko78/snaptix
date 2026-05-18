@@ -1,4 +1,10 @@
-export type UploadPostImageResponseDto = {
+export type GetUploadUrlRequestDto = {
+  fileName: string
+  mimeType: 'image/jpeg' | 'image/png'
+  contentLengthBytes: number
+}
+
+export type GetUploadUrlResponseDto = {
   fileId: string
   url: string
 }
@@ -11,7 +17,7 @@ export type CreatePostRequestDto = {
 export type CreatePostResponseDto = {
   id: string
   description: string | null
-  media: Array<{ fileId: string; url: string }>
+  media: Array<{ mediaId: string; url: string }>
   updatedAt: string
   createdAt: string
 }
