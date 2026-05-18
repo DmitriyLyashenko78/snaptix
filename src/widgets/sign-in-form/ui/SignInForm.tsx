@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSignInMutation } from '@/fsd-pages/sign-in/api/hooks/use-sign-in-mutations'
 import { mapLoginServerErrors } from '@/fsd-pages/sign-in/model/lib/map-login-server-errors'
+import { setAuthAction } from '@/app/actions/actions'
 
 export const SignInForm = () => {
   const router = useRouter()
@@ -27,7 +28,8 @@ export const SignInForm = () => {
   })
 
   const { mutate, isPending } = useSignInMutation({
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      await setAuthAction(data.accessToken)
       reset()
       router.push('/profile')
     },

@@ -29,7 +29,10 @@ const NavItem = ({ href, className, icon, activeIcon, onClick, disabled, childre
       e.preventDefault()
       return
     }
-    onClick?.()
+    if (onClick) {
+      e.preventDefault()
+      onClick()
+    }
   }
 
   return (

@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { logout } from '../logout'
+import { clearAuthAction } from '@/app/actions/actions'
 
 export const useLogout = () => {
   const router = useRouter()
@@ -10,7 +11,8 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await clearAuthAction()
       queryClient.clear()
       router.push('/signIn')
     },
