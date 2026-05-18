@@ -118,7 +118,7 @@ export const SignUpForm = () => {
           {isPending ? 'Loading...' : 'Sign Up'}
         </Button>
         <p>Do you have an account?</p>
-        <Button variant={'ghost'} onClick={() => router.push('/sign-in')}>
+        <Button variant={'ghost'} onClick={() => router.push('/signIn')}>
           Sign In
         </Button>
       </form>

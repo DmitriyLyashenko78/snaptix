@@ -1,13 +1,13 @@
 import { baseFetch } from '@/shared/api/baseFetch/baseFetch'
 import {
-  ConfirmEmailRequestDto,
-  ConfirmEmailResponseDto,
+  ConfirmRegistrationRequestDto,
+  ConfirmRegistrationResponseDto,
   ResendVerificationRequestDto,
   ResendVerificationResponseDto,
-} from '@/fsd-pages/confirm-email/api/dto'
+} from '@/fsd-pages/congratulations/api/dto'
 
-export const confirmEmail = (data: ConfirmEmailRequestDto) => {
-  return baseFetch<ConfirmEmailResponseDto>('/api/v1/auth/registration-confirmation', {
+export const confirmRegistration = (data: ConfirmRegistrationRequestDto) => {
+  return baseFetch<ConfirmRegistrationResponseDto>('/api/v1/auth/registration-confirmation', {
     method: 'POST',
     body: JSON.stringify(data),
   })
