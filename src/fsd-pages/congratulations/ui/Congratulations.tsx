@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/button/Button'
 import { Input } from '@/shared/ui/input/Input'
@@ -17,6 +17,7 @@ export const Congratulations = () => {
   const [email, setEmail] = useState('')
 
   const code = searchParams.get('code')
+  const hasConfirmedRef = useRef(false)
 
   const { mutate: confirm } = useConfirmRegistrationMutation({
     onSuccess: () => {
@@ -46,8 +47,10 @@ export const Congratulations = () => {
       setStatus('error')
       return
     }
+    if (hasConfirmedRef.current) return
+    hasConfirmedRef.current = true
     confirm({ code })
-  }, [code])
+  }, [code, confirm])
 
   const handleResend = () => {
     if (!email) return
