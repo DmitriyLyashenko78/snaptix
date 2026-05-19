@@ -1,29 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/button/Button'
 import { Input } from '@/shared/ui/input/Input'
-import { useConfirmEmailMutation } from '@/fsd-pages/confirm-email/api/hooks/use-confirm-email-mutation'
-import { useResendVerificationMutation } from '@/fsd-pages/confirm-email/api/hooks/use-resend-verification-mutation'
-import s from './ConfirmEmail.module.css'
+import { useConfirmRegistrationMutation } from '@/fsd-pages/congratulations/api/hooks/use-confirm-registration-mutation'
+import { useResendVerificationMutation } from '@/fsd-pages/congratulations/api/hooks/use-resend-verification-mutation'
+import s from './Congratulations.module.css'
 
 type Status = 'loading' | 'success' | 'expired' | 'error'
 
-export const ConfirmEmail = () => {
+export const Congratulations = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [status, setStatus] = useState<Status>('loading')
   const [email, setEmail] = useState('')
 
   const code = searchParams.get('code')
+  const hasConfirmedRef = useRef(false)
 
-  const { mutate: confirm } = useConfirmEmailMutation({
+  const { mutate: confirm } = useConfirmRegistrationMutation({
     onSuccess: () => {
       setStatus('success')
     },
     onError: (error) => {
-      if (error.message === 'LINK_EXPIRED' || error.message === 'LINK_INVALID') {
+      const errStatus = error?.errors?.[0]?.status
+      if (errStatus === 404 || errStatus === 400) {
         setStatus('expired')
       } else {
         setStatus('error')
@@ -45,8 +47,10 @@ export const ConfirmEmail = () => {
       setStatus('error')
       return
     }
-    confirm({ confirmationCode: code })
-  }, [code])
+    if (hasConfirmedRef.current) return
+    hasConfirmedRef.current = true
+    confirm({ code })
+  }, [code, confirm])
 
   const handleResend = () => {
     if (!email) return
@@ -67,7 +71,7 @@ export const ConfirmEmail = () => {
         <div className={s.card}>
           <h2 className={s.title}>Congratulations!</h2>
           <p className={s.description}>Your email has been confirmed</p>
-          <Button variant={'primary'} onClick={() => router.push('/sign-in')}>
+          <Button variant={'primary'} onClick={() => router.push('/signIn')}>
             Sign In
           </Button>
         </div>
@@ -103,7 +107,7 @@ export const ConfirmEmail = () => {
       <div className={s.card}>
         <h2 className={s.title}>Something went wrong</h2>
         <p className={s.description}>The verification link is invalid.</p>
-        <Button variant={'primary'} onClick={() => router.push('/sign-up')}>
+        <Button variant={'primary'} onClick={() => router.push('/signup')}>
           Go to Sign Up
         </Button>
       </div>

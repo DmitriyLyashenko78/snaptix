@@ -1,20 +1,20 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import { resendVerificationLink } from '@/fsd-pages/confirm-email/api'
+import { resendVerificationLink } from '@/fsd-pages/congratulations/api'
 import type {
-  ConfirmEmailErrorDto,
+  ConfirmRegistrationErrorDto,
   ResendVerificationRequestDto,
   ResendVerificationResponseDto,
-} from '@/fsd-pages/confirm-email/api'
+} from '@/fsd-pages/congratulations/api'
 
 type Options = {
   onSuccess?: (data: ResendVerificationResponseDto) => void
-  onError?: (error: ConfirmEmailErrorDto) => void
+  onError?: (error: ConfirmRegistrationErrorDto) => void
 }
 
 export const useResendVerificationMutation = (options?: Options) => {
-  return useMutation<ResendVerificationResponseDto, ConfirmEmailErrorDto, ResendVerificationRequestDto>({
+  return useMutation<ResendVerificationResponseDto, ConfirmRegistrationErrorDto, ResendVerificationRequestDto>({
     mutationFn: resendVerificationLink,
     ...options,
   })
