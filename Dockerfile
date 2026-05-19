@@ -16,7 +16,8 @@ FROM node:20.11-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=builder /app/ ./
+RUN corepack enable
 USER node
-RUN corepack enable && corepack prepare pnpm@latest-10 --activate
+RUN corepack prepare pnpm@latest-10 --activate
 EXPOSE 3000
 CMD ["pnpm", "start"]
