@@ -15,6 +15,7 @@ export const useLogout = () => {
       await clearAuthAction()
       queryClient.clear()
       router.push('/signIn')
+      router.refresh()
     },
     onError: (error) => {
       console.error('Ошибка при выходе:', error)

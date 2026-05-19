@@ -109,6 +109,7 @@ export const SidebarList = () => {
       {isLogoutModalOpen && <LogOutModal userId={'123'} onClose={() => setIsLogoutModalOpen(false)} />}
       {isEditModalOpen && (
         <PostModal
+          postId={''}
           {...mockPostData}
           key={mockPostData.id}
           isOpen={isEditModalOpen}

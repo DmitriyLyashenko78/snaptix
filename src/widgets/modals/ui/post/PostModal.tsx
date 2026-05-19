@@ -10,16 +10,19 @@ import { Button } from '@/shared/ui/button/Button'
 import { TextArea } from '@/shared/ui/text-area/TextArea'
 import { CrossWhiteIcon } from '@/shared/ui/svg/Icon'
 import { ConfirmChangePostModal } from '@/widgets/modals/ui/confirm-change-post/ConfirmChangePost'
+import { useChangePostDescriptMutation } from '@/widgets/modals/ui/post/api/hooks/use-change-post-descript-mutation'
 
 type PostModal = {
+  postId: string
   isOpen: boolean
   onClose: () => void
 } & PostProps
 
-export const PostModal = ({ images, avatarOwner, userName, description, isOpen, onClose }: PostModal) => {
+export const PostModal = ({ images, avatarOwner, userName, description, isOpen, onClose, postId }: PostModal) => {
   const [currentDescription, setCurrentDescription] = useState(description)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
+  const { mutateAsync: updatePostDescript, isPending } = useChangePostDescriptMutation()
   const isNewText = currentDescription !== description
 
   const handleCloseConfirm = () => {
@@ -27,6 +30,15 @@ export const PostModal = ({ images, avatarOwner, userName, description, isOpen, 
       setIsConfirmOpen(true)
     } else {
       onClose()
+    }
+  }
+
+  const handleSaveChangeDescription = async () => {
+    try {
+      await updatePostDescript({ postId, description: currentDescription })
+      onClose()
+    } catch (error) {
+      console.error('Failed to update description:', error)
     }
   }
 
@@ -58,7 +70,12 @@ export const PostModal = ({ images, avatarOwner, userName, description, isOpen, 
                 <div className={s.charCount}>{currentDescription.length} / 500</div>
               </section>
               <div className={s.save}>
-                <Button width={'auto'} variant={'primary'}>
+                <Button
+                  width={'auto'}
+                  variant={'primary'}
+                  onClick={handleSaveChangeDescription}
+                  disabled={isPending || !isNewText}
+                >
                   Save Changes
                 </Button>
               </div>
@@ -73,7 +90,7 @@ export const PostModal = ({ images, avatarOwner, userName, description, isOpen, 
             setIsConfirmOpen(false)
             onClose()
           }}
-          onDiscard={() => setIsConfirmOpen(false)}
+          onClose={() => setIsConfirmOpen(false)}
         />
       )}
     </>
