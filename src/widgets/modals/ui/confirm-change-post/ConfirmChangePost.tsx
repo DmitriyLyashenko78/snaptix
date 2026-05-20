@@ -1,39 +1,13 @@
-'use client'
+import { ModalLayout } from '@/widgets/modals/ui/ModalLayout'
 
-import { Button } from '@/shared/ui/button/Button'
-
-import s from './ConfirmChangePostModal.module.css'
-import { CrossWhiteIcon } from '@/shared/ui/svg/Icon'
-
-type Props = {
-  onConfirm: () => void
-  onDiscard: () => void
-}
-
-export const ConfirmChangePostModal = ({ onConfirm, onDiscard }: Props) => {
+export const ConfirmChangePostModal = ({ onConfirm, onClose }: { onConfirm: () => void; onClose: () => void }) => {
   return (
-    <div className={s.overlay}>
-      <div className={s.modal}>
-        <section className={s.header}>
-          <h3>Close Post</h3>
-          <button className={s.close} onClick={onDiscard}>
-            <CrossWhiteIcon />
-          </button>
-        </section>
-        <p className={s.confirmMessage}>
-          Do you really want to finish editing?
-          <br />
-          If you close the changes you have made will not be saved
-        </p>
-        <section className={s.buttons}>
-          <Button variant="outline" onClick={onConfirm}>
-            Yes
-          </Button>
-          <Button variant="primary" onClick={onDiscard}>
-            No
-          </Button>
-        </section>
-      </div>
-    </div>
+    <ModalLayout title="Close Post" onClose={onClose} onConfirm={onConfirm} isPending={false}>
+      <p style={{ padding: 0, lineHeight: '1.5' }}>
+        Do you really want to finish editing?
+        <br />
+        If you close the changes you have made will not be saved
+      </p>
+    </ModalLayout>
   )
 }
