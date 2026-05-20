@@ -1,4 +1,5 @@
 'use client'
+
 import { useRouter } from 'next/navigation'
 import s from './Profile.module.css'
 import Image from 'next/image'
@@ -6,11 +7,13 @@ import defaultPhoto from '@/public/img/defaultPhoto.jpg'
 import { Button } from '@/shared/ui/button/Button'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { PaidAccountIcon } from '@/shared/ui/svg/Icon'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Card from '@/shared/ui/card/Card'
 import ava from '@/public/img/defaultPhoto.jpg'
+import { useMyPostsQuery } from '@/features/my-posts/hooks/use-my-posts-query'
+import { useMeQuery } from '@/shared/api/auth/hooks/use-me-query'
 
-//followers Mock
+// ==================== TYPES FOR FOLLOWERS ====================
 export interface Avatar {
   url: string
   width: number
@@ -18,6 +21,7 @@ export interface Avatar {
   fileSize: number
   createdAt: string
 }
+
 export interface Subscriber {
   id: number
   userId: number
@@ -27,6 +31,7 @@ export interface Subscriber {
   isFollowing: boolean
   isFollowedBy: boolean
 }
+
 export interface SubscribersResponse {
   totalCount: number
   pagesCount: number
@@ -34,8 +39,10 @@ export interface SubscribersResponse {
   pageSize: number
   prevCursor: number
   nextCursor: number
-  items: Subscriber[] // ← массив, а не объект
+  items: Subscriber[]
 }
+
+// ==================== MOCK DATA FOR FOLLOWERS ====================
 export const users: SubscribersResponse = {
   totalCount: 10,
   pagesCount: 1,
@@ -63,6 +70,7 @@ export const users: SubscribersResponse = {
     },
   ],
 }
+
 const createMockFollowers = (baseUsers: SubscribersResponse): SubscribersResponse => {
   const newItems = [...baseUsers.items]
   for (let i = 0; i <= 8; i++) {
@@ -73,52 +81,80 @@ const createMockFollowers = (baseUsers: SubscribersResponse): SubscribersRespons
       userName: `${baseUsers.items[0].userName}_${i}`,
     })
   }
-
-  return {
-    ...baseUsers,
-    totalCount: 10,
-    items: newItems,
-  }
+  return { ...baseUsers, totalCount: 10, items: newItems }
 }
 
+// ==================== COMPONENT ====================
 export const Profile = () => {
   const router = useRouter()
-  //const currentUserId = 123 // Заменить на реальное получение ID текущего пользователя
+  const { isAuth } = useAuth()
 
-  const { isAuth } = useAuth() //авторизован или нет
-  const paidAccount = true // платный акк или нет
-  // eslint-disable-next-line
-  const [followers, setFollowers] = useState(createMockFollowers(users))
+  // 🔥 ХУК: посты текущего пользователя
+  const {
+    data: postsData,
+    fetchNextPage,
+    hasNextPage,
+    isLoading: postsLoading,
+    isError: postsError,
+  } = useMyPostsQuery({ pageSize: 12 })
+
+  // 🔥 ХУК: данные профиля
+  const { data: me } = useMeQuery()
+
+  const paidAccount = true
+  const [followers] = useState(createMockFollowers(users))
   const [isCardOpen, setIsCardOpen] = useState(false)
 
-  const handleFollowersClick = () => {
-    setIsCardOpen(true)
-  }
-  const handleCloseCard = () => {
-    setIsCardOpen(false)
-  }
+  const allPosts = postsData?.pages.flatMap((page) => page.posts) || []
 
-  const onClickHandel = () => {
-    router.push('/settings')
-  }
+  // Handlers
+  const handleFollowersClick = () => setIsCardOpen(true)
+  const handleCloseCard = () => setIsCardOpen(false)
+  const onClickHandel = () => router.push('/settings')
+
+  // 🔥 Бесконечный скролл
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 &&
+        hasNextPage &&
+        !postsLoading
+      ) {
+        fetchNextPage()
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [hasNextPage, postsLoading, fetchNextPage])
 
   return (
     <div className={s.wrapper}>
+      {/* ==================== HEADER ПРОФИЛЯ ==================== */}
       <div className={s.userInfoWrapper}>
-        <Image src={defaultPhoto} alt="User avatar" width={204} height={204} className={s.userPhoto} />
+        {/* Аватар профиля */}
+        <Image
+          src={defaultPhoto}
+          alt={me?.username || 'User avatar'}
+          width={204}
+          height={204}
+          className={s.userPhoto}
+          priority
+        />
+
         <div className={s.userInfo}>
           <div className={s.userNameWrapper}>
             <div className={s.paidAccountWrapper}>
-              <span>UserName</span>
+              <span>{me?.username || 'UserName'}</span>
               {paidAccount && isAuth && <PaidAccountIcon />}
             </div>
             {isAuth && (
-              <Button variant={'secondary'} width={'auto'} onClick={onClickHandel}>
+              <Button variant="secondary" width="auto" onClick={onClickHandel}>
                 Profile Settings
               </Button>
             )}
           </div>
 
+          {/* ==================== СТАТИСТИКА ==================== */}
           <div className={s.subscriptionsWrapper}>
             <div className={s.subscriptions}>
               <span className={s.quantity}>2 218</span>
@@ -133,10 +169,12 @@ export const Profile = () => {
               </span>
             </div>
             <div className={s.subscriptions}>
-              <span className={s.quantity}>2 218</span>
+              <span className={s.quantity}>{postsLoading && allPosts.length === 0 ? '...' : allPosts.length}</span>
               <span className={s.followers}>Publications</span>
             </div>
           </div>
+
+          {/* ==================== О СЕБЕ ==================== */}
           <div className={s.aboutUser}>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -146,42 +184,72 @@ export const Profile = () => {
           </div>
         </div>
       </div>
+
+      {/* ==================== СЕТКА ПОСТОВ ==================== */}
       <div className={s.posts}>
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
-        <Image src={defaultPhoto} alt="User avatar" width={234} height={228} />
+        {/* Загрузка */}
+        {postsLoading && allPosts.length === 0 && <div className={s.loading}>Загрузка постов...</div>}
+
+        {/* Ошибка */}
+        {postsError && <div className={s.error}>Не удалось загрузить посты</div>}
+
+        {/* Пусто */}
+        {!postsLoading && !postsError && allPosts.length === 0 && (
+          <div className={s.empty}>У вас пока нет публикаций</div>
+        )}
+
+        {allPosts.map((post) => (
+          <div key={post.id} className={s.postItem}>
+            {post.media?.[0]?.url ? (
+              <Image
+                src={post.media[0].url}
+                alt={post.description || 'Post image'}
+                width={234}
+                height={228}
+                className={s.postImage}
+                sizes="234px"
+              />
+            ) : (
+              <div className={s.postPlaceholder}>
+                {post.description?.slice(0, 50)}
+                {post.description && post.description.length > 50 ? '...' : ''}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Кнопка "Загрузить ещё" */}
+        {hasNextPage && (
+          <Button variant="secondary" onClick={() => fetchNextPage()} disabled={postsLoading} className={s.loadMoreBtn}>
+            {postsLoading ? 'Загрузка...' : 'Загрузить ещё'}
+          </Button>
+        )}
       </div>
+
+      {/* ==================== MODAL: ПОДПИСЧИКИ ==================== */}
       <Card isOpen={isCardOpen} onClose={handleCloseCard} title="Followers" width="644px" height="654px">
-        {/* Здесь позже добавим список подписчиков */}
         <div className={s.container}>
           <input className={s.search} placeholder=" Search" />
           <div className={s.followersListWrapper}>
             <ul>
-              {followers.items.map((f: Subscriber, index) => {
-                return (
-                  <li key={index}>
-                    <div className={s.followersList}>
-                      <div className={s.imgNameFollowerWrapper}>
-                        <Image src={ava} alt={''} width={36} height={36} className={s.imgFollower} />
-                        <span>{f.userName}</span>
-                      </div>
-                      <div className={s.buttonFollowerWrapper}>
-                        <Button variant="primary" width="auto">
-                          Follow
-                        </Button>
-                        <Button variant="secondary" width="auto">
-                          Delete
-                        </Button>
-                      </div>
+              {followers.items.map((f: Subscriber, index) => (
+                <li key={index}>
+                  <div className={s.followersList}>
+                    <div className={s.imgNameFollowerWrapper}>
+                      <Image src={ava} alt="" width={36} height={36} className={s.imgFollower} />
+                      <span>{f.userName}</span>
                     </div>
-                  </li>
-                )
-              })}
+                    <div className={s.buttonFollowerWrapper}>
+                      <Button variant="primary" width="auto">
+                        Follow
+                      </Button>
+                      <Button variant="secondary" width="auto">
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

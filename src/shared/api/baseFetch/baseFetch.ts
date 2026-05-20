@@ -71,11 +71,33 @@ export const baseFetch = async <T>(url: string, options?: RequestInit): Promise<
     }
   }
 
-  const isNoContent = res.status === 204
-  const data = isNoContent ? ({} as T) : await res.json()
+  // const isNoContent = res.status === 204
+  // const data = isNoContent ? ({} as T) : await res.json()
+  //
+  // if (!res.ok) {
+  //   throw data as ApiError
+  // }
+  // return data
+  //
+
+  let data: T | null = null
+
+  const text = await res.text()
+
+  if (text) {
+    try {
+      data = JSON.parse(text)
+    } catch {
+      // На случай, если в ответе не JSON, а просто строка
+      data = text as unknown as T
+    }
+  }
 
   if (!res.ok) {
-    throw data as ApiError
+    // Если бэк прислал ошибку без тела, генерируем стандартную
+    throw (data ?? { errors: [{ status: res.status, message: 'Unknown error' }] }) as ApiError
   }
-  return data
+
+  // Если тело пустое (например, 204), возвращаем пустой объект, приведенный к типу T
+  return data ?? ({} as T)
 }
