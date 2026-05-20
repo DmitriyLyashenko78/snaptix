@@ -7,7 +7,7 @@ import defaultPhoto from '@/public/img/defaultPhoto.jpg'
 import { Button } from '@/shared/ui/button/Button'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { PaidAccountIcon } from '@/shared/ui/svg/Icon'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Card from '@/shared/ui/card/Card'
 import ava from '@/public/img/defaultPhoto.jpg'
 import { useMyPostsQuery } from '@/features/my-posts/hooks/use-my-posts-query'
@@ -96,10 +96,48 @@ export const Profile = () => {
     hasNextPage,
     isLoading: postsLoading,
     isError: postsError,
+    isFetchingNextPage,
   } = useMyPostsQuery({ pageSize: 12 })
 
   // 🔥 ХУК: данные профиля
   const { data: me } = useMeQuery()
+
+  // 🔥 Ref для элемента-триггера (сентинела)
+  const sentinelRef = useRef<HTMLDivElement>(null)
+
+  // 🔥 Intersection Observer для бесконечного скролла
+  useEffect(() => {
+    // Не создаём наблюдатель, если грузить нечего или уже грузим
+    if (!hasNextPage || isFetchingNextPage || postsLoading) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        // Если сентинел появился в зоне видимости — грузим следующую страницу
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage()
+        }
+      },
+      {
+        root: null, // наблюдаем относительно вьюпорта
+        rootMargin: '100px', // сработает за 100px до появления элемента
+        threshold: 0.1, // достаточно, чтобы 10% элемента было видно
+      },
+    )
+
+    const currentRef = sentinelRef.current
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    // Cleanup: отписываемся при размонтировании или изменении зависимостей
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+      observer.disconnect()
+    }
+  }, [hasNextPage, isFetchingNextPage, postsLoading, fetchNextPage])
 
   const paidAccount = true
   const [followers] = useState(createMockFollowers(users))
@@ -111,21 +149,6 @@ export const Profile = () => {
   const handleFollowersClick = () => setIsCardOpen(true)
   const handleCloseCard = () => setIsCardOpen(false)
   const onClickHandel = () => router.push('/settings')
-
-  // 🔥 Бесконечный скролл
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 &&
-        hasNextPage &&
-        !postsLoading
-      ) {
-        fetchNextPage()
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [hasNextPage, postsLoading, fetchNextPage])
 
   return (
     <div className={s.wrapper}>
@@ -187,7 +210,7 @@ export const Profile = () => {
 
       {/* ==================== СЕТКА ПОСТОВ ==================== */}
       <div className={s.posts}>
-        {/* Загрузка */}
+        {/* Загрузка (первичная) */}
         {postsLoading && allPosts.length === 0 && <div className={s.loading}>Загрузка постов...</div>}
 
         {/* Ошибка */}
@@ -198,6 +221,7 @@ export const Profile = () => {
           <div className={s.empty}>У вас пока нет публикаций</div>
         )}
 
+        {/* Посты */}
         {allPosts.map((post) => (
           <div key={post.id} className={s.postItem}>
             {post.media?.[0]?.url ? (
@@ -218,12 +242,10 @@ export const Profile = () => {
           </div>
         ))}
 
-        {/* Кнопка "Загрузить ещё" */}
-        {hasNextPage && (
-          <Button variant="secondary" onClick={() => fetchNextPage()} disabled={postsLoading} className={s.loadMoreBtn}>
-            {postsLoading ? 'Загрузка...' : 'Загрузить ещё'}
-          </Button>
-        )}
+        {/* 🔥 Сентинел-элемент для Intersection Observer */}
+        <div ref={sentinelRef} className={s.sentinel}>
+          {isFetchingNextPage && <div className={s.infiniteLoader}>Загрузка...</div>}
+        </div>
       </div>
 
       {/* ==================== MODAL: ПОДПИСЧИКИ ==================== */}
