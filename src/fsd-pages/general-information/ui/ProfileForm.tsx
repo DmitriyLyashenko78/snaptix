@@ -5,10 +5,10 @@ import { Button } from '@/shared/ui/button/Button'
 import { Input } from '@/shared/ui/input/Input'
 import { DatePicker } from '@/shared/ui/date-picker/DatePicker'
 import s from './ProfileForm.module.css'
+import { useMeQuery } from '@/shared/api/auth'
 
-// Типы для формы
 interface IProfileForm {
-  userTest: string
+  username: string
   firstName: string
   lastName: string
   dateOfBirth: Date | undefined
@@ -17,33 +17,66 @@ interface IProfileForm {
   aboutMe: string
 }
 
+const defaultValues = {
+  username: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: undefined,
+  country: '',
+  city: '',
+  aboutMe: '',
+}
+
 export default function ProfileForm() {
+  const { data: me } = useMeQuery()
+
   const {
     register,
     handleSubmit,
     control, //  control для работы с DatePicker
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<IProfileForm>({
-    defaultValues: {
-      userTest: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: undefined,
-      country: '',
-      city: '',
-      aboutMe: '',
+    defaultValues: defaultValues,
+    values: me
+      ? {
+          ...defaultValues,
+          username: me.username || '',
+        }
+      : undefined,
+    resetOptions: {
+      keepDirtyValues: true, // 👈Предотвращает затирание измененных пользователем полей при обновлении 'values'
     },
   })
+
+  const validateAge = (date: Date | undefined) => {
+    if (!date) return true
+    const today = new Date()
+    const birthDate = new Date(date)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--
+    }
+
+    if (age < 13) {
+      return 'A user under 13 cannot create a profile. Privacy Policy'
+    }
+    return true
+  }
 
   const onSubmit: SubmitHandler<IProfileForm> = async (data) => {
     console.log(data)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      alert('Profile updated successfully!')
-      reset()
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true)
+        }, 1000)
+      })
+      alert('Your settings are saved!')
     } catch (error) {
-      console.error('Error:', error)
+      alert('Error! Server is not available!')
+      return console.log(error)
     }
   }
 
@@ -51,13 +84,21 @@ export default function ProfileForm() {
     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
       <div className={s.formGroup}>
         <Input
-          id="userTest"
+          id="username"
           label={
             <>
               Username<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
             </>
           }
-          {...register('userTest')}
+          {...register('username', {
+            required: 'Username is required',
+            minLength: { value: 6, message: 'Minimum 6 characters' },
+            maxLength: { value: 30, message: 'Maximum 30 characters' },
+            pattern: {
+              value: /^[a-zA-Z0-9_-]+$/,
+              message: 'Only Latin letters, numbers, " _ " and " - " are allowed',
+            },
+          })}
         />
       </div>
 
@@ -71,6 +112,11 @@ export default function ProfileForm() {
           }
           {...register('firstName', {
             required: 'First name is required',
+            maxLength: { value: 50, message: 'Maximum 50 characters' },
+            pattern: {
+              value: /^[a-zA-Za-яА-ЯёЁ]+$/,
+              message: 'Only Latin and Russian letters are allowed',
+            },
           })}
           error={errors.firstName?.message}
         />
@@ -86,6 +132,11 @@ export default function ProfileForm() {
           }
           {...register('lastName', {
             required: 'Last name is required',
+            maxLength: { value: 50, message: 'Maximum 50 characters' },
+            pattern: {
+              value: /^[a-zA-Za-яА-ЯёЁ]+$/,
+              message: 'Only Latin and Russian letters are allowed',
+            },
           })}
           error={errors.lastName?.message}
         />
@@ -96,17 +147,33 @@ export default function ProfileForm() {
         <Controller
           name="dateOfBirth"
           control={control}
-          render={({ field, fieldState: { error } }) => (
-            <DatePicker
-              mode="single"
-              value={field.value}
-              onChange={field.onChange}
-              error={!!error}
-              errorText={error?.message}
-              locale="en"
-              disabled={false}
-            />
-          )}
+          rules={{ validate: validateAge }}
+          render={({ field, fieldState: { error } }) => {
+            return (
+              <div>
+                <DatePicker
+                  mode="single"
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!error}
+                  errorText={undefined}
+                  locale="en"
+                  disabled={false}
+                />
+                {error?.message && (
+                  <div
+                    className={s.errorMessage}
+                    dangerouslySetInnerHTML={{
+                      __html: error.message.replace(
+                        'Privacy Policy',
+                        '<a href="/privacy-policy" style="text-decoration: underline; color: #4C8DFF; font-weight: 500;">Privacy Policy</a>',
+                      ),
+                    }}
+                  />
+                )}
+              </div>
+            )
+          }}
         />
       </div>
 
@@ -156,8 +223,8 @@ export default function ProfileForm() {
           id="aboutMe"
           {...register('aboutMe', {
             maxLength: {
-              value: 500,
-              message: 'Maximum 500 characters',
+              value: 200,
+              message: 'Maximum 200 characters',
             },
           })}
           rows={4}
