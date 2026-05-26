@@ -62,7 +62,7 @@ export const SignInForm = () => {
         error={errors.password?.message}
       />
       <section className={s.buttons}>
-        <Link className={s.forgot} href="">
+        <Link className={s.forgot} href="/forgot-password">
           Forgot Password
         </Link>
         <Button variant={'primary'} type="submit" disabled={!isValid || isPending}>
