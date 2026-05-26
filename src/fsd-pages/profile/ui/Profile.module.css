@@ -92,6 +92,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    cursor: pointer;
 }
 
 .postPlaceholder {
@@ -272,7 +273,7 @@
     font-size: var(--small-text-size);
 }
 
-/* Убедись, что .posts имеет место для скролла */
+/* Убедись, что .main-page-all-posts имеет место для скролла */
 .posts {
     display: flex;
     flex-wrap: wrap;

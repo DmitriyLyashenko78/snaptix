@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import type { Image } from '@/entities/post/ui/Post.types'
+import type { Media } from '@/entities/post/ui/Post.types'
 
 type Props = {
-  images: Array<Image>
+  images: Array<Media>
 }
 
 export const useSlider = ({ images }: Props) => {

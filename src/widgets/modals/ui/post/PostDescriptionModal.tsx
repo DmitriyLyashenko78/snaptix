@@ -1,41 +1,54 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { PostLayout } from '@/entities/post/ui/PostLayout'
-import s from './PostModal.module.css'
+import s from './PostDescriptionModal.module.css'
 import Image from 'next/image'
-import type { PostProps } from '@/entities/post/ui/Post.types'
 import { useModal } from '@/shared/hooks/useModal'
 import { Button } from '@/shared/ui/button/Button'
 import { TextArea } from '@/shared/ui/text-area/TextArea'
 import { CrossWhiteIcon } from '@/shared/ui/svg/Icon'
 import { ConfirmChangePostModal } from '@/widgets/modals/ui/confirm-change-post/ConfirmChangePost'
-import { useChangePostDescriptMutation } from '@/widgets/modals/ui/post/api/hooks/use-change-post-descript-mutation'
+import { useChangePostDescriptMutation } from '@/features/change-descp-post/hooks/use-change-post-descript-mutation'
+import type { Post } from '@/entities/post/ui/Post.types'
+import { useMeQuery } from '@/shared/api/auth'
+import defaultAvatar from '@/public/png/userAvatar.png'
 
-type PostModal = {
-  postId: string
+type PostDescriptionModal = {
   isOpen: boolean
   onClose: () => void
-} & PostProps
+  avatarOwner?: string
+} & Post
 
-export const PostModal = ({ images, avatarOwner, userName, description, isOpen, onClose, postId }: PostModal) => {
-  const [currentDescription, setCurrentDescription] = useState(description)
+export const PostDescriptionModal = ({
+  description,
+  id,
+  isOpen,
+  onClose,
+  avatarOwner,
+  media,
+}: PostDescriptionModal) => {
+  const [currentDescription, setCurrentDescription] = useState(description ?? '')
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+
+  const { data: me } = useMeQuery()
 
   const { mutateAsync: updatePostDescript, isPending } = useChangePostDescriptMutation()
   const isNewText = currentDescription !== description
 
-  const handleCloseConfirm = () => {
+  const userAvatar = avatarOwner ? avatarOwner : defaultAvatar
+
+  const handleCloseConfirm = useCallback(() => {
     if (isNewText) {
       setIsConfirmOpen(true)
     } else {
       onClose()
     }
-  }
+  }, [onClose, isNewText])
 
   const handleSaveChangeDescription = async () => {
     try {
-      await updatePostDescript({ postId, description: currentDescription })
+      await updatePostDescript({ postId: id, description: currentDescription })
       onClose()
     } catch (error) {
       console.error('Failed to update description:', error)
@@ -44,11 +57,15 @@ export const PostModal = ({ images, avatarOwner, userName, description, isOpen, 
 
   const modalRef = useModal({ isOpen, onClose: handleCloseConfirm })
 
+  const postImages = useMemo(() => {
+    return media?.map((m) => ({ url: m.url, mediaId: m.mediaId })) || []
+  }, [media])
+
   if (!isOpen) return null
 
   return (
     <>
-      <div className={s.overlay}>
+      <div className={s.overlay} onClick={(e) => e.stopPropagation}>
         <div className={s.modalContent} ref={modalRef} tabIndex={-1}>
           <section className={s.titleBlock}>
             <h1>Edit Post</h1>
@@ -56,17 +73,22 @@ export const PostModal = ({ images, avatarOwner, userName, description, isOpen, 
               <CrossWhiteIcon />
             </button>
           </section>
-          <PostLayout variant={'large'} images={images}>
+          <PostLayout variant={'large'} images={postImages}>
             <div className={s.editForm}>
               <section className={s.author}>
-                <Image src={avatarOwner} alt={'user avatar'} width={36} height={36} className={s.avatar} />
-                <h3>{userName}</h3>
+                <Image src={userAvatar} alt={'user avatar'} width={36} height={36} className={s.avatar} />
+                <h3>{me?.username}</h3>
               </section>
               <section className={s.description}>
                 <label htmlFor="textArea" className={s.label}>
                   Add publication descriptions
                 </label>
-                <TextArea value={currentDescription} onValueChange={setCurrentDescription} maxLength={500} />
+                <TextArea
+                  className={s.area}
+                  value={currentDescription}
+                  onValueChange={setCurrentDescription}
+                  maxLength={500}
+                />
                 <div className={s.charCount}>{currentDescription.length} / 500</div>
               </section>
               <div className={s.save}>

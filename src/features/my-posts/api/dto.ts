@@ -1,18 +1,7 @@
-export type Media = {
-  mediaId: string
-  url: string
-}
-
-export type MyPost = {
-  id: string
-  description: string
-  media: Media[]
-  updatedAt: string
-  createdAt: string
-}
+import type { Post } from '@/entities/post/ui/Post.types'
 
 export type GetMyPostsResponseDto = {
-  posts: MyPost[]
+  posts: Post[]
   nextCursorId: string | null
 }
 

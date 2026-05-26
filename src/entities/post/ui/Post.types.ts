@@ -1,33 +1,20 @@
 import type { ReactNode } from 'react'
 
-export type PostProps = {
-  id: number
-  userName: string
-  description: string
-  images: Image[]
-  cover: string
-  avatarOwner: string
-  createdAt: string
-  owner: OwnerInfo
-  avatarWhoLikes: Array<string>
-}
-
-export type Image = {
+export type Media = {
+  mediaId: string
   url: string
-  width: number
-  height: number
-  fileSize: number
-  createdAt: string
-  uploadId: string
 }
 
-type OwnerInfo = {
-  firstName: string
-  lastName: string
+export type Post = {
+  id: string
+  description: string | null
+  media: Media[]
+  updatedAt: string
+  createdAt: string
 }
 
 export type PostLayoutProps = {
-  images: Image[]
+  images: Media[]
   children: ReactNode
-  variant: 'small' | 'large' // 'small' для ленты, 'large' для модалки
+  variant: 'small' | 'large' // small для ленты постов на главной странице, large для модалки редактирования и самого поста
 }

@@ -1,24 +1,23 @@
 'use client'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { getPosts } from '@/features/posts/api'
+import { getPosts } from '../api'
 
 export const usePostsQuery = (params: { pageSize?: number }) => {
   return useInfiniteQuery({
     queryKey: ['posts', 'all', params],
-    queryFn: ({ pageParam = 0 }) =>
+    queryFn: () =>
       getPosts({
-        endCursorPostId: pageParam,
         pageSize: params.pageSize,
       }),
     getNextPageParam: (lastPage) => {
-      if (!lastPage.items.length) {
+      if (!lastPage.posts || !lastPage.posts.length) {
         return null
       }
 
-      return lastPage.items[lastPage.items.length - 1].id
+      return lastPage.posts[lastPage.posts.length - 1].id
     },
 
-    initialPageParam: 0,
+    initialPageParam: '',
   })
 }

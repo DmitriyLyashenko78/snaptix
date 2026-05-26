@@ -1,15 +1,33 @@
 'use client'
 
 import s from './page.module.css'
-import { Post } from '@/entities/post/ui/small-post/Post'
-import { usePostsQuery } from '@/features/posts/hooks/use-get-posts-query'
+import { usePostsQuery } from '@/features/main-page-all-posts/hooks/use-get-posts-query'
+import { SmallPost } from '@/entities/post/ui/small-post/SmallPost'
+
+export type Media = {
+  mediaId: string
+  url: string
+}
+
+export type Post = {
+  id: string
+  description: string | null
+  media: Media[]
+  updatedAt: string
+  createdAt: string
+  owner: {
+    firstName: string
+    lastName: string
+    avatar: string | null
+  }
+}
 
 export default function MainPage() {
   const usersCount = '009213'.split('')
 
   const { data } = usePostsQuery({})
 
-  const posts = data?.pages.flatMap((page) => page.items) ?? []
+  const posts = data?.pages.flatMap((page) => page.posts) ?? []
 
   return (
     <section className={s.content}>
@@ -25,7 +43,7 @@ export default function MainPage() {
       </section>
       <section className={s.posts}>
         {posts.map((post) => (
-          <Post key={post.id} {...post} />
+          <SmallPost firstName={''} key={post.id} {...post} />
         ))}
       </section>
     </section>
