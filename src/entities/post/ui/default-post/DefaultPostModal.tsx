@@ -162,7 +162,14 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose }: Defau
       )}
       {isDeleteOpen && (
         <div onClick={(e) => e.stopPropagation()}>
-          <DeletePost userPostId={post.id} onClose={() => setIsDeleteOpen(false)} />
+          <DeletePost
+            userPostId={post.id}
+            onClose={() => setIsDeleteOpen(false)}
+            onSuccessDelete={() => {
+              setIsDeleteOpen(false)
+              onClose()
+            }}
+          />
         </div>
       )}
     </>
