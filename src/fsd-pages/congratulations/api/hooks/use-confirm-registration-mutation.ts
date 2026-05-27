@@ -7,6 +7,7 @@ import type {
   ConfirmRegistrationRequestDto,
   ConfirmRegistrationResponseDto,
 } from '@/fsd-pages/congratulations/api'
+import { revalidateHomeRegisteredUsersAction } from '@/features/main-page-all-posts/api/revalidate'
 
 type Options = {
   onSuccess?: (data: ConfirmRegistrationResponseDto) => void
@@ -15,7 +16,11 @@ type Options = {
 
 export const useConfirmRegistrationMutation = (options?: Options) => {
   return useMutation<ConfirmRegistrationResponseDto, ConfirmRegistrationErrorDto, ConfirmRegistrationRequestDto>({
-    mutationFn: confirmRegistration,
+    mutationFn: async (data) => {
+      const res = await confirmRegistration(data)
+      await revalidateHomeRegisteredUsersAction()
+      return res
+    },
     ...options,
   })
 }

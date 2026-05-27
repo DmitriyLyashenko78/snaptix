@@ -4,13 +4,20 @@ export type PostsRequestDto = {
   pageSize?: number
 }
 
-type Owner = {
+export type PostOwner = {
   firstName: string
   lastName: string
-  avatar: string
+  avatar: string | null
+}
+
+export type LatestPost = Post & {
+  owner: PostOwner
 }
 
 export type LatestPostsResponseDto = {
-  posts: Post[]
-  owner: Owner
+  posts: LatestPost[]
+}
+
+export type RegisteredUsersCountResponseDto = {
+  registeredUsersCount: number
 }
