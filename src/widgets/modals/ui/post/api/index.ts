@@ -1,1 +1,0 @@
-export { updatePostDescription } from './api'

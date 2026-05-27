@@ -12,6 +12,8 @@ import Card from '@/shared/ui/card/Card'
 import ava from '@/public/img/defaultPhoto.jpg'
 import { useMyPostsQuery } from '@/features/my-posts/hooks/use-my-posts-query'
 import { useMeQuery } from '@/shared/api/auth/hooks/use-me-query'
+import { DefaultPostModal } from '@/entities/post/ui/default-post/DefaultPostModal'
+import type { Post } from '@/entities/post/ui/Post.types'
 
 // ==================== TYPES FOR FOLLOWERS ====================
 export interface Avatar {
@@ -88,6 +90,8 @@ const createMockFollowers = (baseUsers: SubscribersResponse): SubscribersRespons
 export const Profile = () => {
   const router = useRouter()
   const { isAuth } = useAuth()
+
+  const [activePost, setActivePost] = useState<Post | null>(null)
 
   // 🔥 ХУК: посты текущего пользователя
   const {
@@ -223,11 +227,11 @@ export const Profile = () => {
 
         {/* Посты */}
         {allPosts.map((post) => (
-          <div key={post.id} className={s.postItem}>
+          <div key={post.id} className={s.postItem} onClick={() => setActivePost(post)}>
             {post.media?.[0]?.url ? (
               <Image
                 src={post.media[0].url}
-                alt={post.description || 'Post image'}
+                alt={post.description || 'SmallPost image'}
                 width={234}
                 height={228}
                 className={s.postImage}
@@ -276,6 +280,14 @@ export const Profile = () => {
           </div>
         </div>
       </Card>
+      {activePost && (
+        <DefaultPostModal
+          post={activePost}
+          userName={me?.username || 'UserName'}
+          avatarOwner={ava.src}
+          onClose={() => setActivePost(null)}
+        />
+      )}
     </div>
   )
 }
