@@ -1,40 +1,29 @@
-'use client'
-
 import s from './page.module.css'
-import { usePostsQuery } from '@/features/main-page-all-posts/hooks/use-get-posts-query'
 import { SmallPost } from '@/entities/post/ui/small-post/SmallPost'
+import { getLatestPostsServer, getRegisteredUsersCountServer } from '@/features/main-page-all-posts/api'
 
-export type Media = {
-  mediaId: string
-  url: string
-}
+export const revalidate = 60
 
-export type Post = {
-  id: string
-  description: string | null
-  media: Media[]
-  updatedAt: string
-  createdAt: string
-  owner: {
-    firstName: string
-    lastName: string
-    avatar: string | null
-  }
-}
+const COUNTER_WIDTH = 6
+const POSTS_PAGE_SIZE = 4
 
-export default function MainPage() {
-  const usersCount = '009213'.split('')
+const formatCounter = (value: number): string[] =>
+  Math.max(0, Math.trunc(value)).toString().padStart(COUNTER_WIDTH, '0').split('')
 
-  const { data } = usePostsQuery({})
+export default async function MainPage() {
+  const [{ posts }, { registeredUsersCount }] = await Promise.all([
+    getLatestPostsServer(POSTS_PAGE_SIZE),
+    getRegisteredUsersCountServer(),
+  ])
 
-  const posts = data?.pages.flatMap((page) => page.posts) ?? []
+  const counterDigits = formatCounter(registeredUsersCount)
 
   return (
     <section className={s.content}>
       <section className={s.counter}>
         <h2>Registered users:</h2>
         <div className={s.digits}>
-          {usersCount.map((digit, i) => (
+          {counterDigits.map((digit, i) => (
             <h2 key={i} className={s.digit}>
               {digit}
             </h2>
@@ -43,7 +32,7 @@ export default function MainPage() {
       </section>
       <section className={s.posts}>
         {posts.map((post) => (
-          <SmallPost firstName={''} key={post.id} {...post} />
+          <SmallPost key={post.id} {...post} />
         ))}
       </section>
     </section>

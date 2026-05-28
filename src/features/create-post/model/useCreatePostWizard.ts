@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 import type { Point, Area } from 'react-easy-crop'
 import { uploadPostPhoto, createPost } from '../api'
+import { revalidateHomePostsAction } from '@/features/main-page-all-posts/api/revalidate'
 
 export type WizardStep = 'upload' | 'crop' | 'filters' | 'description'
 
@@ -153,6 +154,7 @@ export const useCreatePostWizard = (onClose: () => void) => {
         description,
         media: uploadResults.map((r) => ({ fileId: r.fileId })),
       })
+      await revalidateHomePostsAction()
       doReset()
       onClose()
     } finally {
