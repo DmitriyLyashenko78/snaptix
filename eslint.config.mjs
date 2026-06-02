@@ -27,7 +27,6 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
-        project: './tsconfig.json', // Убедитесь, что файл существует
       },
     },
     plugins: {

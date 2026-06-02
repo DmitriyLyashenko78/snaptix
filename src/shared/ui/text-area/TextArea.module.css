@@ -1,7 +1,7 @@
 .containerArea {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .textArea {
@@ -19,30 +19,30 @@
 }
 
 .textArea:focus {
-    border: 2px solid var(--color-accent-700);
-    color: var(--color-light-100);
+  border: 2px solid var(--color-accent-700);
+  color: var(--color-light-100);
 }
 
 .textArea:active {
-    border-color: var(--color-light-100);
-    color: var(--color-light-100)
+  border-color: var(--color-light-100);
+  color: var(--color-light-100);
 }
 
 .textArea.error {
-    border-color: var(--color-danger-500);
+  border-color: var(--color-danger-500);
 }
 
 .errorMessage {
-    color: var(--color-danger-500);
-    font-size: var( --small-text-size);
+  color: var(--color-danger-500);
+  font-size: var(--small-text-size);
 }
 
 .textArea:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .errorMessage {
-    color: var(--color-danger-500);
-    font-size: var(--small-text-size);
+  color: var(--color-danger-500);
+  font-size: var(--small-text-size);
 }
