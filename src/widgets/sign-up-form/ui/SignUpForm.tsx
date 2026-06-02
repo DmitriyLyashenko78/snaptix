@@ -7,6 +7,7 @@ import { SignUpFormValues, signUpSchema } from '@/widgets/sign-up-form/model/sig
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/shared/ui/button/Button'
 import { EyeIcon } from '@/shared/ui/svg/Icon'
+import { OAuthButtons } from '@/shared/ui/oauth/OAuthButtons'
 import { useSignUpMutation } from '@/fsd-pages/sign-up/api/hooks/use-sign-up-mutations'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -62,6 +63,7 @@ export const SignUpForm = () => {
     <>
       <form className={s.container} onSubmit={handleSubmit(onSubmit)}>
         <h2>Sign Up</h2>
+        <OAuthButtons />
         <Input
           label="Username"
           type="text"
