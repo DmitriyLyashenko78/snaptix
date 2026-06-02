@@ -1,66 +1,23 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
-import React, { use } from 'react'
-import { Modal } from '@/shared/ui/modalsPost/Modal'
-import { LogOutModal } from '@/widgets/modals'
+import { getPostByIdServer } from '@/entities/post/api'
+import { PostViewModal } from '@/widgets/post-view-modal'
+import { ProfileModalActions } from './ProfileModalActions'
 
 interface Props {
-  params: Promise<{
-    id: string
-  }>
-  searchParams: Promise<{
-    postId?: string
-    action?: string
-  }>
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ postId?: string; action?: string }>
 }
 
-export default function ProfileModal({ params, searchParams }: Props) {
-  const router = useRouter()
+export default async function ProfileModal({ params, searchParams }: Props) {
+  const { id } = await params
+  const { postId, action } = await searchParams
 
-  const resolvedParams = use(params)
-  const resolvedSearchParams = use(searchParams)
-
-  const { postId, action } = resolvedSearchParams
-  const { id } = resolvedParams
-
-  // Функция закрытия - вызывается когда модалка меняет состояние
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) {
-      // Если модалка закрылась, редиректим обратно
-      router.back()
-    }
+  // Просмотр поста: контент доступен всем — рендерим через SSR сразу.
+  if (postId && !action) {
+    const post = await getPostByIdServer(postId)
+    if (!post) return null
+    return <PostViewModal post={post} authorId={id} />
   }
 
-  // Если оба параметра присутствуют
-  if (postId && action) {
-    router.push(`/profile/${id}?postId=${postId}`)
-    return null
-  }
-
-  // Модалка просмотра поста
-  if (postId) {
-    return (
-      <Modal open={true} onOpenChangeAction={handleOpenChange} title="Просмотр поста">
-        <div>Содержимое поста с ID: {postId}</div>
-      </Modal>
-    )
-  }
-
-  // Модалка создания поста
-  if (action === 'create') {
-    return (
-      <Modal open={true} onOpenChangeAction={handleOpenChange} title="Создать пост">
-        <div>Форма создания поста</div>
-      </Modal>
-    )
-  }
-
-  // Модалка выхода
-  if (action === 'logout') {
-    return <LogOutModal userId={id} onClose={() => handleOpenChange(false)} />
-  }
-
-  // Если нет параметров, ничего не отображаем
-  return null
+  // Остальные модалки (создание/выход) и нормализация URL — на клиенте.
+  return <ProfileModalActions id={id} postId={postId} action={action} />
 }

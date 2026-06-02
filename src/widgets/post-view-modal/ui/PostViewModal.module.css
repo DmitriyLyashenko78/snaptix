@@ -1,0 +1,72 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 60%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.closeOutside {
+  position: absolute;
+  top: 13%;
+  right: 10%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.modalContent {
+  width: 80vw;
+  height: 80vh;
+  max-width: var(--post-modal-width);
+  max-height: var(--post-modal-height);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  background-color: var(--color-dark-500);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.authorHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--semithin-indent);
+  padding: var(--semithin-indent) var(--small-indent);
+  border-bottom: 1px solid var(--color-dark-300);
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userName {
+  font-weight: var(--weight-semibold);
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--small-indent);
+  display: flex;
+  flex-direction: column;
+  gap: var(--semithin-indent);
+}
+
+.description {
+  color: var(--color-light-100);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.time {
+  font-size: var(--small-text-size);
+  color: var(--color-dark-100);
+}
