@@ -26,3 +26,9 @@
   text-align: center;
   color: var(--color-light-900);
 }
+
+.image {
+  width: 100%;
+  max-width: 432px;
+  height: auto;
+}

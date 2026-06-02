@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import s from './Input.module.css'
 import { InputProps } from '@/shared/ui/input/Input.types'
+import { EyeIcon, EyeOffIcon } from '@/shared/ui/svg/Icon'
 
 export const Input = ({
   label,
@@ -15,10 +16,14 @@ export const Input = ({
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
-  const inputType = rightIconClickable && type === 'password' ? (showPassword ? 'text' : 'password') : type
+  const isPasswordToggle = rightIconClickable && type === 'password'
+  const inputType = isPasswordToggle ? (showPassword ? 'text' : 'password') : type
+
+  // Для поля пароля иконка отражает состояние: скрыт — перечёркнутый глаз, показан — открытый.
+  const ResolvedRightIcon = isPasswordToggle ? (showPassword ? EyeIcon : EyeOffIcon) : RightIcon
 
   const handleRightIconClick = () => {
-    if (rightIconClickable && type === 'password') {
+    if (isPasswordToggle) {
       setShowPassword((prev) => !prev)
     }
   }
@@ -39,9 +44,9 @@ export const Input = ({
           {...rest}
         />
 
-        {RightIcon && (
+        {ResolvedRightIcon && (
           <button type="button" className={s.rightIcon} onClick={handleRightIconClick}>
-            <RightIcon width={16} height={16} />
+            <ResolvedRightIcon width={16} height={16} />
           </button>
         )}
       </div>

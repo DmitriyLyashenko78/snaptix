@@ -103,7 +103,7 @@ export const SignUpForm = () => {
           {...register('agree')}
           checked={agreeValue}
           label={
-            <>
+            <span className={s.agreeLabel}>
               I agree to the{' '}
               <a href="/terms-of-service" onClick={(e) => e.stopPropagation()}>
                 Terms of Service
@@ -112,7 +112,7 @@ export const SignUpForm = () => {
               <a href="/privacy-policy" onClick={(e) => e.stopPropagation()}>
                 Privacy Policy
               </a>
-            </>
+            </span>
           }
           error={errors.agree?.message}
         />
