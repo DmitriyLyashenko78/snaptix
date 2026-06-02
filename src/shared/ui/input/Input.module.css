@@ -25,7 +25,7 @@
   border: 1px solid var(--color-dark-100);
   border-radius: 2px;
   font-size: 14px;
-  color: var(--color-dark-100);
+  color: var(--color-light-100);
   outline: none;
   transition:
     border-color 0.15s ease,
@@ -34,15 +34,15 @@
 }
 
 .input::placeholder {
-  color: var(--color-dark-100);
+  color: var(--color-light-900);
 }
 
 .input:active {
-  border-color: var(--color-light-700);
+  border-color: var(--color-light-100);
 }
 
 .input:active::placeholder {
-  color: var(--color-light-700);
+  color: var(--color-light-900);
 }
 
 .withLeftIcon {
@@ -50,7 +50,7 @@
 }
 
 .withLeftIcon::placeholder {
-  color: var(--color-dark-100);
+  color: var(--color-light-900);
 }
 
 .input:hover,
