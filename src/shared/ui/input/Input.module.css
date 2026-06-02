@@ -65,8 +65,9 @@
 
 .input:focus,
 .withLeftIcon:focus {
+  /* box-sizing: border-box не даёт 2px-рамке сдвигать layout */
+  border-width: 2px;
   border-color: var(--color-accent-500);
-  box-shadow: 0 0 0 1px var(--color-accent-500);
 }
 
 .input.error,
@@ -81,8 +82,18 @@
 
 .input:disabled,
 .withLeftIcon:disabled {
-  opacity: 0.4;
+  border-color: var(--color-dark-100);
+  color: var(--color-dark-100);
   cursor: not-allowed;
+}
+
+.input:disabled::placeholder,
+.withLeftIcon:disabled::placeholder {
+  color: var(--color-dark-100);
+}
+
+.labelDisabled {
+  color: var(--color-dark-100);
 }
 
 .leftIcon {

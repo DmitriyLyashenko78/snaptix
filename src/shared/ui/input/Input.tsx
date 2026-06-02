@@ -12,6 +12,7 @@ export const Input = ({
   error,
   rightIconClickable = false,
   type,
+  disabled,
   ...rest
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -30,7 +31,7 @@ export const Input = ({
 
   return (
     <div className={s.root}>
-      {label && <label className={s.label}>{label}</label>}
+      {label && <label className={`${s.label} ${disabled ? s.labelDisabled : ''}`}>{label}</label>}
       <div className={s.control}>
         {LeftIcon && (
           <div className={s.leftIcon}>
@@ -41,6 +42,7 @@ export const Input = ({
         <input
           className={`${s.input} ${LeftIcon ? s.withLeftIcon : ''} ${error ? s.error : ''}`}
           type={inputType}
+          disabled={disabled}
           {...rest}
         />
 
