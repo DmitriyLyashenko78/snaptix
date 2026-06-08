@@ -7,9 +7,10 @@ import { NotificationBell } from '@/widgets/header/ui/notification-bell/Notifica
 
 interface Props {
   isAuth?: boolean
+  isLoading?: boolean
 }
 
-export const Header = ({ isAuth }: Props) => {
+export const Header = ({ isAuth, isLoading }: Props) => {
   const handleLanguageChange = (value: string) => {
     console.log(value)
     // Здесь будет логика смены языка
@@ -23,7 +24,14 @@ export const Header = ({ isAuth }: Props) => {
         </Link>
 
         <div className={s.nav}>
-          {isAuth ? (
+          {isLoading ? (
+            // Пока нет ответа /me — skeleton вместо кнопок авторизации.
+            <div className={s.guestActions} aria-hidden="true">
+              <span className={`${s.skeleton} ${s.skeletonSelect}`} />
+              <span className={`${s.skeleton} ${s.skeletonBtn}`} />
+              <span className={`${s.skeleton} ${s.skeletonBtn}`} />
+            </div>
+          ) : isAuth ? (
             <div className={s.authActions}>
               <div className={s.notificationWrapper}>
                 <NotificationBell />

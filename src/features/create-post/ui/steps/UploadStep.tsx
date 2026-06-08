@@ -45,7 +45,13 @@ export const UploadStep = ({ onFileSelected, error, onClearError }: Props) => {
         </Button>
       </div>
 
-      <input ref={inputRef} type="file" accept="image/jpeg,image/jpg,image/png" className={s.fileInput} onChange={handleFileChange} />
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/jpeg,image/jpg,image/png"
+        className={s.fileInput}
+        onChange={handleFileChange}
+      />
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/shared/ui/button/Button'
 import { EyeIcon } from '@/shared/ui/svg/Icon'
+import { OAuthButtons } from '@/shared/ui/oauth/OAuthButtons'
 import { type SignInFormValues, signInSchema } from '@/widgets/sign-in-form/model/signInSchema'
 
 import s from './SignInForm.module.css'
@@ -43,6 +44,7 @@ export const SignInForm = () => {
       <section className={s.header}>
         <h2>Sign In</h2>
       </section>
+      <OAuthButtons />
       <Input
         label="Email"
         type="email"

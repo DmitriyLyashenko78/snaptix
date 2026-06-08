@@ -124,7 +124,13 @@ export const CropStep = ({
         )}
       </div>
 
-      <input ref={addInputRef} type="file" accept="image/jpeg,image/jpg,image/png" className={s.fileInput} onChange={handleAddFile} />
+      <input
+        ref={addInputRef}
+        type="file"
+        accept="image/jpeg,image/jpg,image/png"
+        className={s.fileInput}
+        onChange={handleAddFile}
+      />
     </div>
   )
 }

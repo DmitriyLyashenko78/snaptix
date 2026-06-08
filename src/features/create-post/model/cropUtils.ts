@@ -19,7 +19,17 @@ export const getCroppedImg = async (imageSrc: string, pixelCrop: Area): Promise<
   canvas.width = pixelCrop.width
   canvas.height = pixelCrop.height
 
-  ctx.drawImage(image, pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height, 0, 0, pixelCrop.width, pixelCrop.height)
+  ctx.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height,
+  )
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {

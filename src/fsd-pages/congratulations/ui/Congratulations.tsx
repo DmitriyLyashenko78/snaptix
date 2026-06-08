@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/shared/ui/button/Button'
 import { Input } from '@/shared/ui/input/Input'
@@ -74,6 +75,14 @@ export const Congratulations = () => {
           <Button variant={'primary'} onClick={() => router.push('/signIn')}>
             Sign In
           </Button>
+          <Image
+            className={s.image}
+            src="/img/email-confirmed.png"
+            alt="Email confirmed"
+            width={432}
+            height={300}
+            priority
+          />
         </div>
       </div>
     )
@@ -97,6 +106,14 @@ export const Congratulations = () => {
           <Button variant={'primary'} onClick={handleResend} disabled={isResending || !email}>
             {isResending ? 'Sending...' : 'Resend verification link'}
           </Button>
+          <Image
+            className={s.image}
+            src="/img/rafiki.png"
+            alt="Verification link expired"
+            width={300}
+            height={240}
+            priority
+          />
         </div>
       </div>
     )

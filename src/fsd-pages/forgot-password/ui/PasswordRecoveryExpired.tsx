@@ -62,7 +62,6 @@ export const PasswordRecoveryExpired = () => {
         <p className={s.description}>
           Looks like the verification link has expired. Not to worry, we can send the link again
         </p>
-        {!email && <p className={s.warning}>Enter your email again to receive a new recovery link.</p>}
         {recaptchaError && <p className={s.error}>{recaptchaError}</p>}
         <Button variant="primary" onClick={handleResend} disabled={isPending || isRecaptchaPending}>
           {isPending || isRecaptchaPending ? 'Sending...' : 'Resend link'}

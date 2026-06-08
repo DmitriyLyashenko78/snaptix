@@ -34,20 +34,22 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgb(0 0 0 / 60%);
+  border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 4px;
   color: var(--color-light-700);
   cursor: pointer;
   font-size: 11px;
   font-weight: var(--weight-medium);
-  transition: background-color 150ms, border-color 150ms;
+  transition:
+    background-color 150ms,
+    border-color 150ms;
   backdrop-filter: blur(4px);
 }
 
 .ratioBtn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgb(0 0 0 / 80%);
+  border-color: rgb(255 255 255 / 40%);
 }
 
 .ratioBtnActive {
@@ -76,7 +78,7 @@
   height: 3px;
   accent-color: var(--color-accent-500);
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(255 255 255 / 30%);
   border-radius: 2px;
 }
 
@@ -104,7 +106,7 @@
 }
 
 .thumbnail:hover {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgb(255 255 255 / 30%);
 }
 
 .thumbnailActive {
@@ -125,7 +127,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgb(0 0 0 / 75%);
   border: none;
   color: var(--color-light-100);
   display: flex;
@@ -156,7 +158,9 @@
   justify-content: center;
   font-size: 22px;
   flex-shrink: 0;
-  transition: border-color 150ms, color 150ms;
+  transition:
+    border-color 150ms,
+    color 150ms;
 }
 
 .addPhotoBtn:hover {
