@@ -14,12 +14,26 @@ export const PostLayout = ({ variant, images, children }: PostLayoutProps) => {
         {hasMultipleImages && (
           <div className={s.controls}>
             {currentImageId > 0 && (
-              <button type={'button'} className={`${s.arrow} ${s.prevArrow}`} onClick={prevImage}>
+              <button
+                type={'button'}
+                className={`${s.arrow} ${s.prevArrow}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  prevImage()
+                }}
+              >
                 <ArrowLeftIcon />
               </button>
             )}
             {currentImageId < images.length - 1 && (
-              <button type={'button'} className={`${s.arrow} ${s.nextArrow}`} onClick={nextImage}>
+              <button
+                type={'button'}
+                className={`${s.arrow} ${s.nextArrow}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  nextImage()
+                }}
+              >
                 <ArrowRightIcon />
               </button>
             )}

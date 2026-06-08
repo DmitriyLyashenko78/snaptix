@@ -13,6 +13,16 @@ export type Post = {
   createdAt: string
 }
 
+export type PostOwner = {
+  userId: string
+  username: string
+  avatar: string | null
+}
+
+export type PostWithOwner = Post & {
+  owner: PostOwner
+}
+
 export type PostLayoutProps = {
   images: Media[]
   children: ReactNode
