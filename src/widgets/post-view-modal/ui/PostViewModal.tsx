@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { DefaultPostModal } from '@/entities/post/ui/default-post/DefaultPostModal'
+import { useAuthStatus } from '@/shared/api/auth'
 import type { PostWithOwner } from '@/entities/post/ui/Post.types'
 
 type PostViewModalProps = {
@@ -18,6 +19,10 @@ type PostViewModalProps = {
  */
 export const PostViewModal = ({ post, authorId }: PostViewModalProps) => {
   const router = useRouter()
+  const { user } = useAuthStatus()
+
+  // Меню edit/delete — только автору поста (после клиентского /me).
+  const canManage = !!user && user.id === post.owner.userId
 
   const close = useCallback(() => {
     // Переход внутри приложения (с главной / профиля) — возвращаемся назад.
@@ -43,6 +48,7 @@ export const PostViewModal = ({ post, authorId }: PostViewModalProps) => {
       userName={post.owner.username}
       avatarOwner={post.owner.avatar ?? undefined}
       onClose={close}
+      canManage={canManage}
     />
   )
 }
