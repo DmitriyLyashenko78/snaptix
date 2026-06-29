@@ -10,10 +10,21 @@ const POSTS_PAGE_SIZE = 4
 const formatCounter = (value: number): string[] =>
   Math.max(0, Math.trunc(value)).toString().padStart(COUNTER_WIDTH, '0').split('')
 
+// Если бэкенд недоступен — логируем ошибку, но не роняем страницу,
+// а отдаём фолбэк, чтобы главная всё равно отрендерилась.
+const safe = async <T,>(promise: Promise<T>, fallback: T, label: string): Promise<T> => {
+  try {
+    return await promise
+  } catch (error) {
+    console.error(`[MainPage] ${label} failed:`, error)
+    return fallback
+  }
+}
+
 export default async function MainPage() {
   const [{ posts }, { registeredUsersCount }] = await Promise.all([
-    getLatestPostsServer(POSTS_PAGE_SIZE),
-    getRegisteredUsersCountServer(),
+    safe(getLatestPostsServer(POSTS_PAGE_SIZE), { posts: [] }, 'latest-posts'),
+    safe(getRegisteredUsersCountServer(), { registeredUsersCount: 0 }, 'registered-users-count'),
   ])
 
   const counterDigits = formatCounter(registeredUsersCount)
