@@ -1,9 +1,11 @@
 'use client'
 
 import { Header } from '@/widgets/header'
-import { SidebarList } from '@/shared/ui/sidebar/SidbarList'
+import { SidebarListClient } from '@/shared/ui/sidebar/SidebarListClient'
 import { useAuthStatus } from '@/shared/api/auth'
+import { TranslationsProvider } from '@/shared/lib/i18n/TranslationsProvider'
 import s from './Layout.module.css'
+import type { Dictionary } from '@/shared/lib/i18n/dictionaries'
 
 const SIDEBAR_SKELETON_ITEMS = 7
 
@@ -15,21 +17,21 @@ const SidebarSkeleton = () => (
   </div>
 )
 
-/**
- * Клиентская оболочка приложения.
- * Авторизацию проверяем на клиенте через /me (UC-2): пока ответа нет — skeleton
- * в header и на месте сайдбара; после ответа показываем нужный набор элементов.
- */
-export const AppShell = ({ children }: { children: React.ReactNode }) => {
+interface AppShellProps {
+  children: React.ReactNode
+  translations: Dictionary
+}
+
+export const AppShell = ({ children, translations }: AppShellProps) => {
   const { isAuth, isLoading } = useAuthStatus()
 
   return (
-    <>
+    <TranslationsProvider translations={translations}>
       <Header isAuth={isAuth} isLoading={isLoading} />
       <div className={s.content}>
-        {isLoading ? <SidebarSkeleton /> : isAuth ? <SidebarList /> : null}
+        {isLoading ? <SidebarSkeleton /> : isAuth ? <SidebarListClient /> : null}
         <main className={`${s.main} ${!isAuth && !isLoading ? s.mainCentered : ''}`}>{children}</main>
       </div>
-    </>
+    </TranslationsProvider>
   )
 }

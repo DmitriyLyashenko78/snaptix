@@ -1,4 +1,5 @@
 'use client'
+
 import { Input } from '@/shared/ui/input/Input'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,9 +14,13 @@ import { useRouter } from 'next/navigation'
 import { useSignInMutation } from '@/fsd-pages/sign-in/api/hooks/use-sign-in-mutations'
 import { mapLoginServerErrors } from '@/fsd-pages/sign-in/model/lib/map-login-server-errors'
 import { setAuthAction } from '@/app/actions/actions'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 export const SignInForm = () => {
   const router = useRouter()
+  // Получаем переводы
+  const dict = useTranslations()
+
   const {
     register,
     handleSubmit,
@@ -42,37 +47,37 @@ export const SignInForm = () => {
   return (
     <form className={s.container} onSubmit={handleSubmit(onSubmit)}>
       <section className={s.header}>
-        <h2>Sign In</h2>
+        <h2>{dict.signIn.title}</h2>
       </section>
       <OAuthButtons />
       <Input
-        label="Email"
+        label={dict.signIn.emailLabel}
         type="email"
-        placeholder="Email"
+        placeholder={dict.signIn.emailPlaceholder}
         autoComplete="email"
         {...register('email')}
         error={errors.email?.message}
       />
       <Input
-        label="Password"
+        label={dict.signIn.passwordLabel}
         rightIcon={EyeIcon}
         type="password"
         rightIconClickable={true}
-        placeholder="Password"
+        placeholder={dict.signIn.passwordPlaceholder}
         autoComplete="new-password"
         {...register('password')}
         error={errors.password?.message}
       />
       <section className={s.buttons}>
         <Link className={s.forgot} href="/forgot-password">
-          Forgot Password
+          {dict.signIn.forgotPassword}
         </Link>
         <Button variant={'primary'} type="submit" disabled={!isValid || isPending}>
-          Sign In
+          {dict.signIn.submitButton}
         </Button>
-        <p>Don’t have an account?</p>
+        <p>{dict.signIn.noAccount}</p>
         <Link href="/signup">
-          <Button variant={'ghost'}>Sign Up</Button>
+          <Button variant={'ghost'}>{dict.signIn.signUpButton}</Button>
         </Link>
       </section>
     </form>
