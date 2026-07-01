@@ -64,8 +64,8 @@ export const SidebarListClient = () => {
         </Sidebar.Item>
       </Sidebar>
 
-      {isLogoutModalOpen && <LogOutModal userId={'123'} onClose={() => setIsLogoutModalOpen(false)} />}
-      <CreatePostModal open={isCreatePostOpen} onClose={() => setIsCreatePostOpen(false)} />
+      {isLogoutModalOpen && <LogOutModal userId={'123'} onCloseAction={() => setIsLogoutModalOpen(false)} />}
+      <CreatePostModal open={isCreatePostOpen} onCloseAction={() => setIsCreatePostOpen(false)} />
     </>
   )
 }

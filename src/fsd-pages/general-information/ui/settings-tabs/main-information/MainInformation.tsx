@@ -62,22 +62,22 @@ export const MainInformation = () => {
     <div className={s.informationBlock}>
       <AvatarUploader
         profilePhoto={profilePhoto}
-        onOpenCard={() => setIsCardOpen(true)}
-        onDelete={handleDeleteAvatar}
+        onOpenCardAction={() => setIsCardOpen(true)}
+        onDeleteAction={handleDeleteAvatar}
       />
       <div className={s.userInformation}>
         <ProfileForm />
       </div>
       <PhotoUploadCard
         isOpen={isCardOpen}
-        onClose={handleCloseCard}
+        onCloseAction={handleCloseCard}
         error={error}
         previewPhoto={previewPhoto}
-        onFileSelect={handleFileSelect}
-        onSelectClick={handleSelectClick}
-        onSave={handleSavePhoto}
+        onFileSelectAction={handleFileSelect}
+        onSelectClickAction={handleSelectClick}
+        onSaveAction={handleSavePhoto}
       />
-      <DeleteConfirmationCard isOpen={isDeleteCardOpen} onClose={cancelDelete} onConfirm={confirmDelete} />
+      <DeleteConfirmationCard isOpen={isDeleteCardOpen} onCloseAction={cancelDelete} onConfirmAction={confirmDelete} />
     </div>
   )
 }

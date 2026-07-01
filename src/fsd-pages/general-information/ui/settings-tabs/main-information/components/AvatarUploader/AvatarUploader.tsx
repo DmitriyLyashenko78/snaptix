@@ -7,14 +7,14 @@ import { CloseIcon, ImageIcon } from '@/shared/ui/svg/Icon'
 
 interface AvatarUploaderProps {
   profilePhoto: string | null
-  onOpenCard: () => void
-  onDelete: (e: React.MouseEvent) => void
+  onOpenCardAction: () => void
+  onDeleteAction: (e: React.MouseEvent) => void
 }
 
-export const AvatarUploader = ({ profilePhoto, onOpenCard, onDelete }: AvatarUploaderProps) => {
+export const AvatarUploader = ({ profilePhoto, onOpenCardAction, onDeleteAction }: AvatarUploaderProps) => {
   return (
     <div className={s.userPhotoWrapper}>
-      <div className={s.avatarContainer} onClick={onOpenCard}>
+      <div className={s.avatarContainer} onClick={onOpenCardAction}>
         {profilePhoto ? (
           <Image src={profilePhoto} alt="User avatar" width={205} height={205} className={s.userPhoto} />
         ) : (
@@ -23,12 +23,12 @@ export const AvatarUploader = ({ profilePhoto, onOpenCard, onDelete }: AvatarUpl
           </div>
         )}
         {profilePhoto && (
-          <button onClick={onDelete} className={s.deleteButton}>
+          <button onClick={onDeleteAction} className={s.deleteButton}>
             <CloseIcon color="var(--color-light-100)" />
           </button>
         )}
       </div>
-      <Button onClick={onOpenCard} variant="outline">
+      <Button onClick={onOpenCardAction} variant="outline">
         Select Profile Photo
       </Button>
     </div>

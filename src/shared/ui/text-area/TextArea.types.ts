@@ -1,6 +1,6 @@
 export type TextAreaProps = {
   value: string
-  onValueChange: (value: string) => void
+  onValueChangeAction: (value: string) => void
   placeholder?: string
   className?: string
   error?: string

@@ -47,7 +47,7 @@ export const PostViewModal = ({ post, authorId }: PostViewModalProps) => {
       post={post}
       userName={post.owner.username}
       avatarOwner={post.owner.avatar ?? undefined}
-      onClose={close}
+      onCloseAction={close}
       canManage={canManage}
     />
   )

@@ -15,23 +15,23 @@ const ASPECT_RATIOS = [
 type Props = {
   photos: PhotoItem[]
   currentIndex: number
-  onSetCurrentPhoto: (index: number) => void
-  onUpdateCrop: (id: string, crop: Point) => void
-  onUpdateZoom: (id: string, zoom: number) => void
-  onUpdateCroppedAreaPixels: (id: string, pixels: Area) => void
-  onRemovePhoto: (id: string) => void
-  onAddPhoto: (file: File) => boolean
+  onSetCurrentPhotoAction: (index: number) => void
+  onUpdateCropAction: (id: string, crop: Point) => void
+  onUpdateZoomAction: (id: string, zoom: number) => void
+  onUpdateCroppedAreaPixelsAction: (id: string, pixels: Area) => void
+  onRemovePhotoAction: (id: string) => void
+  onAddPhotoAction: (file: File) => boolean
 }
 
 export const CropStep = ({
   photos,
   currentIndex,
-  onSetCurrentPhoto,
-  onUpdateCrop,
-  onUpdateZoom,
-  onUpdateCroppedAreaPixels,
-  onRemovePhoto,
-  onAddPhoto,
+  onSetCurrentPhotoAction,
+  onUpdateCropAction,
+  onUpdateZoomAction,
+  onUpdateCroppedAreaPixelsAction,
+  onRemovePhotoAction,
+  onAddPhotoAction,
 }: Props) => {
   const [aspectRatio, setAspectRatio] = useState(1)
   const addInputRef = useRef<HTMLInputElement>(null)
@@ -39,14 +39,14 @@ export const CropStep = ({
 
   const handleCropComplete = useCallback(
     (_: Area, croppedAreaPixels: Area) => {
-      if (current) onUpdateCroppedAreaPixels(current.id, croppedAreaPixels)
+      if (current) onUpdateCroppedAreaPixelsAction(current.id, croppedAreaPixels)
     },
-    [current, onUpdateCroppedAreaPixels],
+    [current, onUpdateCroppedAreaPixelsAction],
   )
 
   const handleAddFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) onAddPhoto(file)
+    if (file) onAddPhotoAction(file)
     e.target.value = ''
   }
 
@@ -60,8 +60,8 @@ export const CropStep = ({
           crop={current.crop}
           zoom={current.zoom}
           aspect={aspectRatio}
-          onCropChange={(crop) => onUpdateCrop(current.id, crop)}
-          onZoomChange={(zoom) => onUpdateZoom(current.id, zoom)}
+          onCropChange={(crop) => onUpdateCropAction(current.id, crop)}
+          onZoomChange={(zoom) => onUpdateZoomAction(current.id, zoom)}
           onCropComplete={handleCropComplete}
         />
 
@@ -87,7 +87,7 @@ export const CropStep = ({
               max={3}
               step={0.05}
               value={current.zoom}
-              onChange={(e) => onUpdateZoom(current.id, Number(e.target.value))}
+              onChange={(e) => onUpdateZoomAction(current.id, Number(e.target.value))}
             />
             <span className={s.zoomIcon}>+</span>
           </div>
@@ -99,7 +99,7 @@ export const CropStep = ({
           <div
             key={photo.id}
             className={`${s.thumbnail} ${idx === currentIndex ? s.thumbnailActive : ''}`}
-            onClick={() => onSetCurrentPhoto(idx)}
+            onClick={() => onSetCurrentPhotoAction(idx)}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photo.originalSrc} alt="" className={s.thumbnailImg} />
@@ -108,7 +108,7 @@ export const CropStep = ({
                 className={s.thumbnailRemove}
                 onClick={(e) => {
                   e.stopPropagation()
-                  onRemovePhoto(photo.id)
+                  onRemovePhotoAction(photo.id)
                 }}
                 aria-label="Remove photo"
               >

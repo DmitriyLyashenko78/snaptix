@@ -21,11 +21,11 @@ const STEP_TITLES: Record<string, string> = {
 
 type Props = {
   open: boolean
-  onClose: () => void
+  onCloseAction: () => void
 }
 
-export const CreatePostModal = ({ open, onClose }: Props) => {
-  const wizard = useCreatePostWizard(onClose)
+export const CreatePostModal = ({ open, onCloseAction }: Props) => {
+  const wizard = useCreatePostWizard(onCloseAction)
   const { step, photos, currentPhotoIndex, description, isCloseConfirmOpen, isPublishing } = wizard
 
   const [isCropping, setIsCropping] = useState(false)
@@ -106,12 +106,12 @@ export const CreatePostModal = ({ open, onClose }: Props) => {
             <div className={s.body}>
               {step === 'upload' && (
                 <UploadStep
-                  onFileSelected={(file) => {
+                  onFileSelectedAction={(file) => {
                     const ok = wizard.addPhoto(file)
                     if (ok) wizard.goNext()
                   }}
                   error={wizard.uploadError}
-                  onClearError={wizard.clearUploadError}
+                  onClearErrorAction={wizard.clearUploadError}
                 />
               )}
 
@@ -119,12 +119,12 @@ export const CreatePostModal = ({ open, onClose }: Props) => {
                 <CropStep
                   photos={photos}
                   currentIndex={currentPhotoIndex}
-                  onSetCurrentPhoto={wizard.setCurrentPhoto}
-                  onUpdateCrop={wizard.updateCrop}
-                  onUpdateZoom={wizard.updateZoom}
-                  onUpdateCroppedAreaPixels={wizard.updateCroppedAreaPixels}
-                  onRemovePhoto={wizard.removePhoto}
-                  onAddPhoto={wizard.addPhoto}
+                  onSetCurrentPhotoAction={wizard.setCurrentPhoto}
+                  onUpdateCropAction={wizard.updateCrop}
+                  onUpdateZoomAction={wizard.updateZoom}
+                  onUpdateCroppedAreaPixelsAction={wizard.updateCroppedAreaPixels}
+                  onRemovePhotoAction={wizard.removePhoto}
+                  onAddPhotoAction={wizard.addPhoto}
                 />
               )}
 
@@ -132,8 +132,8 @@ export const CreatePostModal = ({ open, onClose }: Props) => {
                 <FilterStep
                   photos={photos}
                   currentIndex={currentPhotoIndex}
-                  onSetCurrentPhoto={wizard.setCurrentPhoto}
-                  onSetFilter={wizard.setPhotoFilter}
+                  onSetCurrentPhotoAction={wizard.setCurrentPhoto}
+                  onSetFilterAction={wizard.setPhotoFilter}
                 />
               )}
 
@@ -141,7 +141,7 @@ export const CreatePostModal = ({ open, onClose }: Props) => {
                 <DescriptionStep
                   photos={photos}
                   description={description}
-                  onDescriptionChange={wizard.setDescription}
+                  onDescriptionChangeAction={wizard.setDescription}
                 />
               )}
             </div>
@@ -151,8 +151,8 @@ export const CreatePostModal = ({ open, onClose }: Props) => {
 
       <CloseConfirmModal
         open={isCloseConfirmOpen}
-        onSaveDraft={wizard.confirmClose}
-        onDiscard={wizard.closeCloseConfirm}
+        onSaveDraftAction={wizard.confirmClose}
+        onDiscardAction={wizard.closeCloseConfirm}
       />
     </>
   )

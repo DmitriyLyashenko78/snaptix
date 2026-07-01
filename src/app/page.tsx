@@ -2,7 +2,7 @@ import s from './page.module.css'
 import { SmallPost } from '@/entities/post/ui/small-post/SmallPost'
 import { getLatestPostsServer, getRegisteredUsersCountServer } from '@/features/main-page-all-posts/api'
 
-export const revalidate = 18000 // 5 часов (5 * 60 * 60)
+export const dynamic = 'force-dynamic'
 
 const COUNTER_WIDTH = 6
 const POSTS_PAGE_SIZE = 4

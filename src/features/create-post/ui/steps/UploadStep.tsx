@@ -6,22 +6,22 @@ import { ImageIcon } from '@/shared/ui/svg/Icon'
 import s from './UploadStep.module.css'
 
 type Props = {
-  onFileSelected: (file: File) => void
+  onFileSelectedAction: (file: File) => void
   error: string | null
-  onClearError: () => void
+  onClearErrorAction: () => void
 }
 
-export const UploadStep = ({ onFileSelected, error, onClearError }: Props) => {
+export const UploadStep = ({ onFileSelectedAction, error, onClearErrorAction }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) onFileSelected(file)
+    if (file) onFileSelectedAction(file)
     e.target.value = ''
   }
 
   const handleSelectClick = () => {
-    onClearError()
+    onClearErrorAction()
     inputRef.current?.click()
   }
 

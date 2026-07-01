@@ -6,12 +6,11 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider' // Импорт хука
 
 type ChangeMenuPostModalProps = {
-  onEdit: () => void
-  onDelete: () => void
+  onEditAction: () => void
+  onDeleteAction: () => void
 }
 
-export const ChangeMenuPostModal = ({ onEdit, onDelete }: ChangeMenuPostModalProps) => {
-  // Получаем переводы из контекста
+export const ChangeMenuPostModal = ({ onEditAction, onDeleteAction }: ChangeMenuPostModalProps) => {
   const dict = useTranslations()
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
@@ -36,12 +35,12 @@ export const ChangeMenuPostModal = ({ onEdit, onDelete }: ChangeMenuPostModalPro
   const toggleMenuHandler = () => setIsMenuOpen((prev) => !prev)
 
   const handleEditClick = () => {
-    onEdit()
+    onEditAction()
     setIsMenuOpen(false)
   }
 
   const handleDeleteClick = () => {
-    onDelete()
+    onDeleteAction()
     setIsMenuOpen(false)
   }
 
