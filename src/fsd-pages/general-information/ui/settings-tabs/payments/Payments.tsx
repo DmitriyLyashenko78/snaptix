@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import s from './Payments.module.css'
-import { Pagination } from '@/shared/ui/pagination/Pagination' // путь к вашей компоненте
+import { Pagination } from '@/shared/ui/pagination/Pagination'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 interface Payment {
   dateOfPayment: string
@@ -34,6 +35,8 @@ const generateMockData = (): Payment[] => {
 const paymentsData = generateMockData()
 
 export const Payments = () => {
+  const dict = useTranslations()
+
   // Состояния для пагинации
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
@@ -56,11 +59,11 @@ export const Payments = () => {
     <div className={s.container}>
       <div className={s.table}>
         <div className={s.tableHeader}>
-          <div>Date of Payment</div>
-          <div>End date of subscription</div>
-          <div>Price</div>
-          <div>Subscription Type</div>
-          <div>Payment Type</div>
+          <div>{dict.settings.dateOfPayment}</div>
+          <div>{dict.settings.endDateOfSubscription}</div>
+          <div>{dict.settings.price}</div>
+          <div>{dict.settings.subscriptionType}</div>
+          <div>{dict.settings.paymentType}</div>
         </div>
 
         <div className={s.tableBody}>

@@ -14,6 +14,7 @@ import { useMyPostsQuery } from '@/features/my-posts/hooks/use-my-posts-query'
 import { useMeQuery } from '@/shared/api/auth/hooks/use-me-query'
 import { DefaultPostModal } from '@/entities/post/ui/default-post/DefaultPostModal'
 import type { Post } from '@/entities/post/ui/Post.types'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 // ==================== TYPES FOR FOLLOWERS ====================
 export interface Avatar {
@@ -90,6 +91,7 @@ const createMockFollowers = (baseUsers: SubscribersResponse): SubscribersRespons
 export const Profile = () => {
   const router = useRouter()
   const { isAuth } = useAuth()
+  const dict = useTranslations()
 
   const [activePost, setActivePost] = useState<Post | null>(null)
 
@@ -161,7 +163,7 @@ export const Profile = () => {
         {/* Аватар профиля */}
         <Image
           src={defaultPhoto}
-          alt={me?.username || 'User avatar'}
+          alt={me?.username || dict.profile.userAvatar}
           width={204}
           height={204}
           className={s.userPhoto}
@@ -176,7 +178,7 @@ export const Profile = () => {
             </div>
             {isAuth && (
               <Button variant="secondary" width="auto" onClick={onClickHandel}>
-                Profile Settings
+                {dict.profile.profileSettings}
               </Button>
             )}
           </div>
@@ -185,19 +187,19 @@ export const Profile = () => {
           <div className={s.subscriptionsWrapper}>
             <div className={s.subscriptions}>
               <span className={s.quantity}>2 218</span>
-              <span className={s.followers}>Following</span>
+              <span className={s.followers}>{dict.profile.following}</span>
             </div>
             <div className={s.subscriptions}>
               <span onClick={handleFollowersClick} className={s.quantity}>
                 {followers.totalCount}
               </span>
               <span className={s.followers} onClick={handleFollowersClick}>
-                Followers
+                {dict.profile.followers}
               </span>
             </div>
             <div className={s.subscriptions}>
               <span className={s.quantity}>{postsLoading && allPosts.length === 0 ? '...' : allPosts.length}</span>
-              <span className={s.followers}>Publications</span>
+              <span className={s.followers}>{dict.profile.publications}</span>
             </div>
           </div>
 
@@ -215,14 +217,14 @@ export const Profile = () => {
       {/* ==================== СЕТКА ПОСТОВ ==================== */}
       <div className={s.posts}>
         {/* Загрузка (первичная) */}
-        {postsLoading && allPosts.length === 0 && <div className={s.loading}>Загрузка постов...</div>}
+        {postsLoading && allPosts.length === 0 && <div className={s.loading}>{dict.profile.loadingPosts}</div>}
 
         {/* Ошибка */}
-        {postsError && <div className={s.error}>Не удалось загрузить посты</div>}
+        {postsError && <div className={s.error}>{dict.profile.errorLoadingPosts}</div>}
 
         {/* Пусто */}
         {!postsLoading && !postsError && allPosts.length === 0 && (
-          <div className={s.empty}>У вас пока нет публикаций</div>
+          <div className={s.empty}>{dict.profile.noPublications}</div>
         )}
 
         {/* Посты */}
@@ -231,7 +233,7 @@ export const Profile = () => {
             {post.media?.[0]?.url ? (
               <Image
                 src={post.media[0].url}
-                alt={post.description || 'SmallPost image'}
+                alt={post.description || dict.profile.smallPostImage}
                 width={234}
                 height={228}
                 className={s.postImage}
@@ -248,14 +250,20 @@ export const Profile = () => {
 
         {/* 🔥 Сентинел-элемент для Intersection Observer */}
         <div ref={sentinelRef} className={s.sentinel}>
-          {isFetchingNextPage && <div className={s.infiniteLoader}>Загрузка...</div>}
+          {isFetchingNextPage && <div className={s.infiniteLoader}>{dict.profile.loading}</div>}
         </div>
       </div>
 
       {/* ==================== MODAL: ПОДПИСЧИКИ ==================== */}
-      <Card isOpen={isCardOpen} onCloseAction={handleCloseCard} title="Followers" width="644px" height="654px">
+      <Card
+        isOpen={isCardOpen}
+        onCloseAction={handleCloseCard}
+        title={dict.profile.followers}
+        width="644px"
+        height="654px"
+      >
         <div className={s.container}>
-          <input className={s.search} placeholder=" Search" />
+          <input className={s.search} placeholder={dict.profile.search} />
           <div className={s.followersListWrapper}>
             <ul>
               {followers.items.map((f: Subscriber, index) => (
@@ -267,10 +275,10 @@ export const Profile = () => {
                     </div>
                     <div className={s.buttonFollowerWrapper}>
                       <Button variant="primary" width="auto">
-                        Follow
+                        {dict.profile.follow}
                       </Button>
                       <Button variant="secondary" width="auto">
-                        Delete
+                        {dict.profile.delete}
                       </Button>
                     </div>
                   </div>

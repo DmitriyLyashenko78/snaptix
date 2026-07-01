@@ -1,30 +1,34 @@
-// Валидные значения для part
-export const VALID_PARTS = [
+import type { Dictionary } from '@/shared/lib/i18n/dictionaries'
+
+// Функция для получения переведённых вкладок
+export const getValidParts = (dict: Dictionary) => [
   {
     id: 'general',
-    label: 'General information',
+    label: dict.settings.generalInformation,
   },
   {
     id: 'devices',
-    label: 'Devices',
+    label: dict.settings.devices,
   },
   {
     id: 'account',
-    label: 'Account Management',
+    label: dict.settings.accountManagement,
   },
   {
     id: 'payments',
-    label: 'My payments',
+    label: dict.settings.myPayments,
   },
 ]
 
-export const TYPE_SUBSCRIPTION = [
-  { label: 'Personal', value: 'personal' },
-  { label: 'Business', value: 'business' },
+// Функция для получения переведённых типов подписки
+export const getTypeSubscription = (dict: Dictionary) => [
+  { label: dict.settings.personal, value: 'personal' },
+  { label: dict.settings.business, value: 'business' },
 ]
 
-export const SUBSCRIPTION_COSTS = [
-  { label: '$10 per 1 Day', value: 'oneDay' },
-  { label: '$50 per 7 Days', value: 'sevenDays' },
-  { label: '$100 per month', value: 'month' },
+// Функция для получения переведённых стоимостей подписки
+export const getSubscriptionCosts = (dict: Dictionary) => [
+  { label: dict.settings.oneDay, value: 'oneDay' },
+  { label: dict.settings.sevenDays, value: 'sevenDays' },
+  { label: dict.settings.month, value: 'month' },
 ]

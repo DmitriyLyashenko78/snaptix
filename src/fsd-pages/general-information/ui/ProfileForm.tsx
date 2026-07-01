@@ -1,11 +1,12 @@
 'use client'
 
-import { useForm, SubmitHandler, Controller } from 'react-hook-form' // 👈 Добавить Controller
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { Button } from '@/shared/ui/button/Button'
 import { Input } from '@/shared/ui/input/Input'
 import { DatePicker } from '@/shared/ui/date-picker/DatePicker'
 import s from './ProfileForm.module.css'
 import { useMeQuery } from '@/shared/api/auth'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 interface IProfileForm {
   username: string
@@ -29,11 +30,12 @@ const defaultValues = {
 
 export default function ProfileForm() {
   const { data: me } = useMeQuery()
+  const dict = useTranslations()
 
   const {
     register,
     handleSubmit,
-    control, //  control для работы с DatePicker
+    control,
     formState: { errors, isSubmitting },
   } = useForm<IProfileForm>({
     defaultValues: defaultValues,
@@ -44,7 +46,7 @@ export default function ProfileForm() {
         }
       : undefined,
     resetOptions: {
-      keepDirtyValues: true, // 👈Предотвращает затирание измененных пользователем полей при обновлении 'values'
+      keepDirtyValues: true,
     },
   })
 
@@ -60,7 +62,7 @@ export default function ProfileForm() {
     }
 
     if (age < 13) {
-      return 'A user under 13 cannot create a profile. Privacy Policy'
+      return dict.profileForm.ageValidation
     }
     return true
   }
@@ -73,9 +75,9 @@ export default function ProfileForm() {
           resolve(true)
         }, 1000)
       })
-      alert('Your settings are saved!')
+      alert(dict.profileForm.settingsSaved)
     } catch (error) {
-      alert('Error! Server is not available!')
+      alert(dict.profileForm.serverNotAvailable)
       return console.log(error)
     }
   }
@@ -87,16 +89,17 @@ export default function ProfileForm() {
           id="username"
           label={
             <>
-              Username<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+              {dict.profileForm.username}
+              <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
             </>
           }
           {...register('username', {
-            required: 'Username is required',
-            minLength: { value: 6, message: 'Minimum 6 characters' },
-            maxLength: { value: 30, message: 'Maximum 30 characters' },
+            required: dict.profileForm.usernameRequired,
+            minLength: { value: 6, message: dict.profileForm.usernameMinLength },
+            maxLength: { value: 30, message: dict.profileForm.usernameMaxLength },
             pattern: {
               value: /^[a-zA-Z0-9_-]+$/,
-              message: 'Only Latin letters, numbers, " _ " and " - " are allowed',
+              message: dict.profileForm.usernamePattern,
             },
           })}
         />
@@ -107,15 +110,16 @@ export default function ProfileForm() {
           id="firstName"
           label={
             <>
-              First name<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+              {dict.profileForm.firstName}
+              <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
             </>
           }
           {...register('firstName', {
-            required: 'First name is required',
-            maxLength: { value: 50, message: 'Maximum 50 characters' },
+            required: dict.profileForm.firstNameRequired,
+            maxLength: { value: 50, message: dict.profileForm.firstNameMaxLength },
             pattern: {
               value: /^[a-zA-Za-яА-ЯёЁ]+$/,
-              message: 'Only Latin and Russian letters are allowed',
+              message: dict.profileForm.firstNamePattern,
             },
           })}
           error={errors.firstName?.message}
@@ -127,15 +131,16 @@ export default function ProfileForm() {
           id="lastName"
           label={
             <>
-              Last Name<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+              {dict.profileForm.lastName}
+              <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
             </>
           }
           {...register('lastName', {
-            required: 'Last name is required',
-            maxLength: { value: 50, message: 'Maximum 50 characters' },
+            required: dict.profileForm.lastNameRequired,
+            maxLength: { value: 50, message: dict.profileForm.lastNameMaxLength },
             pattern: {
               value: /^[a-zA-Za-яА-ЯёЁ]+$/,
-              message: 'Only Latin and Russian letters are allowed',
+              message: dict.profileForm.lastNamePattern,
             },
           })}
           error={errors.lastName?.message}
@@ -143,7 +148,7 @@ export default function ProfileForm() {
       </div>
 
       <div className={s.formGroup}>
-        <p className={s.date}>Date of birth</p>
+        <p className={s.date}>{dict.profileForm.dateOfBirth}</p>
         <Controller
           name="dateOfBirth"
           control={control}
@@ -164,10 +169,15 @@ export default function ProfileForm() {
                   <div
                     className={s.errorMessage}
                     dangerouslySetInnerHTML={{
-                      __html: error.message.replace(
-                        'Privacy Policy',
-                        '<a href="/privacy-policy" style="text-decoration: underline; color: #4C8DFF; font-weight: 500;">Privacy Policy</a>',
-                      ),
+                      __html: error.message
+                        .replace(
+                          'Privacy Policy',
+                          '<a href="/privacy-policy" style="text-decoration: underline; color: #4C8DFF; font-weight: 500;">Privacy Policy</a>',
+                        )
+                        .replace(
+                          'Политика конфиденциальности',
+                          '<a href="/privacy-policy" style="text-decoration: underline; color: #4C8DFF; font-weight: 500;">Политика конфиденциальности</a>',
+                        ),
                     }}
                   />
                 )}
@@ -179,13 +189,13 @@ export default function ProfileForm() {
 
       <div className={s.row}>
         <div className={s.rowItem}>
-          <label className={s.label}>Select your country</label>
+          <label className={s.label}>{dict.profileForm.selectYourCountry}</label>
           <select
             id="country"
-            {...register('country', { required: 'Please select a country' })}
+            {...register('country', { required: dict.profileForm.countryRequired })}
             className={`${s.select} ${errors.country ? s.selectError : ''}`}
           >
-            <option value="">Country</option>
+            <option value="">{dict.profileForm.country}</option>
             <option value="usa">United States</option>
             <option value="canada">Canada</option>
             <option value="uk">United Kingdom</option>
@@ -198,13 +208,13 @@ export default function ProfileForm() {
         </div>
 
         <div className={s.rowItem}>
-          <label className={s.label}>Select your city</label>
+          <label className={s.label}>{dict.profileForm.selectYourCity}</label>
           <select
             id="city"
-            {...register('city', { required: 'Please select a city' })}
+            {...register('city', { required: dict.profileForm.cityRequired })}
             className={`${s.select} ${errors.city ? s.selectError : ''}`}
           >
-            <option value="">City</option>
+            <option value="">{dict.profileForm.city}</option>
             <option value="new-york">New York</option>
             <option value="los-angeles">Los Angeles</option>
             <option value="chicago">Chicago</option>
@@ -217,18 +227,18 @@ export default function ProfileForm() {
 
       <div className={s.formGroup}>
         <label htmlFor="aboutMe" className={s.label}>
-          About Me
+          {dict.profileForm.aboutMe}
         </label>
         <textarea
           id="aboutMe"
           {...register('aboutMe', {
             maxLength: {
               value: 200,
-              message: 'Maximum 200 characters',
+              message: dict.profileForm.aboutMeMaxLength,
             },
           })}
           rows={4}
-          placeholder="Text-area"
+          placeholder={dict.profileForm.textArea}
           className={`${s.textarea} ${errors.aboutMe ? s.textareaError : ''}`}
         />
         {errors.aboutMe && <span className={s.errorMessage}>{errors.aboutMe.message}</span>}
@@ -236,7 +246,7 @@ export default function ProfileForm() {
 
       <div className={s.buttonWrapper}>
         <Button type="submit" variant="primary" disabled={isSubmitting} width="auto">
-          {isSubmitting ? 'Saving...' : 'Save Changes'}
+          {isSubmitting ? dict.profileForm.saving : dict.profileForm.saveChanges}
         </Button>
       </div>
     </form>

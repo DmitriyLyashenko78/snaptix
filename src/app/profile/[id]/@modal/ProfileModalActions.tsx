@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Modal } from '@/shared/ui/modalsPost/Modal'
 import { LogOutModal } from '@/widgets/modals'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 interface ProfileModalActionsProps {
   id: string
@@ -17,6 +18,7 @@ interface ProfileModalActionsProps {
  */
 export const ProfileModalActions = ({ id, postId, action }: ProfileModalActionsProps) => {
   const router = useRouter()
+  const dict = useTranslations()
 
   // postId + action одновременно недопустимы — оставляем только просмотр поста.
   useEffect(() => {
@@ -33,8 +35,8 @@ export const ProfileModalActions = ({ id, postId, action }: ProfileModalActionsP
 
   if (action === 'create') {
     return (
-      <Modal open onOpenChangeAction={handleOpenChange} title="Создать пост">
-        <div>Форма создания поста</div>
+      <Modal open onOpenChangeAction={handleOpenChange} title={dict.profileModal.createPost}>
+        <div>{dict.profileModal.createPostForm}</div>
       </Modal>
     )
   }

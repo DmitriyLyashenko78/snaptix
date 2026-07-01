@@ -2,6 +2,7 @@
 import s from './Devices.module.css'
 import { Button } from '@/shared/ui/button/Button'
 import { LogoutButton } from '@/shared/ui/logout-button/LogoutButton'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 const DEVICE_LIST = [
   {
@@ -35,13 +36,14 @@ const DEVICE_LIST = [
 ]
 
 export const Devices = () => {
+  const dict = useTranslations()
   const hasDevices = DEVICE_LIST.length > 0
 
   return (
     <div className={s.tabContent}>
-      <h3>Current device</h3>
+      <h3>{dict.settings.currentDevice}</h3>
       <div className={s.currentDevice}>
-        <div className={s.logoDevice}>Logo</div>
+        <div className={s.logoDevice}>{dict.settings.logo}</div>
         <div className={s.descriptionDevice}>
           <span>Chrome</span>
           <span>IP: 22.345.345.12</span>
@@ -55,11 +57,11 @@ export const Devices = () => {
           style={{ visibility: hasDevices ? 'visible' : 'hidden' }}
           disabled={!hasDevices}
         >
-          Terminate all other session
+          {dict.settings.terminateAllSessions}
         </Button>
       </div>
 
-      <h3 className={s.sectionTitle}>Active sessions</h3>
+      <h3 className={s.sectionTitle}>{dict.settings.activeSessions}</h3>
       <div className={s.deviceList}>
         {hasDevices ? (
           DEVICE_LIST.map((d) => {
@@ -76,7 +78,7 @@ export const Devices = () => {
             )
           })
         ) : (
-          <span className={s.notDevices}>You have not yet logged in from other devices</span>
+          <span className={s.notDevices}>{dict.settings.noOtherDevices}</span>
         )}
       </div>
     </div>
