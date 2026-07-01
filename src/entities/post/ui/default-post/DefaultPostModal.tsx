@@ -20,9 +20,11 @@ type DefaultPostProps = {
   userName: string
   avatarOwner?: string
   onClose: () => void
+  /** Показывать ли меню управления постом (edit/delete). По умолчанию true (свой пост). */
+  canManage?: boolean
 }
 
-export const DefaultPostModal = ({ post, userName, avatarOwner, onClose }: DefaultPostProps) => {
+export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canManage = true }: DefaultPostProps) => {
   const [isLikedByAuthor, setIsLikedByAuthor] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -83,7 +85,9 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose }: Defau
                   <Image src={userAvatar} alt={'user avatar'} width={36} height={36} className={s.avatar} />
                   <span className={s.userHeaderName}>{userName}</span>
                 </div>
-                <ChangeMenuPostModal onEdit={() => setIsEditOpen(true)} onDelete={() => setIsDeleteOpen(true)} />
+                {canManage && (
+                  <ChangeMenuPostModal onEdit={() => setIsEditOpen(true)} onDelete={() => setIsDeleteOpen(true)} />
+                )}
               </header>
 
               <section className={s.commentsArea}>
@@ -150,7 +154,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose }: Defau
           </PostLayout>
         </div>
       </div>
-      {isEditOpen && (
+      {canManage && isEditOpen && (
         <div onClick={(e) => e.stopPropagation()}>
           <PostDescriptionModal
             {...post}
@@ -160,7 +164,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose }: Defau
           />
         </div>
       )}
-      {isDeleteOpen && (
+      {canManage && isDeleteOpen && (
         <div onClick={(e) => e.stopPropagation()}>
           <DeletePost
             userPostId={post.id}

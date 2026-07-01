@@ -12,6 +12,11 @@ export const getPostCreatedTime = (date: string) => {
   const hours = Math.floor(minutes / 60)
   if (hours < 24) return `${hours} hours ago`
 
-  // Если больше суток
-  return new Date(date).toLocaleDateString()
+  // Если больше суток — детерминированный формат DD.MM.YYYY,
+  // не зависящий от локали окружения (иначе ошибка гидрации server/client)
+  const d = new Date(date)
+  const day = String(d.getUTCDate()).padStart(2, '0')
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0')
+  const year = d.getUTCFullYear()
+  return `${day}.${month}.${year}`
 }

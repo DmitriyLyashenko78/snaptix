@@ -1,18 +1,12 @@
-import type { Post } from '@/entities/post/ui/Post.types'
+import type { PostOwner, PostWithOwner } from '@/entities/post/ui/Post.types'
+
+export type { PostOwner }
 
 export type PostsRequestDto = {
   pageSize?: number
 }
 
-export type PostOwner = {
-  firstName: string
-  lastName: string
-  avatar: string | null
-}
-
-export type LatestPost = Post & {
-  owner: PostOwner
-}
+export type LatestPost = PostWithOwner
 
 export type LatestPostsResponseDto = {
   posts: LatestPost[]

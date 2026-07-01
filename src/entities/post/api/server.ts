@@ -1,5 +1,5 @@
 import 'server-only'
-import type { Post } from '@/entities/post/ui/Post.types'
+import type { PostWithOwner } from '@/entities/post/ui/Post.types'
 
 const BACKEND_URL = process.env.BACKEND_URL ?? 'https://snaptix.ru'
 const REVALIDATE_SECONDS = 60
@@ -11,7 +11,7 @@ export const postTag = (postId: string) => `post-${postId}`
  * Возвращает null, если пост не найден (404) — вызывающая сторона решает,
  * показать 404-страницу или пустую модалку.
  */
-export const getPostByIdServer = async (postId: string): Promise<Post | null> => {
+export const getPostByIdServer = async (postId: string): Promise<PostWithOwner | null> => {
   const res = await fetch(`${BACKEND_URL}/api/v1/posts/${postId}`, {
     headers: { Accept: 'application/json' },
     next: { revalidate: REVALIDATE_SECONDS, tags: [postTag(postId)] },
@@ -22,5 +22,5 @@ export const getPostByIdServer = async (postId: string): Promise<Post | null> =>
     throw new Error(`Backend /api/v1/posts/${postId} failed: ${res.status}`)
   }
 
-  return res.json() as Promise<Post>
+  return res.json() as Promise<PostWithOwner>
 }

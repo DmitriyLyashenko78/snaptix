@@ -38,6 +38,11 @@
   border-radius: 2px;
 }
 
+/* В модалке поста показываем изображение целиком, без обрезки */
+.large .image {
+  object-fit: contain;
+}
+
 .controls {
   position: absolute;
   inset: 0;
