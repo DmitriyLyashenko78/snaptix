@@ -45,6 +45,9 @@ const dict = {
     noAccount: "Don't have an account?",
     signUpButton: 'Sign Up',
   },
+  mainPage: {
+    registeredUsers: 'Registered users:',
+  },
 } as const
 
 export default dict

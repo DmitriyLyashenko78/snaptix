@@ -1,6 +1,8 @@
 import s from './page.module.css'
 import { SmallPost } from '@/entities/post/ui/small-post/SmallPost'
 import { getLatestPostsServer, getRegisteredUsersCountServer } from '@/features/main-page-all-posts/api'
+import { getLocale } from '@/shared/lib/i18n/getLocale'
+import { getDictionary } from '@/shared/lib/i18n/dictionaries'
 
 export const revalidate = 18000 // 5 часов (5 * 60 * 60)
 
@@ -22,6 +24,10 @@ const safe = async <T,>(promise: Promise<T>, fallback: T, label: string): Promis
 }
 
 export default async function MainPage() {
+  // Получаем язык и словарь
+  const locale = await getLocale()
+  const dict = await getDictionary(locale)
+
   const [{ posts }, { registeredUsersCount }] = await Promise.all([
     safe(getLatestPostsServer(POSTS_PAGE_SIZE), { posts: [] }, 'latest-posts'),
     safe(getRegisteredUsersCountServer(), { registeredUsersCount: 0 }, 'registered-users-count'),
@@ -32,7 +38,7 @@ export default async function MainPage() {
   return (
     <section className={s.content}>
       <section className={s.counter}>
-        <h2>Registered users:</h2>
+        <h2>{dict.mainPage.registeredUsers}</h2>
         <div className={s.digits}>
           {counterDigits.map((digit, i) => (
             <h2 key={i} className={s.digit}>

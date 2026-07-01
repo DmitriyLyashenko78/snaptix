@@ -34,6 +34,9 @@ export type Dictionary = {
     title: string
     body: string
   }
+  mainPage: {
+    registeredUsers: string
+  }
   auth: {
     logIn: string
     signUp: string
