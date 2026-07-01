@@ -253,7 +253,7 @@ export const Profile = () => {
       </div>
 
       {/* ==================== MODAL: ПОДПИСЧИКИ ==================== */}
-      <Card isOpen={isCardOpen} onClose={handleCloseCard} title="Followers" width="644px" height="654px">
+      <Card isOpen={isCardOpen} onCloseAction={handleCloseCard} title="Followers" width="644px" height="654px">
         <div className={s.container}>
           <input className={s.search} placeholder=" Search" />
           <div className={s.followersListWrapper}>
@@ -285,7 +285,7 @@ export const Profile = () => {
           post={activePost}
           userName={me?.username || 'UserName'}
           avatarOwner={ava.src}
-          onClose={() => setActivePost(null)}
+          onCloseAction={() => setActivePost(null)}
         />
       )}
     </div>

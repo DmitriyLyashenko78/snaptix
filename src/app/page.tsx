@@ -4,7 +4,7 @@ import { getLatestPostsServer, getRegisteredUsersCountServer } from '@/features/
 import { getLocale } from '@/shared/lib/i18n/getLocale'
 import { getDictionary } from '@/shared/lib/i18n/dictionaries'
 
-export const revalidate = 18000 // 5 часов (5 * 60 * 60)
+export const dynamic = 'force-dynamic'
 
 const COUNTER_WIDTH = 6
 const POSTS_PAGE_SIZE = 4

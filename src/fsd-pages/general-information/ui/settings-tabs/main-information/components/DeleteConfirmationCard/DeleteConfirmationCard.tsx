@@ -6,20 +6,20 @@ import Card from '@/shared/ui/card/Card'
 
 interface DeleteConfirmationCardProps {
   isOpen: boolean
-  onClose: () => void
-  onConfirm: () => void
+  onCloseAction: () => void
+  onConfirmAction: () => void
 }
 
-export const DeleteConfirmationCard = ({ isOpen, onClose, onConfirm }: DeleteConfirmationCardProps) => {
+export const DeleteConfirmationCard = ({ isOpen, onCloseAction, onConfirmAction }: DeleteConfirmationCardProps) => {
   return (
-    <Card width={438} height={240} isOpen={isOpen} onClose={onClose} title="Delete Photo">
+    <Card width={438} height={240} isOpen={isOpen} onCloseAction={onCloseAction} title="Delete Photo">
       <div className={s.deleteCardContainer}>
         <p className={s.deleteText}>Are you sure you want to delete this photo?</p>
         <div className={s.deleteActions}>
-          <Button variant="outline" width="auto" onClick={onClose}>
+          <Button variant="outline" width="auto" onClick={onCloseAction}>
             No
           </Button>
-          <Button variant="primary" width="auto" onClick={onConfirm}>
+          <Button variant="primary" width="auto" onClick={onConfirmAction}>
             Yes
           </Button>
         </div>

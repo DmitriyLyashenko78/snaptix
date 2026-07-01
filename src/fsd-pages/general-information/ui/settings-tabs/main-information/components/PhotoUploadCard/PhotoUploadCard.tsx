@@ -10,32 +10,32 @@ import { ImageIcon } from '@/shared/ui/svg/Icon'
 
 interface PhotoUploadCardProps {
   isOpen: boolean
-  onClose: () => void
+  onCloseAction: () => void
   error: string | null
   previewPhoto: string | null
-  onFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void
-  onSelectClick: () => void
-  onSave: () => void
+  onFileSelectAction: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSelectClickAction: () => void
+  onSaveAction: () => void
 }
 
 export const PhotoUploadCard = ({
   isOpen,
-  onClose,
+  onCloseAction,
   error,
   previewPhoto,
-  onFileSelect,
-  onSelectClick,
-  onSave,
+  onFileSelectAction,
+  onSelectClickAction,
+  onSaveAction,
 }: PhotoUploadCardProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleSelectClick = () => {
     fileInputRef.current?.click()
-    onSelectClick()
+    onSelectClickAction()
   }
 
   return (
-    <Card width={492} height={564} isOpen={isOpen} onClose={onClose} title="Add a Profile Photo">
+    <Card width={492} height={564} isOpen={isOpen} onCloseAction={onCloseAction} title="Add a Profile Photo">
       <div className={s.uploadContainer}>
         <div className={s.errorImg} style={{ visibility: error ? 'visible' : 'hidden' }}>
           <span className={s.errorTitle}>Error!</span>
@@ -48,7 +48,7 @@ export const PhotoUploadCard = ({
               <Image src={previewPhoto} alt="Preview" width={340} height={340} className={s.previewImage} />
             </div>
             <div className={s.previewActions}>
-              <Button variant="primary" width="auto" onClick={onSave}>
+              <Button variant="primary" width="auto" onClick={onSaveAction}>
                 Save
               </Button>
             </div>
@@ -61,7 +61,7 @@ export const PhotoUploadCard = ({
                 ref={fileInputRef}
                 type="file"
                 accept="image/jpeg,image/jpg,image/png"
-                onChange={onFileSelect}
+                onChange={onFileSelectAction}
                 className={s.hiddenInput}
               />
             </div>

@@ -6,11 +6,11 @@ import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 type DeletePost = {
   userPostId: string
-  onClose: () => void
-  onSuccessDelete: () => void
+  onCloseAction: () => void
+  onSuccessDeleteAction: () => void
 }
 
-export const DeletePost = ({ userPostId, onClose, onSuccessDelete }: DeletePost) => {
+export const DeletePost = ({ userPostId, onCloseAction, onSuccessDeleteAction }: DeletePost) => {
   const { mutate, isPending } = useDeleteMyPostMutation()
 
   const dict = useTranslations()
@@ -18,13 +18,13 @@ export const DeletePost = ({ userPostId, onClose, onSuccessDelete }: DeletePost)
   const handleDeletePost = () => {
     mutate(userPostId, {
       onSuccess: () => {
-        onSuccessDelete()
+        onSuccessDeleteAction()
       },
     })
   }
 
   return (
-    <ModalLayout title={dict.deletePost.title} onClose={onClose} onConfirm={handleDeletePost} isPending={isPending}>
+    <ModalLayout title={dict.deletePost.title} onClose={onCloseAction} onConfirm={handleDeletePost} isPending={isPending}>
       {dict.deletePost.body}
     </ModalLayout>
   )

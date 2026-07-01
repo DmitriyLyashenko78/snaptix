@@ -5,21 +5,21 @@ import { Button } from '@/shared/ui/button/Button'
 
 type Props = {
   open: boolean
-  onDiscard: () => void
-  onSaveDraft: () => void
+  onDiscardAction: () => void
+  onSaveDraftAction: () => void
 }
 
-export const CloseConfirmModal = ({ open, onDiscard, onSaveDraft }: Props) => (
+export const CloseConfirmModal = ({ open, onDiscardAction, onSaveDraftAction }: Props) => (
   <Modal
     open={open}
     onOpenChangeAction={() => {}}
     title="Close"
     footer={
       <>
-        <Button variant="outline" width="auto" onClick={onDiscard}>
+        <Button variant="outline" width="auto" onClick={onDiscardAction}>
           Discard
         </Button>
-        <Button variant="primary" width="auto" onClick={onSaveDraft}>
+        <Button variant="primary" width="auto" onClick={onSaveDraftAction}>
           Save draft
         </Button>
       </>

@@ -4,8 +4,8 @@ import { CloseIcon } from '@/shared/ui/svg/Icon'
 import { useModal } from '@/shared/hooks/useModal'
 import { CardProps } from '@/shared/ui/card/Card.types'
 
-export default function Card({ isOpen, onClose, title, children, width = '492px', height = '584px' }: CardProps) {
-  const cardRef = useModal({ isOpen, onClose })
+export default function Card({ isOpen, onCloseAction, title, children, width = '492px', height = '584px' }: CardProps) {
+  const cardRef = useModal({ isOpen, onClose: onCloseAction })
 
   if (!isOpen) return null
 
@@ -22,7 +22,7 @@ export default function Card({ isOpen, onClose, title, children, width = '492px'
             <span id="card-title" className={s.title}>
               {title}
             </span>
-            <button onClick={onClose} className={s.closeButton}>
+            <button onClick={onCloseAction} className={s.closeButton}>
               <CloseIcon color="var(--color-light-100)" />
             </button>
           </div>
