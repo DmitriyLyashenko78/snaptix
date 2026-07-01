@@ -3,6 +3,7 @@
 import s from './ChangeMenuPostModal.module.css'
 import { Basket, PencilPaper } from '@/shared/ui/svg/Icon'
 import { useState, useEffect, useRef } from 'react'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider' // Импорт хука
 
 type ChangeMenuPostModalProps = {
   onEdit: () => void
@@ -10,8 +11,10 @@ type ChangeMenuPostModalProps = {
 }
 
 export const ChangeMenuPostModal = ({ onEdit, onDelete }: ChangeMenuPostModalProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  // Получаем переводы из контекста
+  const dict = useTranslations()
 
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -52,12 +55,12 @@ export const ChangeMenuPostModal = ({ onEdit, onDelete }: ChangeMenuPostModalPro
         <section className={s.dropdownMenu}>
           <button className={s.menuItem} onClick={handleEditClick}>
             <span>{<PencilPaper />}</span>
-            <span>Edit Post</span>
+            <span>{dict.postMenu.edit}</span>
           </button>
 
           <button className={s.menuItem} onClick={handleDeleteClick}>
             <span>{<Basket />}</span>
-            <span>Delete Post</span>
+            <span>{dict.postMenu.delete}</span>
           </button>
         </section>
       )}

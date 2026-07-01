@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider' // Импорт хука
 import { Sidebar } from './Sidebar'
 import s from './Sidebar.module.css'
 import {
@@ -21,7 +22,9 @@ import {
 import { LogOutModal } from '@/widgets/modals'
 import { CreatePostModal } from '@/features/create-post'
 
-export const SidebarList = () => {
+export const SidebarListClient = () => {
+  const dict = useTranslations()
+
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
 
@@ -29,7 +32,7 @@ export const SidebarList = () => {
     <>
       <Sidebar>
         <Sidebar.Item href="/feed" icon={<HomeIcon />} activeIcon={<HomeActiveIcon />}>
-          Feed
+          {dict.sidebar.feed}
         </Sidebar.Item>
         <Sidebar.Item
           href="/create"
@@ -37,27 +40,27 @@ export const SidebarList = () => {
           activeIcon={<CreateActiveIcon />}
           onClick={() => setIsCreatePostOpen(true)}
         >
-          Create
+          {dict.sidebar.create}
         </Sidebar.Item>
         <Sidebar.Item href="/profile" icon={<ProfileIcon />} activeIcon={<ProfileActiveIcon />}>
-          My Profile
+          {dict.sidebar.myProfile}
         </Sidebar.Item>
         <Sidebar.Item href="/messenger" icon={<MessengerIcon />} activeIcon={<MessengerActiveIcon />}>
-          Messenger
+          {dict.sidebar.messenger}
         </Sidebar.Item>
         <Sidebar.Item href="/search" icon={<SearchIcon />}>
-          Search
+          {dict.sidebar.search}
         </Sidebar.Item>
 
         <Sidebar.Item href="/stats" icon={<StatsIcon />} className={s.groupIndent}>
-          Statistics
+          {dict.sidebar.statistics}
         </Sidebar.Item>
         <Sidebar.Item href="/favorites" icon={<FavoriteIcon />} activeIcon={<FavoriteActiveIcon />}>
-          Favorites
+          {dict.sidebar.favorites}
         </Sidebar.Item>
 
         <Sidebar.Item href="#" onClick={() => setIsLogoutModalOpen(true)} icon={<LogoutIcon />} className={s.logout}>
-          Log Out
+          {dict.sidebar.logOut}
         </Sidebar.Item>
       </Sidebar>
 

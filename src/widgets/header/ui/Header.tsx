@@ -1,9 +1,11 @@
 'use client'
+
 import Link from 'next/link'
 import s from './Header.module.css'
 import { Button } from '@/shared/ui/button/Button'
-import { LanguageSelect } from './language-switcher/LanguageSwitcher'
+import { LanguageSwitcher } from '@/widgets/header/ui/language-switcher/LanguageSwitcher'
 import { NotificationBell } from '@/widgets/header/ui/notification-bell/NotificationBell'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider' // Импорт хука
 
 interface Props {
   isAuth?: boolean
@@ -11,10 +13,8 @@ interface Props {
 }
 
 export const Header = ({ isAuth, isLoading }: Props) => {
-  const handleLanguageChange = (value: string) => {
-    console.log(value)
-    // Здесь будет логика смены языка
-  }
+  // Получаем переводы
+  const dict = useTranslations()
 
   return (
     <header>
@@ -25,7 +25,6 @@ export const Header = ({ isAuth, isLoading }: Props) => {
 
         <div className={s.nav}>
           {isLoading ? (
-            // Пока нет ответа /me — skeleton вместо кнопок авторизации.
             <div className={s.guestActions} aria-hidden="true">
               <span className={`${s.skeleton} ${s.skeletonSelect}`} />
               <span className={`${s.skeleton} ${s.skeletonBtn}`} />
@@ -36,16 +35,16 @@ export const Header = ({ isAuth, isLoading }: Props) => {
               <div className={s.notificationWrapper}>
                 <NotificationBell />
               </div>
-              <LanguageSelect onLanguageChange={handleLanguageChange} />
+              <LanguageSwitcher />
             </div>
           ) : (
             <div className={s.guestActions}>
-              <LanguageSelect onLanguageChange={handleLanguageChange} />
+              <LanguageSwitcher />
               <Link href="/signIn" className={s.loginBtn}>
-                Log in
+                {dict.auth.logIn}
               </Link>
               <Link href="/signup">
-                <Button variant="primary">Sign up</Button>
+                <Button variant="primary">{dict.auth.signUp}</Button>
               </Link>
             </div>
           )}

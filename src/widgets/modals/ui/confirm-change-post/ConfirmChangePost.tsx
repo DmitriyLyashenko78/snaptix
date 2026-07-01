@@ -1,12 +1,17 @@
+'use client'
+
 import { ModalLayout } from '@/widgets/modals/ui/ModalLayout'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 export const ConfirmChangePostModal = ({ onConfirm, onClose }: { onConfirm: () => void; onClose: () => void }) => {
+  const dict = useTranslations()
+
   return (
-    <ModalLayout title="Close SmallPost" onClose={onClose} onConfirm={onConfirm} isPending={false}>
+    <ModalLayout title={dict.confirmChangePost.title} onClose={onClose} onConfirm={onConfirm} isPending={false}>
       <p style={{ padding: 0, lineHeight: '1.5' }}>
-        Do you really want to finish editing?
+        {dict.confirmChangePost.bodyLine1}
         <br />
-        If you close the changes you have made will not be saved
+        {dict.confirmChangePost.bodyLine2}
       </p>
     </ModalLayout>
   )

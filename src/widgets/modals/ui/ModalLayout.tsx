@@ -1,6 +1,9 @@
+'use client'
+
 import type { ReactNode, MouseEvent } from 'react'
 import { CrossWhiteIcon } from '@/shared/ui/svg/Icon'
 import { Button } from '@/shared/ui/button/Button'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 import s from './ModalLayout.module.css'
 
 type Props = {
@@ -12,6 +15,8 @@ type Props = {
 }
 
 export const ModalLayout = ({ title, children, onClose, onConfirm, isPending = false }: Props) => {
+  const dict = useTranslations()
+
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose()
   }
@@ -29,10 +34,10 @@ export const ModalLayout = ({ title, children, onClose, onConfirm, isPending = f
 
         <footer className={s.buttons}>
           <Button variant="outline" onClick={onConfirm} disabled={isPending}>
-            Yes
+            {dict.modal.confirm}
           </Button>
           <Button variant="primary" onClick={onClose}>
-            No
+            {dict.modal.cancel}
           </Button>
         </footer>
       </div>
