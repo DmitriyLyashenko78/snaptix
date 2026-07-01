@@ -7,6 +7,7 @@ import Card from '@/shared/ui/card/Card'
 import Image from 'next/image'
 import { useRef } from 'react'
 import { ImageIcon } from '@/shared/ui/svg/Icon'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 interface PhotoUploadCardProps {
   isOpen: boolean
@@ -28,6 +29,7 @@ export const PhotoUploadCard = ({
   onSaveAction,
 }: PhotoUploadCardProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const dict = useTranslations()
 
   const handleSelectClick = () => {
     fileInputRef.current?.click()
@@ -35,21 +37,21 @@ export const PhotoUploadCard = ({
   }
 
   return (
-    <Card width={492} height={564} isOpen={isOpen} onCloseAction={onCloseAction} title="Add a Profile Photo">
+    <Card width={492} height={564} isOpen={isOpen} onCloseAction={onCloseAction} title={dict.photoUploadCard.addProfilePhoto}>
       <div className={s.uploadContainer}>
         <div className={s.errorImg} style={{ visibility: error ? 'visible' : 'hidden' }}>
-          <span className={s.errorTitle}>Error!</span>
+          <span className={s.errorTitle}>{dict.photoUploadCard.error}</span>
           <span className={s.errorText}>{error || ''}</span>
         </div>
 
         {previewPhoto ? (
           <>
             <div className={s.previewContainer}>
-              <Image src={previewPhoto} alt="Preview" width={340} height={340} className={s.previewImage} />
+              <Image src={previewPhoto} alt={dict.photoUploadCard.preview} width={340} height={340} className={s.previewImage} />
             </div>
             <div className={s.previewActions}>
               <Button variant="primary" width="auto" onClick={onSaveAction}>
-                Save
+                {dict.photoUploadCard.save}
               </Button>
             </div>
           </>
@@ -67,7 +69,7 @@ export const PhotoUploadCard = ({
             </div>
             <div className={s.actions}>
               <Button variant="primary" width="auto" onClick={handleSelectClick}>
-                Select from Computer
+                {dict.photoUploadCard.selectFromComputer}
               </Button>
             </div>
           </>

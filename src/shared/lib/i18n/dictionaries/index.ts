@@ -1,8 +1,111 @@
 import 'server-only'
 import type { Locale } from '../config'
 
-// Описываем структуру: ключи фиксированы, а значения могут быть любыми строками
 export type Dictionary = {
+  settings: {
+    generalInformation: string
+    devices: string
+    accountManagement: string
+    myPayments: string
+    personal: string
+    business: string
+    oneDay: string
+    sevenDays: string
+    month: string
+    currentSubscription: string
+    expireAt: string
+    nextPayment: string
+    autoRenewal: string
+    accountType: string
+    yourSubscriptionCosts: string
+    or: string
+    paymentMethodsPayPal: string
+    paymentMethodsStripe: string
+    currentDevice: string
+    logo: string
+    terminateAllSessions: string
+    activeSessions: string
+    noOtherDevices: string
+    dateOfPayment: string
+    endDateOfSubscription: string
+    price: string
+    subscriptionType: string
+    paymentType: string
+  }
+  profile: {
+    profileSettings: string
+    following: string
+    followers: string
+    publications: string
+    loadingPosts: string
+    errorLoadingPosts: string
+    noPublications: string
+    loading: string
+    search: string
+    follow: string
+    delete: string
+    userAvatar: string
+    smallPostImage: string
+  }
+  profileForm: {
+    username: string
+    firstName: string
+    lastName: string
+    dateOfBirth: string
+    selectYourCountry: string
+    country: string
+    selectYourCity: string
+    city: string
+    aboutMe: string
+    textArea: string
+    saveChanges: string
+    saving: string
+    usernameRequired: string
+    usernameMinLength: string
+    usernameMaxLength: string
+    usernamePattern: string
+    firstNameRequired: string
+    firstNameMaxLength: string
+    firstNamePattern: string
+    lastNameRequired: string
+    lastNameMaxLength: string
+    lastNamePattern: string
+    ageValidation: string
+    countryRequired: string
+    cityRequired: string
+    aboutMeMaxLength: string
+    settingsSaved: string
+    serverNotAvailable: string
+  }
+  post: {
+    authorAvatar: string
+    postContent: string
+    avatar: string
+    like: string
+    viewAllComments: string
+    addComment: string
+    publish: string
+  }
+  avatarUploader: {
+    selectProfilePhoto: string
+  }
+  photoUploadCard: {
+    addProfilePhoto: string
+    error: string
+    preview: string
+    save: string
+    selectFromComputer: string
+  }
+  profileModal: {
+    createPost: string
+    createPostForm: string
+  }
+  messenger: {
+    title: string
+  }
+  search: {
+    title: string
+  }
   sidebar: {
     feed: string
     create: string
