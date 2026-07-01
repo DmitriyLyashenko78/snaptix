@@ -11,10 +11,10 @@ const MAX_CHARS = 500
 type Props = {
   photos: PhotoItem[]
   description: string
-  onDescriptionChange: (text: string) => void
+  onDescriptionChangeAction: (text: string) => void
 }
 
-export const DescriptionStep = ({ photos, description, onDescriptionChange }: Props) => {
+export const DescriptionStep = ({ photos, description, onDescriptionChangeAction }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const { data: me } = useMeQuery()
   const current = photos[currentIndex]
@@ -47,7 +47,7 @@ export const DescriptionStep = ({ photos, description, onDescriptionChange }: Pr
             <textarea
               className={s.textarea}
               value={description}
-              onChange={(e) => onDescriptionChange(e.target.value)}
+              onChange={(e) => onDescriptionChangeAction(e.target.value)}
               placeholder="Add a description..."
               maxLength={MAX_CHARS}
             />

@@ -16,7 +16,7 @@ import defaultAvatar from '@/public/png/userAvatar.png'
 
 type PostDescriptionModal = {
   isOpen: boolean
-  onClose: () => void
+  onCloseAction: () => void
   avatarOwner?: string
 } & Post
 
@@ -24,7 +24,7 @@ export const PostDescriptionModal = ({
   description,
   id,
   isOpen,
-  onClose,
+  onCloseAction,
   avatarOwner,
   media,
 }: PostDescriptionModal) => {
@@ -42,14 +42,14 @@ export const PostDescriptionModal = ({
     if (isNewText) {
       setIsConfirmOpen(true)
     } else {
-      onClose()
+      onCloseAction()
     }
-  }, [onClose, isNewText])
+  }, [onCloseAction, isNewText])
 
   const handleSaveChangeDescription = async () => {
     try {
       await updatePostDescript({ postId: id, description: currentDescription })
-      onClose()
+      onCloseAction()
     } catch (error) {
       console.error('Failed to update description:', error)
     }
@@ -86,7 +86,7 @@ export const PostDescriptionModal = ({
                 <TextArea
                   className={s.area}
                   value={currentDescription}
-                  onValueChange={setCurrentDescription}
+                  onValueChangeAction={setCurrentDescription}
                   maxLength={500}
                 />
                 <div className={s.charCount}>{currentDescription.length} / 500</div>
@@ -110,7 +110,7 @@ export const PostDescriptionModal = ({
         <ConfirmChangePostModal
           onConfirm={() => {
             setIsConfirmOpen(false)
-            onClose()
+            onCloseAction()
           }}
           onClose={() => setIsConfirmOpen(false)}
         />

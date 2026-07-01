@@ -19,12 +19,12 @@ type DefaultPostProps = {
   post: Post
   userName: string
   avatarOwner?: string
-  onClose: () => void
+  onCloseAction: () => void
   /** Показывать ли меню управления постом (edit/delete). По умолчанию true (свой пост). */
   canManage?: boolean
 }
 
-export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canManage = true }: DefaultPostProps) => {
+export const DefaultPostModal = ({ post, userName, avatarOwner, onCloseAction, canManage = true }: DefaultPostProps) => {
   const [isLikedByAuthor, setIsLikedByAuthor] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -39,7 +39,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canMana
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      onClose()
+      onCloseAction()
     }
   }
 
@@ -73,7 +73,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canMana
   return (
     <>
       <div className={s.overlay} onClick={handleOverlayClick}>
-        <button className={s.closeOutside} onClick={onClose}>
+        <button className={s.closeOutside} onClick={onCloseAction}>
           <CrossWhiteIcon />
         </button>
 
@@ -86,7 +86,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canMana
                   <span className={s.userHeaderName}>{userName}</span>
                 </div>
                 {canManage && (
-                  <ChangeMenuPostModal onEdit={() => setIsEditOpen(true)} onDelete={() => setIsDeleteOpen(true)} />
+                  <ChangeMenuPostModal onEditAction={() => setIsEditOpen(true)} onDeleteAction={() => setIsDeleteOpen(true)} />
                 )}
               </header>
 
@@ -160,7 +160,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canMana
             {...post}
             isOpen={isEditOpen}
             avatarOwner={avatarOwner}
-            onClose={() => setIsEditOpen(false)}
+            onCloseAction={() => setIsEditOpen(false)}
           />
         </div>
       )}
@@ -168,10 +168,10 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onClose, canMana
         <div onClick={(e) => e.stopPropagation()}>
           <DeletePost
             userPostId={post.id}
-            onClose={() => setIsDeleteOpen(false)}
-            onSuccessDelete={() => {
+            onCloseAction={() => setIsDeleteOpen(false)}
+            onSuccessDeleteAction={() => {
               setIsDeleteOpen(false)
-              onClose()
+              onCloseAction()
             }}
           />
         </div>

@@ -7,11 +7,11 @@ import s from './FilterStep.module.css'
 type Props = {
   photos: PhotoItem[]
   currentIndex: number
-  onSetCurrentPhoto: (index: number) => void
-  onSetFilter: (id: string, filterId: string) => void
+  onSetCurrentPhotoAction: (index: number) => void
+  onSetFilterAction: (id: string, filterId: string) => void
 }
 
-export const FilterStep = ({ photos, currentIndex, onSetCurrentPhoto, onSetFilter }: Props) => {
+export const FilterStep = ({ photos, currentIndex, onSetCurrentPhotoAction, onSetFilterAction }: Props) => {
   const current = photos[currentIndex]
   const src = current?.croppedSrc ?? current?.originalSrc
   const currentFilter = POST_FILTERS.find((f) => f.id === current?.filterId) ?? POST_FILTERS[0]
@@ -34,7 +34,7 @@ export const FilterStep = ({ photos, currentIndex, onSetCurrentPhoto, onSetFilte
                 <button
                   key={filter.id}
                   className={`${s.filterItem} ${isActive ? s.filterItemActive : ''}`}
-                  onClick={() => onSetFilter(current.id, filter.id)}
+                  onClick={() => onSetFilterAction(current.id, filter.id)}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={src} alt={filter.label} className={s.filterThumb} style={filter.style} />
@@ -55,7 +55,7 @@ export const FilterStep = ({ photos, currentIndex, onSetCurrentPhoto, onSetFilte
               <button
                 key={photo.id}
                 className={`${s.thumbBtn} ${idx === currentIndex ? s.thumbBtnActive : ''}`}
-                onClick={() => onSetCurrentPhoto(idx)}
+                onClick={() => onSetCurrentPhotoAction(idx)}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={thumbSrc} alt="" className={s.thumbImg} style={photoFilter.style} />

@@ -40,7 +40,7 @@ export const ProfileModalActions = ({ id, postId, action }: ProfileModalActionsP
   }
 
   if (action === 'logout') {
-    return <LogOutModal userId={id} onClose={() => router.back()} />
+    return <LogOutModal userId={id} onCloseAction={() => router.back()} />
   }
 
   return null

@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 export interface CardProps {
   isOpen: boolean
-  onClose: () => void
+  onCloseAction: () => void
   title?: string
   children: ReactNode
   width?: string | number

@@ -11,7 +11,7 @@ export const TextArea = ({
   error,
   disabled,
   value,
-  onValueChange,
+  onValueChangeAction,
   maxLength,
 }: TextAreaProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -31,7 +31,7 @@ export const TextArea = ({
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value
     if (maxLength && text.length <= maxLength) {
-      onValueChange(text)
+      onValueChangeAction(text)
     }
   }
 
