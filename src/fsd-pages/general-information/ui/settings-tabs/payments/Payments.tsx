@@ -20,7 +20,7 @@ const generateMockData = (): Payment[] => {
   const prices = ['$10', '$25', '$50', '$75', '$100', '$150', '$200']
 
   const data: Payment[] = []
-  for (let i = 1; i <= 40; i++) {
+  for (let i = 1; i <= 90; i++) {
     data.push({
       dateOfPayment: '12.12.2022',
       endDate: '12.12.2022',

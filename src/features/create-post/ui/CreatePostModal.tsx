@@ -11,13 +11,16 @@ import { FilterStep } from './steps/FilterStep'
 import { DescriptionStep } from './steps/DescriptionStep'
 import { CloseConfirmModal } from './CloseConfirmModal'
 import s from './CreatePostModal.module.css'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
+import type { Dictionary } from '@/shared/lib/i18n/dictionaries'
 
-const STEP_TITLES: Record<string, string> = {
-  upload: 'Add Photo',
-  crop: 'Cropping',
-  filters: 'Filters',
-  description: 'Publication',
-}
+// Функция для получения переведённых заголовков шагов
+const getStepTitles = (dict: Dictionary): Record<string, string> => ({
+  upload: dict.createPost.addPhoto,
+  crop: dict.createPost.cropping,
+  filters: dict.createPost.filters,
+  description: dict.createPost.publication,
+})
 
 type Props = {
   open: boolean
@@ -25,8 +28,11 @@ type Props = {
 }
 
 export const CreatePostModal = ({ open, onCloseAction }: Props) => {
+  const dict = useTranslations()
   const wizard = useCreatePostWizard(onCloseAction)
   const { step, photos, currentPhotoIndex, description, isCloseConfirmOpen, isPublishing } = wizard
+
+  const STEP_TITLES = getStepTitles(dict)
 
   const [isCropping, setIsCropping] = useState(false)
   const isWide = step !== 'upload'
@@ -71,7 +77,11 @@ export const CreatePostModal = ({ open, onCloseAction }: Props) => {
             <header className={s.header}>
               <div className={s.headerLeft}>
                 {step !== 'upload' && (
-                  <button className={s.backBtn} onClick={() => wizard.goBack(hasPhotos)} aria-label="Back">
+                  <button
+                    className={s.backBtn}
+                    onClick={() => wizard.goBack(hasPhotos)}
+                    aria-label={dict.createPost.back}
+                  >
                     <ArrowBackIcon width={20} height={20} />
                   </button>
                 )}
@@ -82,21 +92,25 @@ export const CreatePostModal = ({ open, onCloseAction }: Props) => {
               <div className={s.headerRight}>
                 {step === 'crop' && (
                   <button className={s.nextBtn} onClick={handleCropNext} disabled={isCropping}>
-                    {isCropping ? 'Processing…' : 'Next'}
+                    {isCropping ? dict.createPost.processing : dict.createPost.next}
                   </button>
                 )}
                 {step === 'filters' && (
                   <button className={s.nextBtn} onClick={wizard.goNext}>
-                    Next
+                    {dict.createPost.next}
                   </button>
                 )}
                 {step === 'description' && (
                   <button className={s.nextBtn} onClick={wizard.publish} disabled={isPublishing}>
-                    {isPublishing ? 'Publishing…' : 'Publish'}
+                    {isPublishing ? dict.createPost.publishing : dict.createPost.publish}
                   </button>
                 )}
                 {step === 'upload' && (
-                  <button className={s.closeBtn} onClick={() => wizard.requestClose(hasPhotos)} aria-label="Close">
+                  <button
+                    className={s.closeBtn}
+                    onClick={() => wizard.requestClose(hasPhotos)}
+                    aria-label={dict.createPost.close}
+                  >
                     <CloseIcon />
                   </button>
                 )}

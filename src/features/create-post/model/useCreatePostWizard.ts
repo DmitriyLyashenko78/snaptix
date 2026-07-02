@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import type { Point, Area } from 'react-easy-crop'
 import { uploadPostPhoto, createPost } from '../api'
 import { revalidateHomePostsAction } from '@/features/main-page-all-posts/api/revalidate'
@@ -34,6 +35,7 @@ const createPhotoItem = (file: File): PhotoItem => ({
 })
 
 export const useCreatePostWizard = (onClose: () => void) => {
+  const queryClient = useQueryClient()
   const [step, setStep] = useState<WizardStep>('upload')
   const [photos, setPhotos] = useState<PhotoItem[]>([])
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0)
@@ -154,6 +156,7 @@ export const useCreatePostWizard = (onClose: () => void) => {
         description,
         media: uploadResults.map((r) => ({ fileId: r.fileId })),
       })
+      queryClient.invalidateQueries({ queryKey: ['posts', 'my'] })
       await revalidateHomePostsAction()
       doReset()
       onClose()

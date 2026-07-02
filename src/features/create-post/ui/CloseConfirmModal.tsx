@@ -2,6 +2,7 @@
 
 import { Modal } from '@/shared/ui/modalsPost/Modal'
 import { Button } from '@/shared/ui/button/Button'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 type Props = {
   open: boolean
@@ -9,22 +10,26 @@ type Props = {
   onSaveDraftAction: () => void
 }
 
-export const CloseConfirmModal = ({ open, onDiscardAction, onSaveDraftAction }: Props) => (
-  <Modal
-    open={open}
-    onOpenChangeAction={() => {}}
-    title="Close"
-    footer={
-      <>
-        <Button variant="outline" width="auto" onClick={onDiscardAction}>
-          Discard
-        </Button>
-        <Button variant="primary" width="auto" onClick={onSaveDraftAction}>
-          Save draft
-        </Button>
-      </>
-    }
-  >
-    <p>Do you really want to close the creation of a publication? If you close everything will be deleted</p>
-  </Modal>
-)
+export const CloseConfirmModal = ({ open, onDiscardAction, onSaveDraftAction }: Props) => {
+  const dict = useTranslations()
+
+  return (
+    <Modal
+      open={open}
+      onOpenChangeAction={() => {}}
+      title={dict.closeConfirm.title}
+      footer={
+        <>
+          <Button variant="outline" width="auto" onClick={onDiscardAction}>
+            {dict.closeConfirm.discard}
+          </Button>
+          <Button variant="primary" width="auto" onClick={onSaveDraftAction}>
+            {dict.closeConfirm.saveDraft}
+          </Button>
+        </>
+      }
+    >
+      <p>{dict.closeConfirm.body}</p>
+    </Modal>
+  )
+}

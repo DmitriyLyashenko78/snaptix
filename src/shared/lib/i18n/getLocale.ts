@@ -18,6 +18,5 @@ export async function getLocale(): Promise<Locale> {
     return 'ru'
   }
 
-  // 3. Дефолт
   return DEFAULT_LOCALE
 }

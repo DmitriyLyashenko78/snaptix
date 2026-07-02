@@ -15,9 +15,11 @@ import { useSignInMutation } from '@/fsd-pages/sign-in/api/hooks/use-sign-in-mut
 import { mapLoginServerErrors } from '@/fsd-pages/sign-in/model/lib/map-login-server-errors'
 import { setAuthAction } from '@/app/actions/actions'
 import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const SignInForm = () => {
   const router = useRouter()
+  const queryClient = useQueryClient()
   // Получаем переводы
   const dict = useTranslations()
 
@@ -36,6 +38,7 @@ export const SignInForm = () => {
   const { mutate, isPending } = useSignInMutation({
     onSuccess: async (data) => {
       await setAuthAction(data.accessToken)
+      queryClient.invalidateQueries({ queryKey: ['auth', 'status'] })
       reset()
       router.push('/profile')
     },

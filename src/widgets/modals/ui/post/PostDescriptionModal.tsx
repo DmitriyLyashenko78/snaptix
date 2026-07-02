@@ -13,6 +13,7 @@ import { useChangePostDescriptMutation } from '@/features/change-descp-post/hook
 import type { Post } from '@/entities/post/ui/Post.types'
 import { useMeQuery } from '@/shared/api/auth'
 import defaultAvatar from '@/public/png/userAvatar.png'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 type PostDescriptionModal = {
   isOpen: boolean
@@ -28,6 +29,7 @@ export const PostDescriptionModal = ({
   avatarOwner,
   media,
 }: PostDescriptionModal) => {
+  const dict = useTranslations()
   const [currentDescription, setCurrentDescription] = useState(description ?? '')
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
@@ -68,7 +70,7 @@ export const PostDescriptionModal = ({
       <div className={s.overlay} onClick={(e) => e.stopPropagation}>
         <div className={s.modalContent} ref={modalRef} tabIndex={-1}>
           <section className={s.titleBlock}>
-            <h1>Edit Post</h1>
+            <h1>{dict.editPost.title}</h1>
             <button className={s.close} onClick={handleCloseConfirm}>
               <CrossWhiteIcon />
             </button>
@@ -76,12 +78,12 @@ export const PostDescriptionModal = ({
           <PostLayout variant={'large'} images={postImages}>
             <div className={s.editForm}>
               <section className={s.author}>
-                <Image src={userAvatar} alt={'user avatar'} width={36} height={36} className={s.avatar} />
+                <Image src={userAvatar} alt={dict.editPost.userAvatar} width={36} height={36} className={s.avatar} />
                 <h3>{me?.username}</h3>
               </section>
               <section className={s.description}>
                 <label htmlFor="textArea" className={s.label}>
-                  Add publication descriptions
+                  {dict.editPost.addDescription}
                 </label>
                 <TextArea
                   className={s.area}
@@ -98,7 +100,7 @@ export const PostDescriptionModal = ({
                   onClick={handleSaveChangeDescription}
                   disabled={isPending || !isNewText}
                 >
-                  Save Changes
+                  {dict.editPost.saveChanges}
                 </Button>
               </div>
             </div>

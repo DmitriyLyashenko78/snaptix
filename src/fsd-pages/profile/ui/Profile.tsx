@@ -87,7 +87,6 @@ const createMockFollowers = (baseUsers: SubscribersResponse): SubscribersRespons
   return { ...baseUsers, totalCount: 10, items: newItems }
 }
 
-// ==================== COMPONENT ====================
 export const Profile = () => {
   const router = useRouter()
   const { isAuth } = useAuth()
@@ -151,7 +150,6 @@ export const Profile = () => {
 
   const allPosts = postsData?.pages.flatMap((page) => page.posts) || []
 
-  // Handlers
   const handleFollowersClick = () => setIsCardOpen(true)
   const handleCloseCard = () => setIsCardOpen(false)
   const onClickHandel = () => router.push('/settings')

@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { Button } from '@/shared/ui/button/Button'
 import { ImageIcon } from '@/shared/ui/svg/Icon'
 import s from './UploadStep.module.css'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 type Props = {
   onFileSelectedAction: (file: File) => void
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export const UploadStep = ({ onFileSelectedAction, error, onClearErrorAction }: Props) => {
+  const dict = useTranslations()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +33,17 @@ export const UploadStep = ({ onFileSelectedAction, error, onClearErrorAction }: 
         <span className={s.placeholderIcon}>
           <ImageIcon width={80} height={80} />
         </span>
-        <p className={s.placeholderText}>Select photos or drag and drop here</p>
+        <p className={s.placeholderText}>{dict.createPost.selectPhotosOrDragDrop}</p>
       </div>
 
       {error && <p className={s.error}>{error}</p>}
 
       <div className={s.actions}>
         <Button variant="primary" width="full" onClick={handleSelectClick}>
-          Select from Computer
+          {dict.createPost.selectFromComputer}
         </Button>
         <Button variant="ghost" width="full">
-          Open draft
+          {dict.createPost.openDraft}
         </Button>
       </div>
 

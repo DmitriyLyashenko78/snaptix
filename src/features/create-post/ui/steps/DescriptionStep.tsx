@@ -5,6 +5,7 @@ import { POST_FILTERS } from '../../model/filters'
 import type { PhotoItem } from '../../model/useCreatePostWizard'
 import { useMeQuery } from '@/shared/api/auth'
 import s from './DescriptionStep.module.css'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 const MAX_CHARS = 500
 
@@ -15,6 +16,7 @@ type Props = {
 }
 
 export const DescriptionStep = ({ photos, description, onDescriptionChangeAction }: Props) => {
+  const dict = useTranslations()
   const [currentIndex, setCurrentIndex] = useState(0)
   const { data: me } = useMeQuery()
   const current = photos[currentIndex]
@@ -25,14 +27,14 @@ export const DescriptionStep = ({ photos, description, onDescriptionChangeAction
   if (!current) return null
 
   const avatarLetter = me?.username?.[0]?.toUpperCase() ?? 'U'
-  const displayName = me?.username ?? 'My Profile'
+  const displayName = me?.username ?? dict.createPost.myProfile
 
   return (
     <div>
       <div className={s.layout}>
         <div className={s.photoPreview}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="Preview" className={s.photoImg} style={filter.style} />
+          <img src={src} alt={dict.createPost.preview} className={s.photoImg} style={filter.style} />
         </div>
 
         <div className={s.form}>
@@ -48,7 +50,7 @@ export const DescriptionStep = ({ photos, description, onDescriptionChangeAction
               className={s.textarea}
               value={description}
               onChange={(e) => onDescriptionChangeAction(e.target.value)}
-              placeholder="Add a description..."
+              placeholder={dict.createPost.addDescription}
               maxLength={MAX_CHARS}
             />
             <span className={`${s.counter} ${isOver ? s.counterOver : ''}`}>
