@@ -7,6 +7,11 @@ export const getPaginationPages = (currentPage: number, pagesCount: number): (nu
   const showLeftDots = leftSibling > 3
   const showRightDots = rightSibling < pagesCount - 2
 
+  // Мало страниц — показываем все без троеточий
+  if (!showLeftDots && !showRightDots) {
+    return Array.from({ length: pagesCount }, (_, i) => i + 1)
+  }
+
   if (!showLeftDots && showRightDots) {
     const leftRange = Array.from({ length: 5 }, (_, i) => i + 1)
     return [...leftRange, '...', pagesCount]

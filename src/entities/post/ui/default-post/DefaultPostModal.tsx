@@ -14,6 +14,7 @@ import { CommentItem } from '@/entities/post/ui/default-post-modal-comment/Defau
 import { ChangeMenuPostModal } from '@/widgets/modals/ui/change-menu-post-modal/ChangeMenuPostModal'
 import { PostDescriptionModal } from '@/widgets/modals/ui/post/PostDescriptionModal'
 import { DeletePost } from '@/widgets/modals/ui/delete-post/DeletePost'
+import { useTranslations } from '@/shared/lib/i18n/TranslationsProvider'
 
 type DefaultPostProps = {
   post: Post
@@ -24,7 +25,14 @@ type DefaultPostProps = {
   canManage?: boolean
 }
 
-export const DefaultPostModal = ({ post, userName, avatarOwner, onCloseAction, canManage = true }: DefaultPostProps) => {
+export const DefaultPostModal = ({
+  post,
+  userName,
+  avatarOwner,
+  onCloseAction,
+  canManage = true,
+}: DefaultPostProps) => {
+  const dict = useTranslations()
   const [isLikedByAuthor, setIsLikedByAuthor] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -33,7 +41,7 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onCloseAction, c
 
   const userAvatar = avatarOwner ? avatarOwner : defaultAvatar
 
-  const formattedDate = post.createdAt ? getPostCreatedTime(post.createdAt) : 'Just now'
+  const formattedDate = post.createdAt ? getPostCreatedTime(post.createdAt) : dict.postModal.justNow
 
   const postImages = post.media?.map((m) => ({ url: m.url, mediaId: m.mediaId }))
 
@@ -82,11 +90,14 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onCloseAction, c
             <div className={s.wrapper}>
               <header className={s.authorHeader}>
                 <div className={s.authorInfo}>
-                  <Image src={userAvatar} alt={'user avatar'} width={36} height={36} className={s.avatar} />
+                  <Image src={userAvatar} alt={dict.postModal.userAvatar} width={36} height={36} className={s.avatar} />
                   <span className={s.userHeaderName}>{userName}</span>
                 </div>
                 {canManage && (
-                  <ChangeMenuPostModal onEditAction={() => setIsEditOpen(true)} onDeleteAction={() => setIsDeleteOpen(true)} />
+                  <ChangeMenuPostModal
+                    onEditAction={() => setIsEditOpen(true)}
+                    onDeleteAction={() => setIsDeleteOpen(true)}
+                  />
                 )}
               </header>
 
@@ -133,20 +144,38 @@ export const DefaultPostModal = ({ post, userName, avatarOwner, onCloseAction, c
                 <section>
                   <div className={s.likesWrapper}>
                     <div className={s.iconsWrapper}>
-                      <Image className={s.stackedImage} src={userAvatar} alt="avatar 1" width={24} height={24} />
-                      <Image className={s.stackedImage} src={defaultAvatar} alt="avatar 2" width={24} height={24} />
-                      <Image className={s.stackedImage} src={avatar2} alt="avatar 3" width={24} height={24} />
+                      <Image
+                        className={s.stackedImage}
+                        src={userAvatar}
+                        alt={`${dict.postModal.avatar} 1`}
+                        width={24}
+                        height={24}
+                      />
+                      <Image
+                        className={s.stackedImage}
+                        src={defaultAvatar}
+                        alt={`${dict.postModal.avatar} 2`}
+                        width={24}
+                        height={24}
+                      />
+                      <Image
+                        className={s.stackedImage}
+                        src={avatar2}
+                        alt={`${dict.postModal.avatar} 3`}
+                        width={24}
+                        height={24}
+                      />
                     </div>
-                    <span className={s.likesCount}>2243 &ldquo;Likes&rdquo;</span>
+                    <span className={s.likesCount}>2243 {dict.postModal.likes}</span>
                   </div>
                 </section>
 
                 <div className={s.postDate}>July 3, 2021</div>
 
                 <div className={s.addCommentForm}>
-                  <input type="text" placeholder="Add a Comment..." className={s.commentInput} />
+                  <input type="text" placeholder={dict.postModal.addComment} className={s.commentInput} />
                   <button type="button" className={s.publishButton}>
-                    Publish
+                    {dict.postModal.publish}
                   </button>
                 </div>
               </footer>

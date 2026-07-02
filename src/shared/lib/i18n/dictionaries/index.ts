@@ -2,6 +2,44 @@ import 'server-only'
 import type { Locale } from '../config'
 
 export type Dictionary = {
+  closeConfirm: {
+    title: string
+    body: string
+    discard: string
+    saveDraft: string
+  }
+  createPost: {
+    addPhoto: string
+    cropping: string
+    filters: string
+    publication: string
+    back: string
+    close: string
+    processing: string
+    next: string
+    publishing: string
+    publish: string
+    addDescription: string
+    preview: string
+    myProfile: string
+    selectPhotosOrDragDrop: string
+    selectFromComputer: string
+    openDraft: string
+  }
+  editPost: {
+    title: string
+    userAvatar: string
+    addDescription: string
+    saveChanges: string
+  }
+  postModal: {
+    justNow: string
+    userAvatar: string
+    avatar: string
+    likes: string
+    addComment: string
+    publish: string
+  }
   settings: {
     generalInformation: string
     devices: string
