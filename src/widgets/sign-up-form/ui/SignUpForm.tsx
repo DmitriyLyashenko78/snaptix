@@ -19,6 +19,7 @@ export const SignUpForm = () => {
     register,
     handleSubmit,
     watch,
+    getValues,
     reset,
     setError,
     formState: { errors, isValid },
@@ -40,7 +41,9 @@ export const SignUpForm = () => {
   const router = useRouter()
   const { mutate, isPending } = useSignUpMutation({
     onSuccess: () => {
-      setRegisteredEmail(watch('email'))
+      // getValues (не реактивный watch) — читаем email до reset(); совместимо с
+      // React Compiler, который не может безопасно мемоизировать watch().
+      setRegisteredEmail(getValues('email'))
       reset()
       setShowModal(true)
     },
@@ -49,6 +52,10 @@ export const SignUpForm = () => {
     },
   })
 
+  // watch — реактивная подписка на чекбокс (нужна для checked и disabled кнопки).
+  // React Compiler не может мемоизировать react-hook-form watch(); это известное
+  // ограничение библиотеки, а не баг, поэтому подавляем предупреждение точечно.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const agreeValue = watch('agree')
 
   const onSubmit = (data: SignUpFormValues) => {

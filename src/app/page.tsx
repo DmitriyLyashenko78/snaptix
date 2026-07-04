@@ -1,10 +1,12 @@
 import s from './page.module.css'
 import { SmallPost } from '@/entities/post/ui/small-post/SmallPost'
 import { getLatestPostsServer, getRegisteredUsersCountServer } from '@/features/main-page-all-posts/api'
-import { getLocale } from '@/shared/lib/i18n/getLocale'
-import { getDictionary } from '@/shared/lib/i18n/dictionaries'
+import { RegisteredUsersLabel } from '@/features/main-page-all-posts/ui/RegisteredUsersLabel'
 
-export const dynamic = 'force-dynamic'
+// SSG + ISR: страница пререндерится на билде (где под сборки достаёт до бэкенда)
+// и ревалидируется раз в 10 минут. В рантайме под отдаёт готовый HTML, не выходя
+// в сеть. Локаль и авторизация — на клиенте (см. TranslationsProvider / AppShell).
+export const revalidate = 600 // 10 минут (10 * 60)
 
 const COUNTER_WIDTH = 6
 const POSTS_PAGE_SIZE = 4
@@ -12,25 +14,13 @@ const POSTS_PAGE_SIZE = 4
 const formatCounter = (value: number): string[] =>
   Math.max(0, Math.trunc(value)).toString().padStart(COUNTER_WIDTH, '0').split('')
 
-// Если бэкенд недоступен — логируем ошибку, но не роняем страницу,
-// а отдаём фолбэк, чтобы главная всё равно отрендерилась.
-const safe = async <T,>(promise: Promise<T>, fallback: T, label: string): Promise<T> => {
-  try {
-    return await promise
-  } catch (error) {
-    console.error(`[MainPage] ${label} failed:`, error)
-    return fallback
-  }
-}
-
+// Ошибки fetch намеренно не глушим: при недоступном бэкенде сборка упадёт (лучше,
+// чем задеплоить пустую главную), а фоновая ISR-ревалидация провалится и Next
+// сохранит последние удачные данные, а не перезапишет их пустотой.
 export default async function MainPage() {
-  // Получаем язык и словарь
-  const locale = await getLocale()
-  const dict = await getDictionary(locale)
-
   const [{ posts }, { registeredUsersCount }] = await Promise.all([
-    safe(getLatestPostsServer(POSTS_PAGE_SIZE), { posts: [] }, 'latest-posts'),
-    safe(getRegisteredUsersCountServer(), { registeredUsersCount: 0 }, 'registered-users-count'),
+    getLatestPostsServer(POSTS_PAGE_SIZE),
+    getRegisteredUsersCountServer(),
   ])
 
   const counterDigits = formatCounter(registeredUsersCount)
@@ -38,7 +28,7 @@ export default async function MainPage() {
   return (
     <section className={s.content}>
       <section className={s.counter}>
-        <h2>{dict.mainPage.registeredUsers}</h2>
+        <RegisteredUsersLabel />
         <div className={s.digits}>
           {counterDigits.map((digit, i) => (
             <h2 key={i} className={s.digit}>

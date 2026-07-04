@@ -1,45 +1,29 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { ChevronDown } from '@/shared/ui/svg/Icon'
 import s from './LanguageSwitcher.module.css'
 import { languages } from '../../lib/constants/languages'
-import { setLocaleCookie } from '@/shared/lib/i18n/actions'
-import { LOCALE_COOKIE_NAME, DEFAULT_LOCALE, isValidLocale, type Locale } from '@/shared/lib/i18n/config'
+import { useLocale } from '@/shared/lib/i18n/TranslationsProvider'
+import { isValidLocale } from '@/shared/lib/i18n/config'
 
 export const LanguageSwitcher = () => {
-  const router = useRouter()
-  const [lang, setLang] = useState<Locale>(DEFAULT_LOCALE)
+  // Локаль живёт на клиенте: смена языка обновляет провайдер и куку синхронно,
+  // без server action и router.refresh() (серверные компоненты от локали больше
+  // не зависят).
+  const { locale, setLocale } = useLocale()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${LOCALE_COOKIE_NAME}=([^;]*)`))
-    if (match) {
-      const decoded = decodeURIComponent(match[1])
-      // Проверяем, что декодированное значение валидное
-      if (isValidLocale(decoded)) {
-        setLang(decoded)
-      }
-    }
-  }, [])
+  const selectedLang = languages.find((l) => l.value === locale)
 
-  const selectedLang = languages.find((l) => l.value === lang)
-
-  const handleLangChange = async (value: string) => {
+  const handleLangChange = (value: string) => {
     // Проверяем, что значение валидное
     if (!isValidLocale(value)) return
 
-    setLang(value)
+    setLocale(value)
     setIsOpen(false)
-
-    // Вызываем Server Action для записи куки
-    await setLocaleCookie(value)
-
-    // Обновляем страницу, чтобы серверные компоненты перерисовались с новым языком
-    router.refresh()
   }
 
   // Закрытие dropdown при клике вне компонента
@@ -74,7 +58,7 @@ export const LanguageSwitcher = () => {
           {languages.map((language) => (
             <div
               key={language.value}
-              className={`${s.dropdownItem} ${language.value === lang ? s.active : ''}`}
+              className={`${s.dropdownItem} ${language.value === locale ? s.active : ''}`}
               onClick={() => handleLangChange(language.value)}
             >
               <div className={s.flagContainer}>
