@@ -6,7 +6,7 @@ const BACKEND_URL = process.env.BACKEND_URL ?? 'https://snaptix.ru'
 export const HOME_POSTS_TAG = 'home-posts'
 export const REGISTERED_USERS_COUNT_TAG = 'registered-users-count'
 
-const REVALIDATE_SECONDS = 3 * 60 * 60 // 3 часа
+const REVALIDATE_SECONDS = 10 * 60 // 10 минут
 
 const fetchJson = async <T>(path: string, tag: string): Promise<T> => {
   const res = await fetch(`${BACKEND_URL}${path}`, {

@@ -5,7 +5,6 @@ import { SidebarListClient } from '@/shared/ui/sidebar/SidebarListClient'
 import { useAuthStatus } from '@/shared/api/auth'
 import { TranslationsProvider } from '@/shared/lib/i18n/TranslationsProvider'
 import s from './Layout.module.css'
-import type { Dictionary } from '@/shared/lib/i18n/dictionaries'
 
 const SIDEBAR_SKELETON_ITEMS = 7
 
@@ -19,14 +18,13 @@ const SidebarSkeleton = () => (
 
 interface AppShellProps {
   children: React.ReactNode
-  translations: Dictionary
 }
 
-export const AppShell = ({ children, translations }: AppShellProps) => {
+export const AppShell = ({ children }: AppShellProps) => {
   const { isAuth, isLoading } = useAuthStatus()
 
   return (
-    <TranslationsProvider translations={translations}>
+    <TranslationsProvider>
       <Header isAuth={isAuth} isLoading={isLoading} />
       <div className={s.content}>
         {isLoading ? <SidebarSkeleton /> : isAuth ? <SidebarListClient /> : null}

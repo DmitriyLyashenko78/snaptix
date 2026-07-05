@@ -11,6 +11,9 @@ export const useAuth = () => {
 
     const value = authCookie ? authCookie.split('=')[1] === 'true' : false
 
+    // Куки доступны только на клиенте после монтирования — состояние применяем
+    // в эффекте намеренно, чтобы SSR/гидрация совпадали (первый рендер — дефолт).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsAuth(value)
     setIsLoading(false)
   }, [])

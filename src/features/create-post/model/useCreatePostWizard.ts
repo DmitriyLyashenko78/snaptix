@@ -163,7 +163,7 @@ export const useCreatePostWizard = (onClose: () => void) => {
     } finally {
       setIsPublishing(false)
     }
-  }, [photos, description, doReset, onClose])
+  }, [photos, description, doReset, onClose, queryClient])
 
   return {
     step,

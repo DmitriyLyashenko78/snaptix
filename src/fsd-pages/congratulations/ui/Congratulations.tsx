@@ -45,6 +45,9 @@ export const Congratulations = () => {
 
   useEffect(() => {
     if (!code) {
+      // Статус зависит от наличия кода подтверждения из URL, доступного на
+      // клиенте после монтирования; выставляем в эффекте намеренно.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatus('error')
       return
     }

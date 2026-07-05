@@ -20,6 +20,9 @@ export const PasswordRecoveryExpired = () => {
   const { mutate, isPending } = useForgotPasswordMutation()
 
   useEffect(() => {
+    // sessionStorage доступен только на клиенте после монтирования — читаем и
+    // применяем в эффекте намеренно, чтобы не было рассинхрона гидрации.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEmail(sessionStorage.getItem(PASSWORD_RECOVERY_EMAIL_STORAGE_KEY) ?? '')
   }, [])
 
